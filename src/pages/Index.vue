@@ -36,7 +36,7 @@
             :key="adjacentIndex"
           >
             <q-card class="my-card bg-amber-6">
-              <q-img src="../../public/punjenapaprika.jpg" />
+              <q-img :src="dishes[adjacentIndex].picture" />
 
               <q-card-section>
                 <div class="row no-wrap items-center">

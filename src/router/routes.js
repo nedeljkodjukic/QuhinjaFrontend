@@ -9,7 +9,8 @@ path: '/',
        { path: '/dish/:id', component: () => import('pages/DishPage.vue')},
        { path: '/employees', component: () => import('pages/EmployeesPage.vue')},
        { path: '/menu', component: () => import('pages/MenuPage.vue')},
-       { path: '/recipe/:id', component: () => import('pages/RecipePage.vue')}
+       { path: '/recipe/:id', component: () => import('pages/RecipePage.vue')},
+       {path: '/addDish', component:()=>import ('pages/AddDishPage.vue')}
 
      ]
    },
