@@ -96,7 +96,7 @@ export default {
         .then((res) => (this.dishes = res));
     },
     adjacentIndexes(index) {
-      const length = 6;
+      const length = this.dishes.length;
       const array = [];
       if (this.numOfShowedItems === 5) {
         array.push((index - 2 + length) % length);
