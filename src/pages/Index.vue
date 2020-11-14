@@ -47,8 +47,9 @@
 
                 <q-rating
                   class="text-brown-7"
-                  v-model="stars"
+                  v-model="dishes[adjacentIndex].averageRating"
                   :max="5"
+                   icon-half="star_half"
                   size="32px"
                 />
               </q-card-section>
