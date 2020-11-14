@@ -19,8 +19,6 @@
       padding
       arrows
       class="bg-transparent"
-      transition-prev="fade"
-      transition-next="fade"
       control-color="brown-9"
     >
       <q-carousel-slide
@@ -36,7 +34,7 @@
             :key="adjacentIndex"
           >
             <q-card class="my-card bg-amber-6">
-              <q-img :src="dishes[adjacentIndex].picture" />
+              <q-img  height="140px" :src="dishes[adjacentIndex].picture" />
 
               <q-card-section>
                 <div class="row no-wrap items-center">
@@ -49,7 +47,7 @@
                   class="text-brown-7"
                   v-model="dishes[adjacentIndex].averageRating"
                   :max="5"
-                   icon-half="star_half"
+                  icon-half="star_half"
                   size="32px"
                 />
               </q-card-section>
@@ -92,7 +90,7 @@ export default {
   methods: {
     getData() {
       this.$store
-        .dispatch("apiRequest/getApiRequest", { url: "Dish" })
+        .dispatch("apiRequest/getApiRequest", { url: "/dish/getSortedDishes" })
         .then((res) => (this.dishes = res));
     },
     adjacentIndexes(index) {
