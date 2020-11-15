@@ -1,4 +1,4 @@
-<template>
+<template >
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar

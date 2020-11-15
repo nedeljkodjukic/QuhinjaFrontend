@@ -32,6 +32,9 @@
             />
             <q-select
               use-input
+              @new-value="createValue"
+              transition-show="flip-up"
+        transition-hide="flip-down"
               v-model="formData.dishType"
               dense
               outlined
@@ -40,6 +43,7 @@
             />
           </div>
           <q-btn
+            @click="confirm = true"
             label="Potvrdi"
             color="brown-9"
             text-color="amber-6"
@@ -63,6 +67,36 @@
         </div>
       </div>
     </q-form>
+    <q-dialog v-model="confirm" persistent>
+      <q-card>
+        <q-card-section class="bg-brown-9 row items-center text-amber-6">
+          <span class="q-ml-sm"
+            >Da li želite da dodate i recept za ovo jelo?</span
+          >
+        </q-card-section>
+
+        <q-card-actions class="bg-brown-9" align="left">
+          <q-btn
+            class="bg-amber-6"
+            text-color="brown-9"
+            flat
+            label="Da"
+            color="primary"
+            @click="handleAddDishAndRecipe"
+            v-close-popup
+          />
+          <q-btn
+            class="bg-amber-6"
+            text-color="brown-9 "
+            flat
+            label="Ne"
+            color="primary"
+            to="/dishes"
+            v-close-popup
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 <script>
@@ -71,11 +105,12 @@ import { baseUrl } from "../services/apiConfig";
 export default {
   data() {
     return {
+      confirm: false,
       formData: {
         id: 0,
         name: null,
         description: "",
-        dishType: null,
+        dishType: "",
       },
       dishTypes: [],
     };
@@ -89,6 +124,18 @@ export default {
       });
   },
   methods: {
+    createValue(val, done){
+ if (val.length > 0) {
+        if (!this.dishTypes.includes(val)) {
+          this.dishTypes.push(val)
+        }
+        done(val, 'toggle')
+      }
+    
+    },
+    handleAddDishAndRecipe() {
+      this.$router.push(`/addRecipe/${this.id}`);
+    },
     handleAddDish() {
       const data = {
         ...this.formData,
@@ -107,7 +154,7 @@ export default {
           console.log(this.id);
           this.$refs.uploaderRef.upload();
         });
-        this.$router.push("/dishes");
+      // this.$router.push("/dishes");
     },
     factoryUpload(file) {
       return new Promise((resolve, reject) => {

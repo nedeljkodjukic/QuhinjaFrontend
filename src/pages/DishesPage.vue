@@ -80,6 +80,7 @@
     <div class="divForPaging q-pa-lg flex flex-center">
       <div class="q-pa-lg flex flex-center">
         <q-pagination
+        color="blue-9"
           v-model="currentPage"
           :max="numOfPages"
           :direction-links="true"
@@ -88,7 +89,7 @@
       </div>
       <q-btn
         unelevated
-        color="primary"
+        color="blue-9"
         to="/addDish"
         label=" + Dodaj novo jelo"
         class="q-mr-sm fixed-bottom-right buttonForDish"
@@ -116,7 +117,7 @@ export default {
     },
     numOfPages() {
       if (
-        this.numOfDishes % 2 == 0 &&
+        
         this.numOfDishes % this.dishesPerPage == 0
       )
         return this.numOfDishes / this.dishesPerPage;
@@ -184,6 +185,7 @@ export default {
 }
 .my-card {
   flex-grow: 1;
+  
   width: 350px;
 }
 .search-bar {
