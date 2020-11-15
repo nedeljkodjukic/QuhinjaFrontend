@@ -20,11 +20,25 @@
           </q-list>
         </q-menu>
       </q-btn>
+      <q-input
+        class="fixed-top-right search-bar"
+        v-model="search"
+        filled
+        type="search"
+        placeholder="pretrazi"
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
     </div>
 
     <div class="cards">
       <q-card
-        v-for="(dish, index) in dishesForView"
+        v-for="(dish, index) in dishesForView.slice(
+          (currentPage - 1) * dishesPerPage,
+          currentPage * dishesPerPage
+        )"
         :key="index"
         class="my-card bg-amber-6"
       >
@@ -63,6 +77,23 @@
         </q-card-actions>
       </q-card>
     </div>
+    <div class="divForPaging q-pa-lg flex flex-center">
+      <div class="q-pa-lg flex flex-center">
+        <q-pagination
+          v-model="currentPage"
+          :max="numOfPages"
+          :direction-links="true"
+        >
+        </q-pagination>
+      </div>
+      <q-btn
+        unelevated
+        color="primary"
+        to="/addDish"
+        label=" + Dodaj novo jelo"
+        class="q-mr-sm fixed-bottom-right buttonForDish"
+      />
+    </div>
   </q-page>
 </template>
 <script>
@@ -74,9 +105,39 @@ export default {
       sortingOptions: [],
       sortingOption: "",
       dishesForView: [],
+      search: "",
+      dishesPerPage: 3,
+      currentPage: 1,
     };
   },
-  computed: {},
+  computed: {
+    numOfDishes() {
+      return this.dishesForView.length;
+    },
+    numOfPages() {
+      if (
+        this.numOfDishes % 2 == 0 &&
+        this.numOfDishes % this.dishesPerPage == 0
+      )
+        return this.numOfDishes / this.dishesPerPage;
+      else {
+        return this.numOfDishes / this.dishesPerPage + 1;
+      }
+    },
+  },
+  watch: {
+  search: function()
+          {
+      if (this.search == "") {
+          this.dishesForView=this.dishes;
+  } else {
+        this.dishesForView = this.dishesForView.filter((dish) => {
+          return dish.name.toLowerCase().startsWith(this.search.toLowerCase());
+        });
+        console.log(this.dishesForView);
+      }
+    },
+  },
 
   methods: {
     sortDishes(option) {
@@ -111,6 +172,11 @@ export default {
 };
 </script>
 <style scoped>
+.divForPaging {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
 .cards {
   display: flex;
   flex-direction: row;
@@ -119,5 +185,14 @@ export default {
 .my-card {
   flex-grow: 1;
   width: 350px;
+}
+.search-bar {
+  margin-top: 50px;
+  height: 36px;
+}
+.buttonForDish {
+  right: 0;
+  margin-bottom: 90px;
+  position: absolute;
 }
 </style>

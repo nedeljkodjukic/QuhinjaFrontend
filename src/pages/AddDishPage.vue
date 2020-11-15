@@ -107,6 +107,7 @@ export default {
           console.log(this.id);
           this.$refs.uploaderRef.upload();
         });
+        this.$router.push("/dishes");
     },
     factoryUpload(file) {
       return new Promise((resolve, reject) => {
