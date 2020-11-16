@@ -34,7 +34,7 @@
               use-input
               @new-value="createValue"
               transition-show="flip-up"
-        transition-hide="flip-down"
+              transition-hide="flip-down"
               v-model="formData.dishType"
               dense
               outlined
@@ -124,14 +124,13 @@ export default {
       });
   },
   methods: {
-    createValue(val, done){
- if (val.length > 0) {
+    createValue(val, done) {
+      if (val.length > 0) {
         if (!this.dishTypes.includes(val)) {
-          this.dishTypes.push(val)
+          this.dishTypes.push(val);
         }
-        done(val, 'toggle')
+        done(val, "toggle");
       }
-    
     },
     handleAddDishAndRecipe() {
       this.$router.push(`/addRecipe/${this.id}`);
