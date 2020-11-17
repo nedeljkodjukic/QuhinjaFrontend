@@ -65,7 +65,7 @@
 
               <q-card-actions>
                 <q-icon flat round name="double_arrow" />
-                <q-btn flat color="blue-9"> Detalji </q-btn>
+                <q-btn @click="handleClick(dishes[adjacentIndex].id)" flat color="blue-9"> Detalji </q-btn>
               </q-card-actions>
             </q-card>
           </div>
@@ -88,6 +88,10 @@ export default {
   computed: {},
 
   methods: {
+    handleClick(id){
+      console.log(id);
+        this.$router.push('dish/'+id)
+    },
     getData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "/dish/getSortedDishes" })

@@ -1,6 +1,6 @@
 <template>
   <q-page class="bg-grey-4">
-    <q-parallax percentScrolled="0.2" :height="700" :src="this.dish.picture">
+  
       <div class="mainDiv">
         <div class="text-brown-9 fixed-top q-mt-sm">
           <h5 style="text-align: center">{{ this.dish.name }}</h5>
@@ -22,7 +22,6 @@
                   />
                   <div class="q-pb-md" style="max-width: 300px">
                     <q-input
-                      bg-color="grey-4"
                       color="amber-6"
                       style="width: 400px"
                       placeholder="Nacin pripreme"
@@ -93,7 +92,6 @@
                   </div>
 
                   <q-input
-                    bg-color="grey-4"
                     color="amber-6"
                     style="width: 400px"
                     placeholder="Sastojci"
@@ -120,7 +118,6 @@
           </q-form>
         </div>
       </div>
-    </q-parallax>
   </q-page>
 </template>
 <script>
@@ -204,22 +201,30 @@ export default {
         });
     },
     addIngridents(){
-        for(var i=0;i<this.ingridientsForBase.length;i=+2){
+      console.log(this.ingridientsForBase);
+      var i;
+        for(i=0;i<this.ingridientsForBase.length;i=i+2)
+        {
             const data ={
                 recipeId: this.id,
                 quantity: this.ingridientsForBase[i+1],
                 ingridient:{
                     name:this.ingridientsForBase[i]
-                }
-            }
+                            }
+                        };
         this.$store
         .dispatch("apiRequest/postApiRequest", {
           url: "ingridient/addIngridient",
           data: data,
           
         })
+        .then((res)=>{
+          console.log(res)
+        });
+          
         }
-    },
+        },
+    
     getDish() {
       this.$store
         .dispatch("apiRequest/getApiRequest", {

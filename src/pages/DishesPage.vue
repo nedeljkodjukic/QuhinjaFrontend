@@ -73,7 +73,7 @@
 
         <q-card-actions>
           <q-icon flat round name="double_arrow" />
-          <q-btn flat color="blue-9"> Detalji </q-btn>
+          <q-btn  @click="handleClick(dish.id)" flat color="blue-9"> Detalji </q-btn>
         </q-card-actions>
       </q-card>
     </div>
@@ -141,6 +141,10 @@ export default {
   },
 
   methods: {
+    handleClick(id){
+        this.$router.push('dish/'+id)
+
+    },
     sortDishes(option) {
       this.dishesForView = [];
       this.dishes.forEach((element) => {
