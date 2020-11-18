@@ -197,7 +197,8 @@ export default {
           console.log(this.id);
           this.$refs.uploaderRef.upload();
                   this.addIngridents();
-            //
+                  this.$router.push(`/dish/${this.formData.dishId}`);
+
         });
     },
     addIngridents(){
