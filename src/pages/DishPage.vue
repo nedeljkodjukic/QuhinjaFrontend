@@ -20,7 +20,6 @@ methods:{
         .then(
           (res) => (
             (this.dish = res),
-            console.log(this.dish)
           )
         );
     },

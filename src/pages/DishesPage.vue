@@ -33,18 +33,27 @@
       </q-input>
     </div>
 
-    <div class="cards">
-      <q-card
+    <div style="border-radius: 15px 15px 0px 0px; " class="cards">
+      <q-card :ratio="16/9"
+         style=" 
+         border-radius: 15px 15px 0px 0px; 
+         width: 275px;"
         v-for="(dish, index) in dishesForView.slice(
           (currentPage - 1) * dishesPerPage,
           currentPage * dishesPerPage
         )"
         :key="index"
-        class="my-card bg-amber-6"
+        class="my-card bg-grey-4"
       >
-        <q-img height="350px" :src="dish.picture" />
+        <q-img   style="
+          border-style: none;
 
-        <q-card-section>
+        border-radius: 15px 15px 0px 0px; " height="200px" :src="dish.picture" />
+
+        <q-card-section style="
+          border-style: none;
+
+        border-radius: 15px 15px 0px 0px; " class="bg-white">
           <div class="row no-wrap items-center">
             <div class="col text-h6 ellipsis">
               {{ dish.name }}
@@ -52,6 +61,7 @@
           </div>
 
           <q-rating
+          readonly
             class="text-brown-7"
             v-model="dish.averageRating"
             :max="5"
@@ -60,7 +70,7 @@
           />
         </q-card-section>
 
-        <q-card-section class="q-pt-none">
+        <q-card-section class=" bg-white q-pt-none">
           <div class="text-subtitle1 text-blue-9">
             {{ dish.dishType }}
           </div>
@@ -71,7 +81,7 @@
 
         <q-separator />
 
-        <q-card-actions>
+        <q-card-actions class="bg-brown-2" >
           <q-icon flat round name="double_arrow" />
           <q-btn  @click="handleClick(dish.id)" flat color="blue-9"> Detalji </q-btn>
         </q-card-actions>
@@ -107,7 +117,7 @@ export default {
       sortingOption: "",
       dishesForView: [],
       search: "",
-      dishesPerPage: 3,
+      dishesPerPage: 8,
       currentPage: 1,
     };
   },
@@ -135,7 +145,6 @@ export default {
         this.dishesForView = this.dishesForView.filter((dish) => {
           return dish.name.toLowerCase().startsWith(this.search.toLowerCase());
         });
-        console.log(this.dishesForView);
       }
     },
   },
@@ -157,8 +166,7 @@ export default {
         .then(
           (res) => (
             (this.dishes = res),
-            (this.dishesForView = res),
-            console.log(this.dishesForView)
+            (this.dishesForView = res)
           )
         );
     },
@@ -183,18 +191,22 @@ export default {
   position: relative;
 }
 .cards {
+  justify-content: center;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-.my-card {
-  flex-grow: 1;
-  
-  width: 350px;
+
+.my-card{
+    margin:15px;
+  width: 275px;
 }
+
+
 .search-bar {
   margin-top: 50px;
   height: 36px;
+  z-index: 1;
 }
 .buttonForDish {
   right: 0;

@@ -2,9 +2,10 @@
   <q-page
     class="bg-grey-4 q-px-md column items-center q-gutter-y-md col-xs-12 col-sm-10 col-md-10 col-lg-8 offset-sm-1 offset-md-1 offset-lg-2"
   >
-    <q-parallax :speed="1" src="../../public/bgYellow.jpg"></q-parallax>
-
-    <div class="full-width text-brown-9 text-h5 text-accent q-mt-md q-mb-sm">
+    <q-parallax :height="600" :speed="1" src="../../public/bgYellow.jpg">
+    
+<div class="bg-grey-4" style=" border-radius:1%;width:80%; height:70%">
+  <div class=" full-width text-brown-9 text-h5 text-accent q-mt-md q-mb-sm">
       Dodavanje novog jela
     </div>
     <q-separator style="height: 2px" />
@@ -97,6 +98,11 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+</div>
+   
+    </q-parallax>
+
+   
   </q-page>
 </template>
 <script>
@@ -150,7 +156,6 @@ export default {
         })
         .then((res) => {
           this.id = res;
-          console.log(this.id);
           this.$refs.uploaderRef.upload();
         });
       // this.$router.push("/dishes");

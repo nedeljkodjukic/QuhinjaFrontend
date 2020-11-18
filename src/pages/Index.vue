@@ -44,6 +44,7 @@
                 </div>
 
                 <q-rating
+                readonly
                   class="text-brown-7"
                   v-model="dishes[adjacentIndex].averageRating"
                   :max="5"
@@ -89,7 +90,6 @@ export default {
 
   methods: {
     handleClick(id){
-      console.log(id);
         this.$router.push('dish/'+id)
     },
     getData() {
@@ -124,4 +124,6 @@ export default {
 };
 </script>
 <style scoped>
+
+
 </style>
