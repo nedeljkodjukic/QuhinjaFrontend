@@ -19,7 +19,7 @@ methods:{
         })
         .then(
           (res) => (
-            (this.dish = res),
+            (this.dish = res)
           )
         );
     },

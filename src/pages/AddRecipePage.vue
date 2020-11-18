@@ -292,7 +292,7 @@ export default {
         })
         .then(
           (res) => (
-            ((this.dish = res), (this.formData.dishId = this.dish.id)),
+            ((this.dish = res), (this.formData.dishId = this.dish.id))
           )
         );
     },
