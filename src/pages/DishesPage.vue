@@ -1,6 +1,6 @@
 <template>
   <q-page class="bg-grey-4">
-    <div style="position: relative;" class="row q-gutter-x-md">
+    <div style="position: relative" class="row q-gutter-x-md">
       <q-btn label="Sort" icon-right="sort" class="text-blue-9" flat>
         <q-menu
           fit
@@ -20,31 +20,24 @@
           </q-list>
         </q-menu>
       </q-btn>
-      <q-input
-    
-        v-model="search"
-        filled
-        type="search"
-        placeholder="Pretraži..."
-      >
+      <q-input v-model="search" filled type="search" placeholder="Pretraži...">
         <template v-slot:append>
           <q-icon name="search" />
         </template>
       </q-input>
-          <q-btn
-        
+      <q-btn
         color="blue-9"
         to="/addDish"
         label=" + Dodaj novo jelo"
-       class="buttonForDish"
+        class="buttonForDish"
       />
     </div>
 
-    <div style="border-radius: 15px 15px 0px 0px; " class="cards">
-      <q-card :ratio="16/9"
-         style=" 
-         border-radius: 15px 15px 0px 0px; 
-         width: 275px;"
+    <div class="cards">
+      <q-card
+        :ratio="16 / 9"
+        style="border-radius: 15px 15px 15px 15px; width: 275px"
+        @click="handleClick(dish.id)"
         v-for="(dish, index) in dishesForView.slice(
           (currentPage - 1) * dishesPerPage,
           currentPage * dishesPerPage
@@ -52,15 +45,9 @@
         :key="index"
         class="my-card bg-grey-4"
       >
-        <q-img   style="
-          border-style: none;
+        <q-img height="200px" :src="dish.picture" />
 
-        border-radius: 15px 15px 0px 0px; " height="200px" :src="dish.picture" />
-
-        <q-card-section style="
-          border-style: none;
-
-        " class="bg-blue-2">
+        <q-card-section style="" class="bg-blue-2">
           <div class="row no-wrap items-center">
             <div class="col text-h6 ellipsis">
               {{ dish.name }}
@@ -68,7 +55,7 @@
           </div>
 
           <q-rating
-          readonly
+            readonly
             class="text-brown-7"
             v-model="dish.averageRating"
             :max="5"
@@ -77,7 +64,10 @@
           />
         </q-card-section>
 
-        <q-card-section class=" bg-blue-2 q-pt-none">
+        <q-card-section
+          style="border-radius: 0px 0px 15px 15px"
+          class="bg-blue-2 q-pt-none"
+        >
           <div class="text-bold text-subtitle1 text-blue-9">
             {{ dish.dishType }}
           </div>
@@ -87,24 +77,19 @@
         </q-card-section>
 
         <q-separator />
-
-        <q-card-actions class="bg-brown-7" >
-          <q-btn class="buttonDetails" @click="handleClick(dish.id)" flat color="blue-2"> <q-icon flat round name="double_arrow" /> Detalji </q-btn>
-        </q-card-actions>
       </q-card>
     </div>
     <div class="divForPaging q-pa-lg flex flex-center">
       <div class="q-pa-lg flex flex-center">
         <q-pagination
-        color="blue-9"
+          color="blue-9"
           v-model="currentPage"
           :max="numOfPages"
-         :max-pages="6"
-      :boundary-numbers="true"
+          :max-pages="6"
+          :boundary-numbers="true"
         >
         </q-pagination>
       </div>
-  
     </div>
   </q-page>
 </template>
@@ -127,10 +112,7 @@ export default {
       return this.dishesForView.length;
     },
     numOfPages() {
-      if (
-        
-        this.numOfDishes % this.dishesPerPage == 0
-      )
+      if (this.numOfDishes % this.dishesPerPage == 0)
         return this.numOfDishes / this.dishesPerPage;
       else {
         return this.numOfDishes / this.dishesPerPage + 1;
@@ -138,11 +120,10 @@ export default {
     },
   },
   watch: {
-  search: function()
-          {
+    search: function () {
       if (this.search == "") {
-          this.dishesForView=this.dishes;
-  } else {
+        this.dishesForView = this.dishes;
+      } else {
         this.dishesForView = this.dishesForView.filter((dish) => {
           return dish.name.toLowerCase().startsWith(this.search.toLowerCase());
         });
@@ -151,9 +132,8 @@ export default {
   },
 
   methods: {
-    handleClick(id){
-        this.$router.push('dish/'+id)
-
+    handleClick(id) {
+      this.$router.push("dish/" + id);
     },
     sortDishes(option) {
       this.dishesForView = [];
@@ -164,12 +144,7 @@ export default {
     getData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "Dish" })
-        .then(
-          (res) => (
-            (this.dishes = res),
-            (this.dishesForView = res)
-          )
-        );
+        .then((res) => ((this.dishes = res), (this.dishesForView = res)));
     },
     getDishTypes() {
       this.$store
@@ -198,35 +173,35 @@ export default {
   flex-wrap: wrap;
 }
 
-.my-card{
-    margin:15px;
+.my-card {
+  margin: 15px;
+  transition: 0.2s ease-in-out 0s;
   width: 275px;
 }
-
-
+.my-card:hover {
+  cursor: pointer;
+  color: blue;
+  transform: scale(1.1);
+}
 
 .buttonForDish {
-    
-      position: absolute;
-right: 10px;
-top: 5px;
-     transition: .2s ease-in-out 0s;
- 
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  transition: 0.2s ease-in-out 0s;
 }
-.buttonForDish:hover{
-      cursor: pointer;
-      transform: scale(1.1);
-      background: #FFF;
-      color: #000;
-      }
-.buttonDetails{
-       transition: .2s ease-in-out 0s;
-
+.buttonForDish:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  background: #fff;
+  color: #000;
 }
-.buttonDetails:hover{
-      cursor: pointer;
-      color: blue;
-      transform: scale(1.10);
-      
-      }
+.buttonDetails {
+  transition: 0.2s ease-in-out 0s;
+}
+.buttonDetails:hover {
+  cursor: pointer;
+  color: blue;
+  transform: scale(1.1);
+}
 </style>
