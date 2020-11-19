@@ -76,7 +76,6 @@
           </div>
         </q-card-section>
 
-        <q-separator />
       </q-card>
     </div>
     <div class="divForPaging q-pa-lg flex flex-center">
