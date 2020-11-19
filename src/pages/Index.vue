@@ -64,9 +64,9 @@
 
               <q-separator />
 
-              <q-card-actions class="bg-brown-9">
+              <q-card-actions class="amber-6">
                 
-                <q-btn  class="buttonDetails" @click="handleClick(dishes[adjacentIndex].id)" flat color="blue-2"><q-icon flat round name="double_arrow" /> Detalji </q-btn>
+                <q-btn  class="buttonDetails" @click="handleClick(dishes[adjacentIndex].id)" flat color="blue-9"><q-icon flat round name="double_arrow" /> Detalji </q-btn>
               </q-card-actions>
             </q-card>
           </div>
