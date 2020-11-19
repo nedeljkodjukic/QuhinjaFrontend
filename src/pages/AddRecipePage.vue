@@ -2,7 +2,7 @@
   <q-page class="bg-grey-4">
     <div class="mainDiv">
       <div class="text-brown-9 fixed-top q-mt-sm">
-        <h5 style="text-align: center">{{ this.dish.name }}</h5>
+        <h5 class= "text-bold" style="text-align: center;">{{ this.dish.name }}</h5>
         <q-form class="full-width" ref="formRef" @submit="handleAddRecipe">
           <div class="full-width row justify-around wrap q-gutter-x-md">
             <div
@@ -19,8 +19,9 @@
                   outlined
                   label="Ime recepta"
                 />
-                <div class="q-pb-md" style="max-width: 300px">
+                <div class="q-pt-md q-pb-md" style="max-width: 300px">
                   <q-input
+                  class="bg-grey-5"
                     color="amber-6"
                     style="width: 400px"
                     placeholder="Nacin pripreme"
@@ -36,6 +37,7 @@
                   color="brown-9"
                   dense
                   outlined
+                  class="q-pb-md"
                   label="Vreme pripreme"
                 />
                 <q-input
@@ -57,7 +59,7 @@
             <q-separator cl v-if="$q.screen.gt.sm" vertical />
             <div class="flex column">
               <div class="flex q-mb-md full-width" style="max-width: 350px">
-                <div class="flex row q-mt-xl">
+                <div class="q-pb-md flex row q-mt-xl">
                   <q-select
                     bg-color="grey-4"
                     class="q-mr-sm"
@@ -67,7 +69,7 @@
                     transition-hide="flip-down"
                     v-model="IngridientForAdding.ingridientName"
                     dense
-                    style="width: 150px"
+                    style="width: 130px"
                     outlined
                     label="sastojak"
                     :options="ingridients"
@@ -77,7 +79,8 @@
                     v-model="IngridientForAdding.ingridientAmount"
                     color="brown-9"
                     dense
-                    style="width: 65px"
+                    class="q-pr-sm"
+                    style="width: 75px"
                     outlined
                     label="kolicina"
                   />
@@ -89,25 +92,28 @@
                     dense
                     style="width: 90px"
                     outlined
-                    label="merna jedinica"
+                    label="mera"
                   />
                   <q-btn
                     dense
+                    
+                    class="q-ml-sm text-bold"
                     @click="addToArray"
                     color="amber-6"
                     icon="add"
                     text-color="brown-9"
+                    
                   />
                 </div>
-                <q-list
+                <q-list 
                   bordered
-                  class="rounded-borders"
+                  class=" bg-grey-5 rounded-borders"
                   style="max-width: 600px"
                 >
-                  <q-item-label header>Sastojci:</q-item-label>
+                  <q-item-label style="width:345px ;color:black"  header>Sastojci:</q-item-label>
 
                   <q-item
-                    style="width: 345px"
+                    style="width: 345px;"
                     v-for="ing in ingridientsForBase"
                     :key="ing.ingridientName.label"
                   >
@@ -225,6 +231,7 @@ export default {
 
       this.IngridientForAdding.ingridientAmount = 0;
       this.IngridientForAdding.ingridientName = "";
+      this.IngridientForAdding.ingridientUnit="";
     },
     createValue(val, done) {
       if (val.length > 0) {
@@ -271,7 +278,7 @@ export default {
           recipeId: this.id,
           quantity: parseInt(this.ingridientsForBase[i].ingridientAmount),
           ingridient: {
-            name: this.ingridientsForBase[i].ingridientName,
+            name: this.ingridientsForBase[i].ingridientName.label,
           },
           unit: this.ingridientsForBase[i].ingridientUnit,
         };

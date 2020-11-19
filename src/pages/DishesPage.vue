@@ -1,6 +1,6 @@
 <template>
   <q-page class="bg-grey-4">
-    <div class="row q-gutter-x-md">
+    <div style="position: relative;" class="row q-gutter-x-md">
       <q-btn label="Sort" icon-right="sort" class="text-blue-9" flat>
         <q-menu
           fit
@@ -21,16 +21,23 @@
         </q-menu>
       </q-btn>
       <q-input
-        class="fixed-top-right search-bar"
+    
         v-model="search"
         filled
         type="search"
-        placeholder="pretrazi"
+        placeholder="Pretraži..."
       >
         <template v-slot:append>
           <q-icon name="search" />
         </template>
       </q-input>
+          <q-btn
+        
+        color="blue-9"
+        to="/addDish"
+        label=" + Dodaj novo jelo"
+       class="buttonForDish"
+      />
     </div>
 
     <div style="border-radius: 15px 15px 0px 0px; " class="cards">
@@ -53,7 +60,7 @@
         <q-card-section style="
           border-style: none;
 
-        border-radius: 15px 15px 0px 0px; " class="bg-white">
+        " class="bg-blue-2">
           <div class="row no-wrap items-center">
             <div class="col text-h6 ellipsis">
               {{ dish.name }}
@@ -70,8 +77,8 @@
           />
         </q-card-section>
 
-        <q-card-section class=" bg-white q-pt-none">
-          <div class="text-subtitle1 text-blue-9">
+        <q-card-section class=" bg-blue-2 q-pt-none">
+          <div class="text-bold text-subtitle1 text-blue-9">
             {{ dish.dishType }}
           </div>
           <div class="text-caption text-grey-9">
@@ -81,9 +88,8 @@
 
         <q-separator />
 
-        <q-card-actions class="bg-brown-2" >
-          <q-icon flat round name="double_arrow" />
-          <q-btn  @click="handleClick(dish.id)" flat color="blue-9"> Detalji </q-btn>
+        <q-card-actions class="bg-brown-7" >
+          <q-btn class="buttonDetails" @click="handleClick(dish.id)" flat color="blue-2"> <q-icon flat round name="double_arrow" /> Detalji </q-btn>
         </q-card-actions>
       </q-card>
     </div>
@@ -93,17 +99,12 @@
         color="blue-9"
           v-model="currentPage"
           :max="numOfPages"
-          :direction-links="true"
+         :max-pages="6"
+      :boundary-numbers="true"
         >
         </q-pagination>
       </div>
-      <q-btn
-        unelevated
-        color="blue-9"
-        to="/addDish"
-        label=" + Dodaj novo jelo"
-        class="q-mr-sm fixed-bottom-right buttonForDish"
-      />
+  
     </div>
   </q-page>
 </template>
@@ -203,14 +204,29 @@ export default {
 }
 
 
-.search-bar {
-  margin-top: 50px;
-  height: 36px;
-  z-index: 1;
-}
+
 .buttonForDish {
-  right: 0;
-  margin-bottom: 90px;
-  position: absolute;
+    
+      position: absolute;
+right: 10px;
+top: 5px;
+     transition: .2s ease-in-out 0s;
+ 
 }
+.buttonForDish:hover{
+      cursor: pointer;
+      transform: scale(1.1);
+      background: #FFF;
+      color: #000;
+      }
+.buttonDetails{
+       transition: .2s ease-in-out 0s;
+
+}
+.buttonDetails:hover{
+      cursor: pointer;
+      color: blue;
+      transform: scale(1.10);
+      
+      }
 </style>

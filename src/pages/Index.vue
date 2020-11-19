@@ -54,7 +54,7 @@
               </q-card-section>
 
               <q-card-section class="q-pt-none">
-                <div class="text-subtitle1 text-blue-9">
+                <div class="text-subtitle1 text-blue-9 text-bold">
                   {{ dishes[adjacentIndex].dishType }}
                 </div>
                 <div class="text-caption text-grey-9">
@@ -64,9 +64,9 @@
 
               <q-separator />
 
-              <q-card-actions>
-                <q-icon flat round name="double_arrow" />
-                <q-btn @click="handleClick(dishes[adjacentIndex].id)" flat color="blue-9"> Detalji </q-btn>
+              <q-card-actions class="bg-brown-9">
+                
+                <q-btn  class="buttonDetails" @click="handleClick(dishes[adjacentIndex].id)" flat color="blue-2"><q-icon flat round name="double_arrow" /> Detalji </q-btn>
               </q-card-actions>
             </q-card>
           </div>
@@ -124,6 +124,14 @@ export default {
 };
 </script>
 <style scoped>
+.buttonDetails{
+       transition: .2s ease-in-out 0s;
 
+}
+.buttonDetails:hover{
+      cursor: pointer;
+
+      transform: scale(1.10);
+      }
 
 </style>
