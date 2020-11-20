@@ -1,10 +1,10 @@
 <template>
   <q-page class="bg-grey-4">
     <div class="q-pa-md q-gutter-md">
-      <q-list  style="width: 100%">
+      <q-list style="width: 100%">
         <q-item class="q-mb-sm bg-grey-4">
           <q-item-section avatar>
-           <q-avatar style=" width:100px"> </q-avatar>
+            <q-avatar style="width: 100px"> </q-avatar>
           </q-item-section>
 
           <q-item-section>
@@ -24,18 +24,22 @@
             <q-item-label class="text-bold"> Omiljeno jelo</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item style="border-radius:15px 15px 15px 15px" class="bg-blue-2 q-mb-md" v-for="employee in employees" :key="employee.id" v-ripple>
-          <q-item-section  avatar>
-            <q-avatar style="height:100px; width:100px">
+        <q-item
+          style="border-radius: 15px 15px 15px 15px"
+          class="bg-blue-2 q-mb-md"
+          v-for="employee in employees"
+          :key="employee.id"
+          v-ripple
+        >
+          <q-item-section avatar>
+            <q-avatar style="height: 100px; width: 100px">
               <img :src="employee.profilePictureUrl" />
             </q-avatar>
           </q-item-section>
 
           <q-item-section>
             <q-item-label>
-              <span 
-                >{{ employee.name }} {{ employee.surname }}</span
-              >
+              <span>{{ employee.name }} {{ employee.surname }}</span>
             </q-item-label>
           </q-item-section>
 
@@ -48,8 +52,13 @@
             }}</q-item-label>
           </q-item-section>
 
-          <q-item-section >
-            <q-img style="border-radius:20px" height="100px" width="100px" :src="employee.favouriteDish.picture"></q-img>
+          <q-item-section>
+            <q-img
+              style="border-radius: 20px"
+              height="100px"
+              width="100px"
+              :src="employee.favouriteDish.picture"
+            ></q-img>
             <q-item-label>{{ employee.favouriteDish.name }}</q-item-label>
           </q-item-section>
         </q-item>

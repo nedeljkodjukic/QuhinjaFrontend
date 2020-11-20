@@ -4,6 +4,7 @@
       <div
         class="q-mt-xl leftDiv"
         style="
+          border-style: none;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -11,10 +12,14 @@
           width: 50%;
         "
       >
-        <div style="border-radius: 15px 15px 0px 0px">
+        <div style="border-style: none; border-radius: 15px 15px 15px 15px">
           <q-card
             :ratio="16 / 9"
-            style="border-radius: 15px 15px 0px 0px; width: 275px"
+            style="
+              border-style: none;
+              border-radius: 15px 15px 15px 15px;
+              width: 275px;
+            "
             class="my-card bg-grey-4"
           >
             <q-img
@@ -44,16 +49,20 @@
               />
             </q-card-section>
 
-            <q-card-section class="bg-amber-6 q-pt-none">
-              <div class="text-bold text-subtitle1 text-blue-9">
+            <q-card-section
+              style="border-style: none; border-radius: 0px 0px 15px 15px"
+              class="bg-amber-6 q-pt-none"
+            >
+              <div
+                style="border-style: none"
+                class="text-bold text-subtitle1 text-blue-9"
+              >
                 {{ this.dish.dishType }}
               </div>
-              <div class="text-caption text-grey-9">
+              <div style="border-style: none" class="text-caption text-grey-9">
                 {{ this.dish.description }}
               </div>
             </q-card-section>
-
-            <q-separator />
           </q-card>
         </div>
         <div class="q-mt-md">
@@ -87,8 +96,8 @@
       -->
 
             <q-item
-            clickable
-             @click="handleShowRecipe(recipe)"
+              clickable
+              @click="handleShowRecipe(recipe)"
               class="bg-brown-5 q-mb-md itemForRecipe"
               style="
                 width: 300px;
@@ -109,22 +118,22 @@
                 <q-img height="100px" :src="recipe.picture"></q-img>
               </q-item-section>
             </q-item>
-            
+
             <q-item
-            clickable
-             @click="handleAddRecipe"
+              clickable
+              @click="handleAddRecipe"
               class="bg-grey-5 q-mb-md itemForRecipe"
               style="
                 width: 300px;
                 height: 100px;
                 border-radius: 15px 15px 15px 15px;
-               display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
               "
             >
-            <q-icon  class= "text-grey-4" size="70px" name="add"></q-icon>
+              <q-icon class="text-grey-4" size="70px" name="add"></q-icon>
             </q-item>
           </q-list>
         </div>
@@ -143,12 +152,10 @@ export default {
     };
   },
   methods: {
-    handleShowRecipe(recipe){
-
-    },
-    handleAddRecipe(){
+    handleShowRecipe(recipe) {},
+    handleAddRecipe() {
       console.log("s");
-      this.$router.push("/addRecipe/"+this.dish.id);
+      this.$router.push("/addRecipe/" + this.dish.id);
     },
     getDish() {
       this.$store

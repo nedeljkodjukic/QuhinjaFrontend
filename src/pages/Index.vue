@@ -3,7 +3,7 @@
     <q-parallax
       :speed="1"
       src="../../public/test.jpg"
-      style="border-color: #233D53; border-style: solid; border-width: 5px 0px"
+      style="border-color: #233d53; border-style: solid; border-width: 5px 0px"
     >
     </q-parallax>
     <div class="text-h5 text-brown-9 q-py-md">
@@ -34,7 +34,7 @@
             :key="adjacentIndex"
           >
             <q-card class="my-card bg-amber-6">
-              <q-img  height="140px" :src="dishes[adjacentIndex].picture" />
+              <q-img height="140px" :src="dishes[adjacentIndex].picture" />
 
               <q-card-section>
                 <div class="row no-wrap items-center">
@@ -44,7 +44,7 @@
                 </div>
 
                 <q-rating
-                readonly
+                  readonly
                   class="text-brown-7"
                   v-model="dishes[adjacentIndex].averageRating"
                   :max="5"
@@ -65,8 +65,13 @@
               <q-separator />
 
               <q-card-actions class="amber-6">
-                
-                <q-btn  class="buttonDetails" @click="handleClick(dishes[adjacentIndex].id)" flat color="blue-9"><q-icon flat round name="double_arrow" /> Detalji </q-btn>
+                <q-btn
+                  class="buttonDetails"
+                  @click="handleClick(dishes[adjacentIndex].id)"
+                  flat
+                  color="blue-9"
+                  ><q-icon flat round name="double_arrow" /> Detalji
+                </q-btn>
               </q-card-actions>
             </q-card>
           </div>
@@ -89,8 +94,8 @@ export default {
   computed: {},
 
   methods: {
-    handleClick(id){
-        this.$router.push('dish/'+id)
+    handleClick(id) {
+      this.$router.push("dish/" + id);
     },
     getData() {
       this.$store
@@ -124,14 +129,12 @@ export default {
 };
 </script>
 <style scoped>
-.buttonDetails{
-       transition: .2s ease-in-out 0s;
-
+.buttonDetails {
+  transition: 0.2s ease-in-out 0s;
 }
-.buttonDetails:hover{
-      cursor: pointer;
+.buttonDetails:hover {
+  cursor: pointer;
 
-      transform: scale(1.10);
-      }
-
+  transform: scale(1.1);
+}
 </style>

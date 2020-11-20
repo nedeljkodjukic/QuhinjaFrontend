@@ -2,7 +2,9 @@
   <q-page class="bg-grey-4">
     <div class="mainDiv">
       <div class="text-brown-9 fixed-top q-mt-sm">
-        <h5 class= "text-bold" style="text-align: center;">{{ this.dish.name }}</h5>
+        <h5 class="text-bold" style="text-align: center">
+          {{ this.dish.name }}
+        </h5>
         <q-form class="full-width" ref="formRef" @submit="handleAddRecipe">
           <div class="full-width row justify-around wrap q-gutter-x-md">
             <div
@@ -21,7 +23,7 @@
                 />
                 <div class="q-pt-md q-pb-md" style="max-width: 300px">
                   <q-input
-                  class="bg-grey-5"
+                    class="bg-grey-5"
                     color="amber-6"
                     style="width: 400px"
                     placeholder="Nacin pripreme"
@@ -96,24 +98,24 @@
                   />
                   <q-btn
                     dense
-                    
                     class="q-ml-sm text-bold"
                     @click="addToArray"
                     color="amber-6"
                     icon="add"
                     text-color="brown-9"
-                    
                   />
                 </div>
-                <q-list 
+                <q-list
                   bordered
-                  class=" bg-grey-5 rounded-borders"
+                  class="bg-grey-5 rounded-borders"
                   style="max-width: 600px"
                 >
-                  <q-item-label style="width:345px ;color:black"  header>Sastojci:</q-item-label>
+                  <q-item-label style="width: 345px; color: black" header
+                    >Sastojci:</q-item-label
+                  >
 
                   <q-item
-                    style="width: 345px;"
+                    style="width: 345px"
                     v-for="ing in ingridientsForBase"
                     :key="ing.ingridientName.label"
                   >
@@ -231,7 +233,7 @@ export default {
 
       this.IngridientForAdding.ingridientAmount = 0;
       this.IngridientForAdding.ingridientName = "";
-      this.IngridientForAdding.ingridientUnit="";
+      this.IngridientForAdding.ingridientUnit = "";
     },
     createValue(val, done) {
       if (val.length > 0) {
@@ -265,7 +267,6 @@ export default {
         .then((res) => {
           this.id = res;
 
-         
           this.$refs.uploaderRef.upload();
           this.addIngridents();
           this.$router.push(`/dish/${this.formData.dishId}`);
@@ -287,8 +288,7 @@ export default {
             url: "ingridient/addIngridient",
             data: data,
           })
-          .then((res) => {
-          });
+          .then((res) => {});
       }
     },
 
@@ -298,9 +298,7 @@ export default {
           url: `Dish/${this.$route.params.id}`,
         })
         .then(
-          (res) => (
-            ((this.dish = res), (this.formData.dishId = this.dish.id))
-          )
+          (res) => ((this.dish = res), (this.formData.dishId = this.dish.id))
         );
     },
     factoryUpload(file) {
