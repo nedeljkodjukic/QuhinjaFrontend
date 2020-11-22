@@ -132,6 +132,7 @@ export default {
       if (val.length > 0) {
         if (!this.dishTypes.includes(val)) {
           this.dishTypes.push(val);
+          
         }
         done(val, "toggle");
       }

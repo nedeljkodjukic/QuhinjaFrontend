@@ -164,7 +164,7 @@
               <div class="text-brown-9 text-h6 q-pb-md">Slika recepta</div>
               <q-uploader
                 color="amber-6"
-                ref="uploaderRef"
+                ref="uploaderRefForRecipe"
                 style="max-width: 300px"
                 class="full-width"
                 text-color="brown-9"
@@ -265,10 +265,10 @@ export default {
           successMessage: "Uspešno ste dodali recept",
         })
         .then((res) => {
-          this.id = res;
-
-          this.$refs.uploaderRef.upload();
+          this.formData.id = res;
+          console.log(res);
           this.addIngridents();
+          this.$refs.uploaderRefForRecipe.upload();
           this.$router.push(`/dish/${this.formData.dishId}`);
         });
     },
@@ -276,7 +276,7 @@ export default {
       var i;
       for (i = 0; i < this.ingridientsForBase.length; i++) {
         const data = {
-          recipeId: this.id,
+          recipeId: this.formData.id,
           quantity: parseInt(this.ingridientsForBase[i].ingridientAmount),
           ingridient: {
             name: this.ingridientsForBase[i].ingridientName.label,
@@ -288,7 +288,7 @@ export default {
             url: "ingridient/addIngridient",
             data: data,
           })
-          .then((res) => {});
+          .then();
       }
     },
 
@@ -305,7 +305,7 @@ export default {
       return new Promise((resolve, reject) => {
         // const token = this.$store.state.auth.auth.accessToken
         resolve({
-          url: `${baseUrl}recipe/${this.id}/uploadRecipePicture`,
+          url: `${baseUrl}recipe/${this.formData.id}/uploadRecipePicture`,
           method: "POST",
 
           //   headers: [

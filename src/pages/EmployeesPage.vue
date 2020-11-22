@@ -64,13 +64,7 @@
         </q-item>
       </q-list>
       <div class="col-6">
-        <q-img
-          src="https://secureservercdn.net/50.62.88.87/675.5d0.myftpupload.com/wp-content/uploads/2020/07/Employesss.jpg?time=1604056135"
-        >
-          <div class="absolute-bottom-right text-subtitle2">
-            Caption
-          </div>
-        </q-img>
+       
       </div>
     </div>
   </q-page>

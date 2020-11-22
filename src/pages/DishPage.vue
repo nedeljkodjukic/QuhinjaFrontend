@@ -133,7 +133,59 @@
           </q-list>
         </div>
         <div v-if="showDetailsForRecipe" v-model="recipeToShow">
-          Detalji: {{ recipeToShow.name }}
+          <div class="mainForRecipe">
+            <div style="font-size:20px"><p class="text-brown-9">{{recipeToShow.name}}</p></div>
+            <div class="topDiv">
+              <q-img class="q-mr-md" style="  border-radius: 0px 15px 15px 0px;" :src="recipeToShow.picture">
+              </q-img>
+              <q-list
+                  bordered
+                  class=" q-mr-sm bg-grey-5 rounded-borders"
+                  style="max-width: 600px;
+                  border-radius:15px 15px 15px 15px"
+                >
+                  <q-item-label style="width: 345px; color: black" header
+                    >Sastojci:</q-item-label
+                  >
+
+                  <q-item
+                    style="width: 345px"
+                    v-for="ing in recipeToShow.ingridients"
+                    :key="ing.ingridient.name"
+                  >
+                    <q-item-section top class="gt-sm">
+                      <q-item-label class="q-mt-sm"
+                        >{{ ing.ingridient.name }} :
+                        {{ ing.quantity }} :
+                        {{ ing.unit }}</q-item-label
+                      >
+                    </q-item-section>
+                  </q-item>
+                  </q-list>
+            </div>
+            <div class="middleDiv q-mt-sm">
+                <p >Vreme pripreme: {{recipeToShow.preparationTime}}</p>
+                <p>Link:{{recipeToShow.preview}}</p>
+            </div>
+            <div class=q-mt-sm>
+ <q-input readonly  
+      v-model="recipeToShow.wayOfPreparing"
+      filled
+      type="textarea"
+    />
+            </div>
+
+          
+          </div>
+          <q-btn
+            color="teal-9"
+            icon="keyboard_backspace"
+            label="Vidi ostale recepte"
+            @click="
+              showRecipeList = true;
+              showDetailsForRecipe = false;
+            "
+          />
         </div>
       </div>
     </div>
@@ -148,7 +200,8 @@ export default {
       color: "",
       model: 4,
       showDetailsForRecipe: false,
-      showRecipeList: true
+      showRecipeList: true,
+      recipeToShow: null,
     };
   },
   methods: {
@@ -158,20 +211,19 @@ export default {
       this.recipeToShow = recipe;
     },
     handleAddRecipe() {
-      console.log("s");
       this.$router.push("/addRecipe/" + this.dish.id);
     },
     getDish() {
       this.$store
         .dispatch("apiRequest/getApiRequest", {
-          url: `Dish/${this.$route.params.id}`
+          url: `Dish/${this.$route.params.id}`,
         })
-        .then(res => ((this.dish = res), console.log(this.dish)));
-    }
+        .then((res) => (this.dish = res))
+    },
   },
   created() {
     this.getDish();
-  }
+  },
 };
 </script>
 <style lang="stylus" scoped>
@@ -179,7 +231,14 @@ export default {
   display: flex;
   flex-direction: row;
 }
-
+.mainForRecipe{
+  display:flex;
+  flex-direction :column;
+}
+.topDiv{
+  display:flex;
+  flex-direction :row;
+}
 .itemForRecipe {
   transition: 0.2s ease-in-out 0s;
 }
