@@ -306,7 +306,7 @@ export default {
         // const token = this.$store.state.auth.auth.accessToken
         resolve({
           url: `${baseUrl}recipe/${this.formData.id}/uploadRecipePicture`,
-          method: "POST",
+          method: "POST"
 
           //   headers: [
           //     { name: 'Authorization', value: `Bearer ${token}` }
