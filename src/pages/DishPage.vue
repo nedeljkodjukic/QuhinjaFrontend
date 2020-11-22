@@ -55,11 +55,11 @@
             >
               <div
                 style="border-style: none"
-                class="text-bold text-subtitle1 text-blue-9"
+                class="text-bold text-subtitle1 text-teal-9"
               >
                 {{ this.dish.dishType }}
               </div>
-              <div style="border-style: none" class="text-caption text-grey-9">
+              <div style="border-style: none" class="text-caption text-teal-8">
                 {{ this.dish.description }}
               </div>
             </q-card-section>
@@ -74,7 +74,7 @@
             v-model="model"
             max="5"
             size="4em"
-            color="yellow"
+            color="brown"
             icon="star_border"
             icon-selected="star"
             icon-half="star_half"
@@ -86,15 +86,10 @@
 
       <div class="q-mt-xl rightDiv" style="width: 50%">
         <div
+          v-if="showRecipeList"
           style="display: flex; align-items: center; justify-content: center"
         >
           <q-list>
-            <!--
-        Rendering a <label> tag (notice tag="label")
-        so QCheckboxes will respond to clicks on QItems to
-        change Toggle state.
-      -->
-
             <q-item
               clickable
               @click="handleShowRecipe(recipe)"
@@ -137,11 +132,14 @@
             </q-item>
           </q-list>
         </div>
+        <div v-if="showDetailsForRecipe" v-model="recipeToShow">
+          Detalji: {{ recipeToShow.name }}
+        </div>
       </div>
     </div>
   </q-page>
 </template>
- <script>
+<script>
 import { baseUrl } from "../services/apiConfig";
 export default {
   data() {
@@ -149,10 +147,16 @@ export default {
       dish: null,
       color: "",
       model: 4,
+      showDetailsForRecipe: false,
+      showRecipeList: true
     };
   },
   methods: {
-    handleShowRecipe(recipe) {},
+    handleShowRecipe(recipe) {
+      this.showDetailsForRecipe = true;
+      this.showRecipeList = false;
+      this.recipeToShow = recipe;
+    },
     handleAddRecipe() {
       console.log("s");
       this.$router.push("/addRecipe/" + this.dish.id);
@@ -160,14 +164,14 @@ export default {
     getDish() {
       this.$store
         .dispatch("apiRequest/getApiRequest", {
-          url: `Dish/${this.$route.params.id}`,
+          url: `Dish/${this.$route.params.id}`
         })
-        .then((res) => ((this.dish = res), console.log(this.dish)));
-    },
+        .then(res => ((this.dish = res), console.log(this.dish)));
+    }
   },
   created() {
     this.getDish();
-  },
+  }
 };
 </script>
 <style lang="stylus" scoped>

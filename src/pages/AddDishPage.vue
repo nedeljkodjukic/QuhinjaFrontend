@@ -114,16 +114,16 @@ export default {
         id: 0,
         name: null,
         description: "",
-        dishType: "",
+        dishType: ""
       },
-      dishTypes: [],
+      dishTypes: []
     };
   },
 
   created() {
     this.$store
       .dispatch("apiRequest/getApiRequest", { url: `/dish/dishTypes` })
-      .then((res) => {
+      .then(res => {
         this.dishTypes = res;
       });
   },
@@ -144,15 +144,15 @@ export default {
         ...this.formData,
         name: this.formData.name,
         description: this.formData.description,
-        dishType: this.formData.dishType,
+        dishType: this.formData.dishType
       };
       this.$store
         .dispatch("apiRequest/postApiRequest", {
           url: "dish",
           data: data,
-          successMessage: "Uspešno ste dodali jelo",
+          successMessage: "Uspešno ste dodali jelo"
         })
-        .then((res) => {
+        .then(res => {
           this.id = res;
           this.$refs.uploaderRef.upload();
         });
@@ -163,15 +163,15 @@ export default {
         // const token = this.$store.state.auth.auth.accessToken
         resolve({
           url: `${baseUrl}dish/${this.id}/uploadDishPicture`,
-          method: "POST",
+          method: "POST"
 
           //   headers: [
           //     { name: 'Authorization', value: `Bearer ${token}` }
           //   ]
         });
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

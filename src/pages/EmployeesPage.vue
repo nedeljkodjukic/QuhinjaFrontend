@@ -26,7 +26,7 @@
         </q-item>
         <q-item
           style="border-radius: 15px 15px 15px 15px"
-          class="bg-blue-2 q-mb-md"
+          class="bg-brown-2 q-mb-md"
           v-for="employee in employees"
           :key="employee.id"
           v-ripple
@@ -63,6 +63,15 @@
           </q-item-section>
         </q-item>
       </q-list>
+      <div class="col-6">
+        <q-img
+          src="https://secureservercdn.net/50.62.88.87/675.5d0.myftpupload.com/wp-content/uploads/2020/07/Employesss.jpg?time=1604056135"
+        >
+          <div class="absolute-bottom-right text-subtitle2">
+            Caption
+          </div>
+        </q-img>
+      </div>
     </div>
   </q-page>
 </template>
@@ -73,23 +82,23 @@ import { baseUrl } from "../services/apiConfig";
 export default {
   data() {
     return {
-      employees: null,
+      employees: null
     };
   },
   filters: {
     ParseDate(date) {
       return (date = moment(date).format("LL")); // put format as you want
-    },
+    }
   },
   methods: {
     getData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "User" })
-        .then((res) => (this.employees = res));
-    },
+        .then(res => (this.employees = res));
+    }
   },
   created() {
     this.getData();
-  },
+  }
 };
 </script>

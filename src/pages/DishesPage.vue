@@ -1,7 +1,7 @@
 <template>
   <q-page class="bg-grey-4">
     <div style="position: relative" class="row q-gutter-x-md">
-      <q-btn label="Sort" icon-right="sort" class="text-blue-9" flat>
+      <q-btn label="Sort" icon-right="sort" class="text-teal-9" flat>
         <q-menu
           fit
           auto-close
@@ -26,7 +26,7 @@
         </template>
       </q-input>
       <q-btn
-        color="blue-9"
+        color="teal-9"
         to="/addDish"
         label=" + Dodaj novo jelo"
         class="buttonForDish"
@@ -43,11 +43,11 @@
           currentPage * dishesPerPage
         )"
         :key="index"
-        class="my-card bg-grey-4"
+        class="my-card bg-teal-3"
       >
         <q-img height="200px" :src="dish.picture" />
 
-        <q-card-section style="" class="bg-blue-2">
+        <q-card-section style="" class="teal-2">
           <div class="row no-wrap items-center">
             <div class="col text-h6 ellipsis">
               {{ dish.name }}
@@ -66,12 +66,12 @@
 
         <q-card-section
           style="border-radius: 0px 0px 15px 15px"
-          class="bg-blue-2 q-pt-none"
+          class="bg-teal-3 q-pt-none"
         >
-          <div class="text-bold text-subtitle1 text-blue-9">
+          <div class="text-bold text-subtitle1 text-teal-9">
             {{ dish.dishType }}
           </div>
-          <div class="text-caption text-grey-9">
+          <div class="text-caption text-teal-8">
             {{ dish.description }}
           </div>
         </q-card-section>
@@ -80,7 +80,7 @@
     <div class="divForPaging q-pa-lg flex flex-center">
       <div class="q-pa-lg flex flex-center">
         <q-pagination
-          color="blue-9"
+          color="teal-9"
           v-model="currentPage"
           :max="numOfPages"
           :max-pages="6"
@@ -102,7 +102,7 @@ export default {
       dishesForView: [],
       search: "",
       dishesPerPage: 8,
-      currentPage: 1,
+      currentPage: 1
     };
   },
   computed: {
@@ -115,18 +115,18 @@ export default {
       else {
         return this.numOfDishes / this.dishesPerPage + 1;
       }
-    },
+    }
   },
   watch: {
-    search: function () {
+    search: function() {
       if (this.search == "") {
         this.dishesForView = this.dishes;
       } else {
-        this.dishesForView = this.dishesForView.filter((dish) => {
+        this.dishesForView = this.dishesForView.filter(dish => {
           return dish.name.toLowerCase().startsWith(this.search.toLowerCase());
         });
       }
-    },
+    }
   },
 
   methods: {
@@ -135,27 +135,27 @@ export default {
     },
     sortDishes(option) {
       this.dishesForView = [];
-      this.dishes.forEach((element) => {
+      this.dishes.forEach(element => {
         if (element.dishType == option) this.dishesForView.push(element);
       });
     },
     getData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "Dish" })
-        .then((res) => ((this.dishes = res), (this.dishesForView = res)));
+        .then(res => ((this.dishes = res), (this.dishesForView = res)));
     },
     getDishTypes() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: `/dish/dishTypes` })
-        .then((res) => {
+        .then(res => {
           this.sortingOptions = res;
         });
-    },
+    }
   },
   created() {
     this.getData();
     this.getDishTypes();
-  },
+  }
 };
 </script>
 <style scoped>
@@ -178,7 +178,7 @@ export default {
 }
 .my-card:hover {
   cursor: pointer;
-  color: blue;
+  color: brown;
   transform: scale(1.1);
 }
 

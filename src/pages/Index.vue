@@ -33,7 +33,7 @@
             v-for="adjacentIndex in adjacentIndexes(index)"
             :key="adjacentIndex"
           >
-            <q-card class="my-card bg-amber-6">
+            <q-card class="my-card bg-teal-3">
               <q-img height="140px" :src="dishes[adjacentIndex].picture" />
 
               <q-card-section>
@@ -54,22 +54,22 @@
               </q-card-section>
 
               <q-card-section class="q-pt-none">
-                <div class="text-subtitle1 text-blue-9 text-bold">
+                <div class="text-subtitle1 text-teal-9 text-bold">
                   {{ dishes[adjacentIndex].dishType }}
                 </div>
-                <div class="text-caption text-grey-9">
+                <div class="text-caption text-brown-8">
                   {{ dishes[adjacentIndex].description }}
                 </div>
               </q-card-section>
 
               <q-separator />
 
-              <q-card-actions class="amber-6">
+              <q-card-actions class="teal-3">
                 <q-btn
                   class="buttonDetails"
                   @click="handleClick(dishes[adjacentIndex].id)"
                   flat
-                  color="blue-9"
+                  color="teal-9"
                   ><q-icon flat round name="double_arrow" /> Detalji
                 </q-btn>
               </q-card-actions>
@@ -88,7 +88,7 @@ export default {
     return {
       stars: 3,
       dishes: [],
-      selectedDishIndex: 0,
+      selectedDishIndex: 0
     };
   },
   computed: {},
@@ -100,7 +100,7 @@ export default {
     getData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "/dish/getSortedDishes" })
-        .then((res) => (this.dishes = res));
+        .then(res => (this.dishes = res));
     },
     adjacentIndexes(index) {
       const length = this.dishes.length;
@@ -115,7 +115,7 @@ export default {
         array.push((index + 2) % length);
       }
       return array.reverse();
-    },
+    }
   },
   created() {
     this.getData();
@@ -124,8 +124,8 @@ export default {
     numOfShowedItems() {
       if (this.$q.screen.gt.sm) return 5;
       else return 3;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
