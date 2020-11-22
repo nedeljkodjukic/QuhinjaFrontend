@@ -45,7 +45,7 @@
                 />
               </div>
               <q-btn
-                @click="confirm = true"
+                
                 label="Potvrdi"
                 color="brown-9"
                 text-color="amber-6"
@@ -105,6 +105,7 @@
 </template>
 <script>
 import { baseUrl } from "../services/apiConfig";
+import { QSpinnerBall } from "quasar";
 
 export default {
   data() {
@@ -155,9 +156,21 @@ export default {
         })
         .then(res => {
           this.id = res;
+          this.$q.loading.show({
+            spinner: QSpinnerBall,
+            spinnerColor: "grey",
+            spinnerSize: 140,
+            backgroundColor: "yellow",
+            message: "Molimo Vas pričekajte...",
+            messageColor: "black",
+          });
           this.$refs.uploaderRef.upload();
-        });
-      // this.$router.push("/dishes");
+         this.timer = setTimeout(() => {
+            this.$q.loading.hide();
+            this.timer = void 0;
+            this.confirm=true;
+          }, 3000); });
+      // 
     },
     factoryUpload(file) {
       return new Promise((resolve, reject) => {

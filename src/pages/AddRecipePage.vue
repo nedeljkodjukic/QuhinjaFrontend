@@ -182,7 +182,7 @@
 </template>
 <script>
 import { baseUrl } from "../services/apiConfig";
-
+import { QSpinnerBall } from "quasar";
 export default {
   data() {
     return {
@@ -206,6 +206,7 @@ export default {
   },
 
   methods: {
+    showLoading() {},
     IncrementAmount(name) {
       var ar = this.ingridientsForBase
         .filter((el) => el.ingridientName.label == name)
@@ -238,7 +239,11 @@ export default {
     createValue(val, done) {
       if (val.length > 0) {
         if (!this.ingridients.includes(val)) {
-          this.ingridients.push(val);
+          var Option = {
+            label: val,
+            disable: false,
+          };
+          this.ingridients.push(Option);
           const data = {
             name: val,
           };
@@ -267,9 +272,22 @@ export default {
         .then((res) => {
           this.formData.id = res;
           console.log(res);
-          this.addIngridents();
+          this.$q.loading.show({
+            spinner: QSpinnerBall,
+            spinnerColor: "grey",
+            spinnerSize: 140,
+            backgroundColor: "yellow",
+            message: "Molimo Vas pričekajte...",
+            messageColor: "black",
+          });
           this.$refs.uploaderRefForRecipe.upload();
-          this.$router.push(`/dish/${this.formData.dishId}`);
+          this.addIngridents();
+          //
+          this.timer = setTimeout(() => {
+            this.$q.loading.hide();
+            this.timer = void 0;
+            this.$router.push(`/dish/${this.formData.dishId}`);
+          }, 3000);
         });
     },
     addIngridents() {
@@ -283,12 +301,10 @@ export default {
           },
           unit: this.ingridientsForBase[i].ingridientUnit,
         };
-        this.$store
-          .dispatch("apiRequest/postApiRequest", {
-            url: "ingridient/addIngridient",
-            data: data,
-          })
-          .then();
+        this.$store.dispatch("apiRequest/postApiRequest", {
+          url: "ingridient/addIngridient",
+          data: data,
+        });
       }
     },
 
@@ -303,16 +319,16 @@ export default {
     },
     factoryUpload(file) {
       return new Promise((resolve, reject) => {
-        // const token = this.$store.state.auth.auth.accessToken
         resolve({
           url: `${baseUrl}recipe/${this.formData.id}/uploadRecipePicture`,
-          method: "POST"
+          method: "POST",
 
           //   headers: [
           //     { name: 'Authorization', value: `Bearer ${token}` }
           //   ]
         });
       });
+      // hiding in 3s
     },
   },
   created() {
