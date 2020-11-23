@@ -1,7 +1,9 @@
 <template>
   <q-page class="bg-grey-4">
-    <div style="position: relative" class="row q-gutter-x-md">
-      <q-btn label="Sort" icon-right="sort" class="text-teal-9" flat>
+    <div style="margin:30px; margin-top:0;">
+
+    <div  class="row q-gutter-x-md">
+      <q-btn  label="Sort" icon-right="sort" class="text-teal-9" flat>
         <q-menu
           fit
           auto-close
@@ -37,7 +39,6 @@
       <q-card
         :ratio="16 / 9"
         style="border-radius: 15px 15px 15px 15px; width: 275px"
-        @click="handleClick(dish.id)"
         v-for="(dish, index) in dishesForView.slice(
           (currentPage - 1) * dishesPerPage,
           currentPage * dishesPerPage
@@ -49,34 +50,45 @@
 
         <q-card-section style="" class="teal-2">
           <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
+            <div class="text-bold col text-h6 ellipsis">
               {{ dish.name }}
             </div>
+            <div v-if="dish.averageRating > 0" class="text-h6">
+              {{ dish.averageRating }}/5
+            </div>
+            <div v-else class="text-grey-9">nije ocenjeno</div>
           </div>
-
-          <q-rating
-            readonly
-            class="text-brown-7"
-            v-model="dish.averageRating"
-            :max="5"
-            icon-half="star_half"
-            size="32px"
-          />
+          <div class="text-bold text-subtitle1 text-teal-9">
+            {{ dish.dishType }}
+          </div>
         </q-card-section>
 
         <q-card-section
           style="border-radius: 0px 0px 15px 15px"
           class="bg-teal-3 q-pt-none"
         >
-          <div class="text-bold text-subtitle1 text-teal-9">
-            {{ dish.dishType }}
-          </div>
           <div class="text-caption text-teal-8">
             {{ dish.description }}
+          </div>
+          <div
+            class="text-teal-9 buttonDetails"
+            style="
+              text-transform: lowercase;
+              position: absolute;
+              right: 10px;
+              bottom: 1px;
+            "
+            @click="handleClick(dish.id)"
+            flat
+            color="teal-9"
+          >
+            more ->
           </div>
         </q-card-section>
       </q-card>
     </div>
+        </div>
+
     <div class="divForPaging q-pa-lg flex flex-center">
       <div class="q-pa-lg flex flex-center">
         <q-pagination
@@ -102,7 +114,7 @@ export default {
       dishesForView: [],
       search: "",
       dishesPerPage: 8,
-      currentPage: 1
+      currentPage: 1,
     };
   },
   computed: {
@@ -115,18 +127,18 @@ export default {
       else {
         return this.numOfDishes / this.dishesPerPage + 1;
       }
-    }
+    },
   },
   watch: {
-    search: function() {
+    search: function () {
       if (this.search == "") {
         this.dishesForView = this.dishes;
       } else {
-        this.dishesForView = this.dishesForView.filter(dish => {
+        this.dishesForView = this.dishesForView.filter((dish) => {
           return dish.name.toLowerCase().startsWith(this.search.toLowerCase());
         });
       }
-    }
+    },
   },
 
   methods: {
@@ -135,58 +147,56 @@ export default {
     },
     sortDishes(option) {
       this.dishesForView = [];
-      this.dishes.forEach(element => {
+      this.dishes.forEach((element) => {
         if (element.dishType == option) this.dishesForView.push(element);
       });
     },
     getData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "Dish" })
-        .then(res => ((this.dishes = res), (this.dishesForView = res)));
+        .then((res) => ((this.dishes = res), (this.dishesForView = res)));
     },
     getDishTypes() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: `/dish/dishTypes` })
-        .then(res => {
+        .then((res) => {
           this.sortingOptions = res;
         });
-    }
+    },
   },
   created() {
     this.getData();
     this.getDishTypes();
-  }
+  },
 };
 </script>
 <style scoped>
 .divForPaging {
   display: flex;
   flex-direction: row;
-  position: relative;
+ 
 }
 .cards {
+  
   justify-content: center;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  position:relative;
 }
 
 .my-card {
   margin: 15px;
+
   transition: 0.2s ease-in-out 0s;
   width: 275px;
-}
-.my-card:hover {
-  cursor: pointer;
-  color: brown;
-  transform: scale(1.1);
 }
 
 .buttonForDish {
   position: absolute;
-  right: 10px;
-  top: 5px;
-  transition: 0.2s ease-in-out 0s;
+  right:100px;
+  top:20px;
+   transition: 0.2s ease-in-out 0s;
 }
 .buttonForDish:hover {
   cursor: pointer;
@@ -200,6 +210,10 @@ export default {
 .buttonDetails:hover {
   cursor: pointer;
   color: blue;
-  transform: scale(1.1);
+}
+.cards{
+  
+ font-family: "Open Sans";
+
 }
 </style>

@@ -5,7 +5,7 @@
     <q-parallax :height="600" :speed="1" src="../../public/bgYellow.jpg">
       <div class="bg-grey-4" style="border-radius: 1%; width: 80%; height: 70%">
         <div
-          class="full-width text-brown-9 text-h5 text-accent q-mt-md q-mb-sm"
+          class="full-width text-brown-9 text-h5 text-accent q-mt-md q-pl-md q-mb-sm"
         >
           Dodavanje novog jela
         </div>
@@ -19,6 +19,7 @@
               <div class="full-width q-pa-md">
                 <div class="text-brown-9 text-h6 q-pb-md">Osnovni podaci</div>
                 <q-input
+                  class="q-mb-sm"
                   v-model="formData.Name"
                   color="brown-9"
                   dense
@@ -26,6 +27,7 @@
                   label="Ime jela"
                 />
                 <q-input
+                  class="q-mb-sm"
                   v-model="formData.description"
                   dense
                   outlined
@@ -45,7 +47,6 @@
                 />
               </div>
               <q-btn
-                
                 label="Potvrdi"
                 color="brown-9"
                 text-color="amber-6"
@@ -115,16 +116,16 @@ export default {
         id: 0,
         name: null,
         description: "",
-        dishType: ""
+        dishType: "",
       },
-      dishTypes: []
+      dishTypes: [],
     };
   },
 
   created() {
     this.$store
       .dispatch("apiRequest/getApiRequest", { url: `/dish/dishTypes` })
-      .then(res => {
+      .then((res) => {
         this.dishTypes = res;
       });
   },
@@ -133,7 +134,6 @@ export default {
       if (val.length > 0) {
         if (!this.dishTypes.includes(val)) {
           this.dishTypes.push(val);
-          
         }
         done(val, "toggle");
       }
@@ -146,15 +146,15 @@ export default {
         ...this.formData,
         name: this.formData.name,
         description: this.formData.description,
-        dishType: this.formData.dishType
+        dishType: this.formData.dishType,
       };
       this.$store
         .dispatch("apiRequest/postApiRequest", {
           url: "dish",
           data: data,
-          successMessage: "Uspešno ste dodali jelo"
+          successMessage: "Uspešno ste dodali jelo",
         })
-        .then(res => {
+        .then((res) => {
           this.id = res;
           this.$q.loading.show({
             spinner: QSpinnerBall,
@@ -165,28 +165,34 @@ export default {
             messageColor: "black",
           });
           this.$refs.uploaderRef.upload();
-         this.timer = setTimeout(() => {
+          this.timer = setTimeout(() => {
             this.$q.loading.hide();
             this.timer = void 0;
-            this.confirm=true;
-          }, 3000); });
-      // 
+            this.confirm = true;
+          }, 3000);
+        });
+      //
     },
     factoryUpload(file) {
       return new Promise((resolve, reject) => {
         // const token = this.$store.state.auth.auth.accessToken
         resolve({
           url: `${baseUrl}dish/${this.id}/uploadDishPicture`,
-          method: "POST"
+          method: "POST",
 
           //   headers: [
           //     { name: 'Authorization', value: `Bearer ${token}` }
           //   ]
         });
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+*{
+  
+ font-family: "Open Sans";
+
+}</style>

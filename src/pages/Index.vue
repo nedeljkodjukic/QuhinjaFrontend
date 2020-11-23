@@ -1,16 +1,11 @@
 <template>
   <q-page class="column items-center q-gutter-y-none bg-grey-4">
-    <q-parallax
-      :speed="1"
-      src="../../public/test.jpg"
-      style="border-color: #233d53; border-style: solid; border-width: 5px 0px"
-    >
-    </q-parallax>
-    <div class="text-h5 text-brown-9 q-py-md">
+    
+  
+ <div class="text-h5 text-brown-9 ">
       Najbolje ocenjena jela
       <q-separator color="brown-9" size="4px" />
     </div>
-
     <q-carousel
       v-model="selectedDishIndex"
       swipeable
@@ -26,58 +21,57 @@
         v-for="(dish, index) in dishes"
         :key="index"
         :name="index"
+       
       >
-        <div class="row q-gutter-x-md justify-center items-center">
-          <div
+        <div  class="row q-gutter-x-md justify-center items-center">
+          <div 
             class="column items-center"
             v-for="adjacentIndex in adjacentIndexes(index)"
             :key="adjacentIndex"
           >
-            <q-card class="my-card bg-teal-3">
+            <q-card  style="width:200px; height:290px" class="my-card bg-teal-3">
               <q-img height="140px" :src="dishes[adjacentIndex].picture" />
 
               <q-card-section>
                 <div class="row no-wrap items-center">
-                  <div class="col text-h6 ellipsis">
+                  <div class="col  text-h6 ellipsis text-bold">
                     {{ dishes[adjacentIndex].name }}
                   </div>
+                  
+                  <div class="text-h6">{{dishes[adjacentIndex].averageRating}}/5</div>
+                </div>
+                  <div class="text-subtitle1 text-teal-9 text-bold">
+                  {{ dishes[adjacentIndex].dishType }}
                 </div>
 
-                <q-rating
-                  readonly
-                  class="text-brown-7"
-                  v-model="dishes[adjacentIndex].averageRating"
-                  :max="5"
-                  icon-half="star_half"
-                  size="32px"
-                />
+                
               </q-card-section>
 
               <q-card-section class="q-pt-none">
-                <div class="text-subtitle1 text-teal-9 text-bold">
-                  {{ dishes[adjacentIndex].dishType }}
-                </div>
+              
                 <div class="text-caption text-brown-8">
                   {{ dishes[adjacentIndex].description }}
                 </div>
               </q-card-section>
 
-              <q-separator />
 
-              <q-card-actions class="teal-3">
-                <q-btn
-                  class="buttonDetails"
+              <q-card-actions style="position:relative;" class="teal-3">
+                <div
+                style="  text-transform: lowercase;
+position:absolute; right:0;"
+                  class=" text-teal-9 buttonDetails"
                   @click="handleClick(dishes[adjacentIndex].id)"
                   flat
                   color="teal-9"
-                  ><q-icon flat round name="double_arrow" /> Detalji
-                </q-btn>
+                  >more->
+                </div>
               </q-card-actions>
             </q-card>
           </div>
         </div>
       </q-carousel-slide>
     </q-carousel>
+     
   </q-page>
 </template>
 
@@ -129,12 +123,18 @@ export default {
 };
 </script>
 <style scoped>
+*{
+  
+ font-family: "Open Sans";
+
+}
 .buttonDetails {
+  margin-left: 0;
   transition: 0.2s ease-in-out 0s;
 }
 .buttonDetails:hover {
   cursor: pointer;
 
-  transform: scale(1.1);
+ 
 }
 </style>

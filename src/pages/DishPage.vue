@@ -34,19 +34,13 @@
 
             <q-card-section style="border-style: none" class="bg-amber-6">
               <div class="row no-wrap items-center">
-                <div class="col text-h6 ellipsis">
+                <div class="col text-bold text-h6 ellipsis">
                   {{ this.dish.name }}
                 </div>
+                <div class="text-h6">{{this.dish.averageRating}}/5</div>
               </div>
 
-              <q-rating
-                readonly
-                class="text-brown-7"
-                v-model="dish.averageRating"
-                :max="5"
-                icon-half="star_half"
-                size="32px"
-              />
+             
             </q-card-section>
 
             <q-card-section
@@ -133,10 +127,10 @@
           </q-list>
         </div>
         <div v-if="showDetailsForRecipe" v-model="recipeToShow">
-          <div class="mainForRecipe">
+          <div class="q-ml-md mainForRecipe">
             <div style="font-size:20px"><p class="text-brown-9">{{recipeToShow.name}}</p></div>
             <div class="topDiv">
-              <q-img class="q-mr-md" style="  border-radius: 0px 15px 15px 0px;" :src="recipeToShow.picture">
+              <q-img class="q-mr-md" style=" max-width: 250px; border-radius: 0px 15px 15px 0px;" :src="recipeToShow.picture">
               </q-img>
               <q-list
                   bordered
@@ -178,6 +172,7 @@
           
           </div>
           <q-btn
+          class="q-ml-sm q-mt-sm"
             color="teal-9"
             icon="keyboard_backspace"
             label="Vidi ostale recepte"
@@ -237,7 +232,9 @@ export default {
 }
 .topDiv{
   display:flex;
+  flex-wrap :wrap
   flex-direction :row;
+  
 }
 .itemForRecipe {
   transition: 0.2s ease-in-out 0s;
@@ -250,5 +247,10 @@ export default {
   border-style: solid;
   border-width: 4px;
   border-color: grey;
+}
+cards{
+  
+ font-family: "Open Sans";
+
 }
 </style>

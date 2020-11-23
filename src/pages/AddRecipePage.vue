@@ -2,7 +2,7 @@
   <q-page class="bg-grey-4">
     <div class="mainDiv">
       <div class="text-brown-9 fixed-top q-mt-sm">
-        <h5 class="text-bold" style="text-align: center">
+        <h5 class="text-bold" style="margin-top: 50px; text-align: center">
           {{ this.dish.name }}
         </h5>
         <q-form class="full-width" ref="formRef" @submit="handleAddRecipe">
@@ -71,7 +71,7 @@
                     transition-hide="flip-down"
                     v-model="IngridientForAdding.ingridientName"
                     dense
-                    style="width: 130px"
+                    style="width:130px"
                     outlined
                     label="sastojak"
                     :options="ingridients"
@@ -215,7 +215,7 @@ export default {
     DecrementAmount(name) {
       var ar = this.ingridientsForBase
         .filter((el) => el.ingridientName.label == name)
-        .map((el) => (el.ingridientAmount > 0 ? el.ingridientAmount-- : ""));
+        .map((el) => (el.ingridientAmount > 1 ? el.ingridientAmount-- : ""));
     },
     deleteItem(name) {
       this.ingridientsForBase = this.ingridientsForBase.filter(function (item) {
@@ -352,5 +352,10 @@ export default {
 .mainDiv {
   display: flex;
   flex-direction: column;
+}
+*{
+  
+ font-family: "Open Sans";
+
 }
 </style>
