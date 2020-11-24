@@ -2,7 +2,7 @@
   <q-page class="bg-grey-4">
     <div class="q-pa-md q-gutter-md">
       <q-list style="width: 100%">
-        <q-item class="q-mb-sm text-brown-5  ">
+        <q-item class="q-mb-sm text-brown-5">
           <q-item-section avatar>
             <q-avatar style="width: 100px"> </q-avatar>
           </q-item-section>
@@ -24,13 +24,7 @@
             <q-item-label class="text-bold"> Omiljeno jelo</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item
-          style="border-radius: 15px 15px 15px 15px"
-          class="bg-red-2 q-mb-md"
-          v-for="employee in employees"
-          :key="employee.id"
-          v-ripple
-        >
+        <q-item style="border-radius: 15px 15px 15px 15px" class="bg-red-2 q-mb-md" v-for="employee in employees" :key="employee.id" v-ripple>
           <q-item-section avatar>
             <q-avatar style="height: 100px; width: 100px">
               <img :src="employee.profilePictureUrl" />
@@ -47,26 +41,17 @@
             <q-item-label> {{ employee.dateOfBirth | ParseDate }}</q-item-label>
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{
-              employee.dateOfEmployment | ParseDate
-            }}</q-item-label>
+            <q-item-label>{{ employee.dateOfEmployment | ParseDate }}</q-item-label>
           </q-item-section>
 
-          <q-item-section v-if="employee.favouriteDish!=null">
+          <q-item-section v-if="employee.favouriteDish != null">
             <
-            <q-img
-              style="border-radius: 20px"
-              height="100px"
-              width="100px"
-              :src="employee.favouriteDish.picture"
-            ></q-img>
+            <q-img style="border-radius: 20px" height="100px" width="100px" :src="employee.favouriteDish.picture"></q-img>
             <q-item-label>{{ employee.favouriteDish.name }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
-      <div class="col-6">
-       
-      </div>
+      <div class="col-6"></div>
     </div>
   </q-page>
 </template>
@@ -77,23 +62,21 @@ import { baseUrl } from "../services/apiConfig";
 export default {
   data() {
     return {
-      employees: null
+      employees: null,
     };
   },
   filters: {
     ParseDate(date) {
       return (date = moment(date).format("LL")); // put format as you want
-    }
+    },
   },
   methods: {
     getData() {
-      this.$store
-        .dispatch("apiRequest/getApiRequest", { url: "User" })
-        .then(res => (this.employees = res));
-    }
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "User" }).then((res) => (this.employees = res));
+    },
   },
   created() {
     this.getData();
-  }
+  },
 };
 </script>
