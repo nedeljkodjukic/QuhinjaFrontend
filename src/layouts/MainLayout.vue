@@ -4,11 +4,10 @@
       <q-toolbar
         style=" height:20px;display:flex; flex-direction:row; flex grow:1; align-content:center  "
         class="bg-amber-6"
-      >
-        <h6 class="text-brown-9 q-mr-sm">Quhinja</h6>
-        <q-btn :to="`/`" dense>
-          <q-icon name="home" color="brown-9"> </q-icon>
-        </q-btn>
+        ><div class="buttonDetails" @click="handleClick()">
+          <h6 class="text-brown-9 q-mr-sm">Quhinja</h6>
+        </div>
+
         <q-tabs class="text-brown-9">
           <q-route-tab active name="Menu" label="Menu" to="/menu" />
           <q-route-tab name="Jela" label="Jela" to="/dishes" />
@@ -32,9 +31,17 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    handleClick() {
+      this.$router.push(`/`);
+    },
+  },
 };
 </script>
 
 <style scoped>
+.buttonDetails:hover {
+  cursor: pointer;
+  color: blue;
+}
 </style>
