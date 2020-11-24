@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 
 import routes from './routes'
 
+import { Notify } from 'quasar'
+
+import { Store } from '../store/index'
 Vue.use(VueRouter)
 
 /*
@@ -25,6 +28,28 @@ export default function (/* { store, ssrContext } */) {
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
   })
+  Router.beforeEach((to, from, next) => {
+    if (to.matched.some(route => route.meta.requiresAuth)) {
+      if (!Store.getters['auth/isAuthenticated']) {
+        Store.commit('auth/showLoginDialog')
+        next({ path: from.path, query: { redirect: to.path } })
+      } else {
+        if (to.matched.some(route => route.meta.roles && Store.getters['auth/isInRoles'](route.meta.roles))) {
+          next()
+        } else {
+          Notify.create({
+            type: 'negative',
+            position: 'top',
+            message: 'Nemate traženu rolu'
+          })
+          next({ path: '/' })
+        }
+      }
+    } else {
+      next()
+    }
+  })
 
   return Router
 }
+

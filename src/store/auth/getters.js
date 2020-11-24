@@ -8,8 +8,14 @@ export const toShowLogin = state => {
   return state.showLoginDialog
 }
 
-export const isOwner = state => {
-  return state.auth !== null && state.auth.accessToken !== null && VueJwtDecode.decode(state.auth.accessToken).role.includes('owner')
+export const isInRoles = (state, getters) => roles => {
+  for (let i = 0; i < roles.length; i++) {
+    var role = roles[i]
+    if (!(state.auth !== null && state.auth.accessToken !== null && VueJwtDecode.decode(state.auth.accessToken).role.includes(role))) {
+      return false
+    }
+  }
+  return true
 }
 
 export const fullName = state => {
@@ -23,8 +29,3 @@ export const userName = state => {
 export const profilePictureUrl = state => {
   return state.auth.profilePictureUrl
 }
-/*
-export const fullName = state => {
-  return state.aut
-}
- */

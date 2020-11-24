@@ -52,7 +52,8 @@
             }}</q-item-label>
           </q-item-section>
 
-          <q-item-section>
+          <q-item-section v-if="employee.favouriteDish!=null">
+            <
             <q-img
               style="border-radius: 20px"
               height="100px"

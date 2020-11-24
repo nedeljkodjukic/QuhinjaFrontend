@@ -1,10 +1,12 @@
 <template >
   <q-layout view="lHh Lpr lFf">
+        <login-dialog :visible="showLoginDialog"/>
+
     <q-header elevated>
       <q-toolbar
         style="background-color:#6f6e57; height:20px;display:flex; flex-direction:row; flex grow:1; align-content:center  "
         
-        ><div class="buttonDetails" @click="handleClick()">
+        ><div class="buttonDetails" @click="handleClick">
           <h6 class=" q-mr-sm">Quhinja</h6>
         </div>
 
@@ -13,9 +15,15 @@
           <q-route-tab name="Jela" label="Jela" to="/dishes" />
           <q-route-tab name="Zaposleni" label="Zaposleni" to="/employees" />
         </q-tabs>
-        <q-btn class="fixed-top-right on-left q-mt-sm" dense>
+        <div v-if="isAuthenticated" class="fixed-top-right on-left q-mt-sm">
+      <user-avatar-and-menu />
+    </div>
+    <div v-else>
+ <q-btn  @click="handleLoginClick" class="fixed-top-right on-left q-mt-sm" dense>
           <q-icon name="login" color="white"> </q-icon>
         </q-btn>
+    </div>
+       
       </q-toolbar>
     </q-header>
 
@@ -26,8 +34,16 @@
 </template>
 
 <script>
+import UserAvatarAndMenu from '../components/UserAvatarAndMenu'
+
+import LoginDialog from '../components/LoginDialog'
+
 export default {
   name: "MainLayout",
+  components:{
+    LoginDialog,
+     UserAvatarAndMenu
+  },
   data() {
     return {};
   },
@@ -35,7 +51,19 @@ export default {
     handleClick() {
       this.$router.push(`/`);
     },
+     handleLoginClick () {
+      this.$store.commit('auth/showLoginDialog')
+    },
   },
+  computed:{
+    isAuthenticated () {
+      return this.$store.getters['auth/isAuthenticated']
+    },
+      showLoginDialog () {
+      return this.$store.getters['auth/toShowLogin']
+      // return this.$store.state.auth.showLoginDialog
+    }
+  }
 };
 </script>
 
