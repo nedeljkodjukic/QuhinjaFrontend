@@ -16,6 +16,8 @@
           <q-card
             :ratio="16 / 9"
             style="
+              background-color: #baa671;
+
               border-style: none;
               border-radius: 15px 15px 15px 15px;
               width: 275px;
@@ -32,35 +34,41 @@
               :src="this.dish.picture"
             />
 
-            <q-card-section style="border-style: none" class="bg-amber-6">
+            <q-card-section
+              style="border-style: none; background-color: #baa671"
+            >
               <div class="row no-wrap items-center">
                 <div class="col text-bold text-h6 ellipsis">
                   {{ this.dish.name }}
                 </div>
-                <div class="text-h6">{{this.dish.averageRating}}/5</div>
+                <div class="text-brown-9 text-h6">
+                  {{ this.dish.averageRating }}
+                </div>
               </div>
-
-             
             </q-card-section>
 
             <q-card-section
-              style="border-style: none; border-radius: 0px 0px 15px 15px"
-              class="bg-amber-6 q-pt-none"
+              style="
+                background-color: #baa671;
+                border-style: none;
+                border-radius: 0px 0px 15px 15px;
+              "
+              class="q-pt-none"
             >
               <div
                 style="border-style: none"
-                class="text-bold text-subtitle1 text-teal-9"
+                class="text-bold text-subtitle1 text-brown-9"
               >
                 {{ this.dish.dishType }}
               </div>
-              <div style="border-style: none" class="text-caption text-teal-8">
+              <div style="border-style: none" class="text-caption text-brown-9">
                 {{ this.dish.description }}
               </div>
             </q-card-section>
           </q-card>
         </div>
         <div class="q-mt-md">
-          <p style="font-size: 23px">Ocenite jelo</p>
+          <p style="font-size: 23px; color: brown">Ocenite jelo</p>
         </div>
 
         <div class="q-mt-md">
@@ -87,8 +95,9 @@
             <q-item
               clickable
               @click="handleShowRecipe(recipe)"
-              class="bg-brown-5 q-mb-md itemForRecipe"
+              class="q-mb-md itemForRecipe"
               style="
+                background-color: #965544;
                 width: 300px;
                 height: 100px;
                 border-radius: 15px 15px 15px 15px;
@@ -111,7 +120,7 @@
             <q-item
               clickable
               @click="handleAddRecipe"
-              class="bg-grey-5 q-mb-md itemForRecipe"
+              class="q-mb-md bg-red-2 itemForRecipe"
               style="
                 width: 300px;
                 height: 100px;
@@ -128,52 +137,59 @@
         </div>
         <div v-if="showDetailsForRecipe" v-model="recipeToShow">
           <div class="q-ml-md mainForRecipe">
-            <div style="font-size:20px"><p class="text-brown-9">{{recipeToShow.name}}</p></div>
+            <div style="font-size: 20px">
+              <p class="text-brown-9">{{ recipeToShow.name }}</p>
+            </div>
             <div class="topDiv">
-              <q-img class="q-mr-md" style=" max-width: 250px; border-radius: 0px 15px 15px 0px;" :src="recipeToShow.picture">
+              <q-img
+                class="q-mr-md"
+                style="max-width: 250px; border-radius: 0px 15px 15px 0px"
+                :src="recipeToShow.picture"
+              >
               </q-img>
               <q-list
-                  bordered
-                  class=" q-mr-sm bg-grey-5 rounded-borders"
-                  style="max-width: 600px;
-                  border-radius:15px 15px 15px 15px"
+                bordered
+                class="q-mr-sm bg-grey-5 rounded-borders"
+                style="
+                  max-width: 600px;
+                  color: #6f6e57;
+                  border-radius: 15px 15px 15px 15px;
+                "
+              >
+                <q-item-label style="width: 345px; color: black" header
+                  >Sastojci:</q-item-label
                 >
-                  <q-item-label style="width: 345px; color: black" header
-                    >Sastojci:</q-item-label
-                  >
 
-                  <q-item
-                    style="width: 345px"
-                    v-for="ing in recipeToShow.ingridients"
-                    :key="ing.ingridient.name"
-                  >
-                    <q-item-section top class="gt-sm">
-                      <q-item-label class="q-mt-sm"
-                        >{{ ing.ingridient.name }} :
-                        {{ ing.quantity }} :
-                        {{ ing.unit }}</q-item-label
-                      >
-                    </q-item-section>
-                  </q-item>
-                  </q-list>
+                <q-item
+                  style="width: 345px"
+                  v-for="ing in recipeToShow.ingridients"
+                  :key="ing.ingridient.name"
+                >
+                  <q-item-section top class="gt-sm">
+                    <q-item-label class="q-mt-sm"
+                      >{{ ing.ingridient.name }} : {{ ing.quantity }} :
+                      {{ ing.unit }}</q-item-label
+                    >
+                  </q-item-section>
+                </q-item>
+              </q-list>
             </div>
-            <div class="middleDiv q-mt-sm">
-                <p >Vreme pripreme: {{recipeToShow.preparationTime}}</p>
-                <p>Link:{{recipeToShow.preview}}</p>
+            <div style="color: #6f6e57" class="middleDiv q-mt-sm">
+              <p>Vreme pripreme: {{ recipeToShow.preparationTime }}</p>
+              <p>Link:{{ recipeToShow.preview }}</p>
             </div>
-            <div class=q-mt-sm>
- <q-input readonly  
-      v-model="recipeToShow.wayOfPreparing"
-      filled
-      type="textarea"
-    />
+            <div class="q-mt-sm">
+              <q-input
+                readonly
+                v-model="recipeToShow.wayOfPreparing"
+                filled
+                type="textarea"
+              />
             </div>
-
-          
           </div>
           <q-btn
-          class="q-ml-sm q-mt-sm"
-            color="teal-9"
+            class="q-ml-sm q-mt-sm"
+            style="background-color: #6f6e57"
             icon="keyboard_backspace"
             label="Vidi ostale recepte"
             @click="
@@ -213,7 +229,7 @@ export default {
         .dispatch("apiRequest/getApiRequest", {
           url: `Dish/${this.$route.params.id}`,
         })
-        .then((res) => (this.dish = res))
+        .then((res) => (this.dish = res));
     },
   },
   created() {
@@ -226,16 +242,18 @@ export default {
   display: flex;
   flex-direction: row;
 }
-.mainForRecipe{
-  display:flex;
-  flex-direction :column;
+
+.mainForRecipe {
+  display: flex;
+  flex-direction: column;
 }
-.topDiv{
-  display:flex;
-  flex-wrap :wrap
-  flex-direction :row;
-  
+
+.topDiv {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
+
 .itemForRecipe {
   transition: 0.2s ease-in-out 0s;
 }
@@ -248,9 +266,8 @@ export default {
   border-width: 4px;
   border-color: grey;
 }
-cards{
-  
- font-family: "Open Sans";
 
+cards {
+  font-family: 'Open Sans';
 }
 </style>

@@ -1,9 +1,11 @@
 <template>
   <q-page class="bg-grey-4">
-    <div style="margin:30px; margin-top:0;">
+    <div style=" justify-content: center;
+  display: flex;
+  flex-direction: column;margin:30px; margin-top:0;">
 
-    <div  class="row q-gutter-x-md">
-      <q-btn  label="Sort" icon-right="sort" class="text-teal-9" flat>
+    <div  style="margin-left:30px" class="row q-gutter-x-md">
+      <q-btn  label="Sort" icon-right="sort" class="text-red-5" flat>
         <q-menu
           fit
           auto-close
@@ -28,7 +30,7 @@
         </template>
       </q-input>
       <q-btn
-        color="teal-9"
+        color="red-5"
         to="/addDish"
         label=" + Dodaj novo jelo"
         class="buttonForDish"
@@ -44,45 +46,44 @@
           currentPage * dishesPerPage
         )"
         :key="index"
-        class="my-card bg-teal-3"
+        class="my-card "
       >
         <q-img height="200px" :src="dish.picture" />
 
-        <q-card-section style="" class="teal-2">
+        <q-card-section style="" class="bg-red-2">
           <div class="row no-wrap items-center">
             <div class="text-bold col text-h6 ellipsis">
               {{ dish.name }}
             </div>
-            <div v-if="dish.averageRating > 0" class="text-h6">
-              {{ dish.averageRating }}/5
+            <div v-if="dish.averageRating > 0" class="text-brown-9 text-h6">
+              {{ dish.averageRating }}
             </div>
             <div v-else class="text-grey-9">nije ocenjeno</div>
           </div>
-          <div class="text-bold text-subtitle1 text-teal-9">
+          <div class="text-bold text-subtitle1 text-brown-9">
             {{ dish.dishType }}
           </div>
         </q-card-section>
 
         <q-card-section
           style="border-radius: 0px 0px 15px 15px"
-          class="bg-teal-3 q-pt-none"
+          class="bg-red-2 q-pt-none"
         >
-          <div class="text-caption text-teal-8">
+          <div class="text-caption text-brown-8">
             {{ dish.description }}
           </div>
           <div
-            class="text-teal-9 buttonDetails"
+            class="text-white buttonDetails"
             style="
-              text-transform: lowercase;
               position: absolute;
               right: 10px;
               bottom: 1px;
             "
             @click="handleClick(dish.id)"
             flat
-            color="teal-9"
+            color="white"
           >
-            more ->
+            Detalji >>
           </div>
         </q-card-section>
       </q-card>
@@ -92,7 +93,7 @@
     <div class="divForPaging q-pa-lg flex flex-center">
       <div class="q-pa-lg flex flex-center">
         <q-pagination
-          color="teal-9"
+          color="red-5"
           v-model="currentPage"
           :max="numOfPages"
           :max-pages="6"
@@ -186,6 +187,7 @@ export default {
 }
 
 .my-card {
+  background-color: #7d7962;
   margin: 15px;
 
   transition: 0.2s ease-in-out 0s;

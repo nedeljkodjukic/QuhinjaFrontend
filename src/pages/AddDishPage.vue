@@ -42,14 +42,15 @@
                   v-model="formData.dishType"
                   dense
                   outlined
+                  color="red-5"
                   label="tip jela"
                   :options="dishTypes"
                 />
               </div>
               <q-btn
                 label="Potvrdi"
-                color="brown-9"
-                text-color="amber-6"
+                color="red-5"
+                text-color="white"
                 type="submit"
               />
             </div>
@@ -57,7 +58,7 @@
             <div class="full-width" style="max-width: 350px">
               <div class="text-brown-9 text-h6 q-pb-md">Slika jela</div>
               <q-uploader
-                color="amber-6"
+                color="red-2"
                 ref="uploaderRef"
                 style="max-width: 300px"
                 class="full-width"
@@ -80,8 +81,8 @@
 
             <q-card-actions class="bg-brown-9" align="left">
               <q-btn
-                class="bg-amber-6"
-                text-color="brown-9"
+                class="bg-red-5"
+                text-color="white"
                 flat
                 label="Da"
                 color="primary"

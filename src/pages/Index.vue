@@ -14,7 +14,7 @@
       padding
       arrows
       class="bg-transparent"
-      control-color="brown-9"
+      control-color="red-1"
     >
       <q-carousel-slide
         class="q-pa-sm"
@@ -29,7 +29,7 @@
             v-for="adjacentIndex in adjacentIndexes(index)"
             :key="adjacentIndex"
           >
-            <q-card  style="width:200px; height:290px" class="my-card bg-teal-3">
+            <q-card  style="width:200px; height:290px" class="my-card ">
               <q-img height="140px" :src="dishes[adjacentIndex].picture" />
 
               <q-card-section>
@@ -38,9 +38,9 @@
                     {{ dishes[adjacentIndex].name }}
                   </div>
                   
-                  <div class="text-h6">{{dishes[adjacentIndex].averageRating}}/5</div>
+                  <div class=" text-brown-9 text-h6 text-bold">{{dishes[adjacentIndex].averageRating}}</div>
                 </div>
-                  <div class="text-subtitle1 text-teal-9 text-bold">
+                  <div style="" class=" text-brown-9 text-subtitle1  text-bold">
                   {{ dishes[adjacentIndex].dishType }}
                 </div>
 
@@ -57,13 +57,13 @@
 
               <q-card-actions style="position:relative;" class="teal-3">
                 <div
-                style="  text-transform: lowercase;
+                style="   text-bold;
 position:absolute; right:0;"
-                  class=" text-teal-9 buttonDetails"
+
+                  class=" buttonDetails "
                   @click="handleClick(dishes[adjacentIndex].id)"
                   flat
-                  color="teal-9"
-                  >more->
+                  >Detalji >>
                 </div>
               </q-card-actions>
             </q-card>
@@ -128,6 +128,11 @@ export default {
  font-family: "Open Sans";
 
 }
+.my-card{
+  background-color: #baa671;
+  color:#f1eae8;
+}
+
 .buttonDetails {
   margin-left: 0;
   transition: 0.2s ease-in-out 0s;

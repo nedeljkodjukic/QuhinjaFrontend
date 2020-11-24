@@ -24,12 +24,13 @@
                 <div class="q-pt-md q-pb-md" style="max-width: 300px">
                   <q-input
                     class="bg-grey-5"
-                    color="amber-6"
+                    color="red-5"
                     style="width: 400px"
                     placeholder="Nacin pripreme"
                     v-model="formData.wayOfPreparing"
                     filled
                     outlined
+
                     type="textarea"
                   />
                 </div>
@@ -52,9 +53,10 @@
                 />
               </div>
               <q-btn
+            style="background-color:#6f6e57;"
+
                 label="Potvrdi"
-                color="brown-9"
-                text-color="amber-6"
+                text-color="white"
                 type="submit"
               />
             </div>
@@ -73,6 +75,7 @@
                     dense
                     style="width:130px"
                     outlined
+                    color="red-5"
                     label="sastojak"
                     :options="ingridients"
                   />
@@ -97,12 +100,13 @@
                     label="mera"
                   />
                   <q-btn
+                              style="background-color:#6f6e57;"
+
                     dense
                     class="q-ml-sm text-bold"
                     @click="addToArray"
-                    color="amber-6"
                     icon="add"
-                    text-color="brown-9"
+                    text-color="white"
                   />
                 </div>
                 <q-list
@@ -134,6 +138,7 @@
                           class="gt-xs"
                           size="12px"
                           flat
+                          
                           dense
                           round
                           icon="add"
@@ -161,13 +166,16 @@
                 </q-list>
                 <!-- dodati listu sastojaka-->
               </div>
-              <div class="text-brown-9 text-h6 q-pb-md">Slika recepta</div>
+              <div class=" text-h6 q-pb-md">Slika recepta</div>
               <q-uploader
-                color="amber-6"
+                color="teal-10"
                 ref="uploaderRefForRecipe"
-                style="max-width: 300px"
+                style="
+                
+                max-width: 300px;
+                "
                 class="full-width"
-                text-color="brown-9"
+                
                 :factory="factoryUpload"
                 hide-upload-btn
                 multiple
