@@ -1,23 +1,14 @@
 <template>
   <div>
-     <div class="text-subtitle2 text-center q-mr-md text-white"></div>
-      {{ userName }}
+    <div class="text-subtitle2 text-center q-mr-md text-white"></div>
+    {{ userName }}
     <q-avatar style="cursor: pointer">
-     
-      <img
-        :src="
-          profilePicture !== null ? profilePicture : 'statics/no-image-user.png'
-        "
-      />
+      <img :src="profilePicture !== null ? profilePicture : 'statics/no-image-user.png'" />
 
       <q-menu self="top right" :offset="[-50, 15]">
         <q-list>
           <q-separator />
-          <q-item
-            v-for="option in menuOptions"
-            :key="option.name"
-            :to="option.link"
-          >
+          <q-item v-for="option in menuOptions" :key="option.name" :to="option.link">
             <q-item-section class="text-red-1" avatar>
               <q-icon :name="option.icon" />
             </q-item-section>
@@ -55,9 +46,7 @@ export default {
   methods: {
     handleLogout() {
       this.$store.dispatch("auth/logout").then(() => {
-        if (this.$route.meta.requiresAuth) {
-          this.$router.push("/");
-        }
+        this.$router.push("/login");
       });
     },
   },
@@ -75,5 +64,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

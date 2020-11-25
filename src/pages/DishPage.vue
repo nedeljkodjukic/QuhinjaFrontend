@@ -1,5 +1,5 @@
 <template>
-  <q-page class="bg-grey-4">
+  <q-page v-if="this.dish" class="bg-grey-4">
     <div class="mainDiv">
       <div class="q-mt-xl leftDiv" style="border-style: none; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 50%">
         <div style="border-style: none; border-radius: 15px 15px 15px 15px">
@@ -45,33 +45,39 @@
             </q-card-section>
           </q-card>
         </div>
-        <div class="q-mt-xl"></div>
-        <q-form @submit="onSubmit" class="q-gutter-md">
-          <div class="text-red-1 flex column q-mt-md">
-            <q-rating class="q-mb-md" v-model="usersRatingFromBase" max="5" size="4em" color="brown" icon="star_border" icon-selected="star" icon-half="star_half" no-dimming />
-            <q-btn label="Oceni" type="submit" color="red-1" />
-            <div v-if="usersRatingFromBase != 0"></div>
-            <div v-else>Niste ocenili ovo jelo</div>
-          </div>
-        </q-form>
+        <div v-if="!this.admin">
+          <div class="q-mt-xl"></div>
+          <q-form @submit="onSubmit" class="q-gutter-md">
+            <div class="text-red-1 flex column q-mt-md">
+              <q-rating class="q-mb-md" v-model="usersRatingFromBase" max="5" size="4em" color="brown" icon="star_border" icon-selected="star" icon-half="star_half" no-dimming />
+              <q-btn label="Oceni" type="submit" color="red-1" />
+              <div v-if="usersRatingFromBase != 0"></div>
+              <div v-else>Niste ocenili ovo jelo</div>
+            </div>
+          </q-form>
+        </div>
       </div>
       <q-separator cl v-if="$q.screen.gt.sm" vertical />
 
       <div class="q-mt-xl rightDiv" style="width: 50%">
         <div v-if="showRecipeList" style="display: flex; align-items: center; justify-content: center">
           <q-list>
-            <q-item clickable @click="handleShowRecipe(recipe)" class="q-mb-md itemForRecipe" style="background-color: #965544; width: 300px; height: 100px; border-radius: 15px 15px 15px 15px" v-for="recipe in this.dish.recipes" :key="recipe.id" tag="label" v-ripple>
-              <q-item-section>
-                <q-item-label class="text-grey-4">{{ recipe.name }}</q-item-label>
-              </q-item-section>
-              <q-item-section>
-                <q-img height="100px" :src="recipe.picture"></q-img>
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable @click="handleAddRecipe" class="q-mb-md bg-red-2 itemForRecipe" style="width: 300px; height: 100px; border-radius: 15px 15px 15px 15px; display: flex; flex-direction: column; align-items: center; justify-content: center">
-              <q-icon class="text-grey-4" size="70px" name="add"></q-icon>
-            </q-item>
+            <div class="flex row" v-for="recipe in this.dish.recipes" :key="recipe.id">
+              <q-item :style="recipe.id == dish.selectedRecipeId ? ' transform: scale(1.1);' : ''" clickable @click="handleShowRecipe(recipe)" class="q-mb-md itemForRecipe" style="background-color: #965544; width: 300px; height: 100px; border-radius: 15px 15px 15px 15px" tag="label" v-ripple>
+                <q-item-section>
+                  <q-item-label class="text-grey-4">{{ recipe.name }}</q-item-label>
+                </q-item-section>
+                <q-item-section>
+                  <q-img height="100px" :src="recipe.picture"></q-img>
+                </q-item-section>
+              </q-item>
+              <div v-if="admin" class="q-ml-md" @click="checkBox(recipe.id)"><input class="box" clickable type="checkbox" color="red-2" @change="checkBox(recipe.id)" :value="recipe.id" v-model="model" /></div>
+            </div>
+            <div>
+              <q-item clickable @click="handleAddRecipe" class="q-mb-md bg-red-2 itemForRecipe" style="width: 300px; height: 100px; border-radius: 15px 15px 15px 15px; display: flex; flex-direction: column; align-items: center; justify-content: center">
+                <q-icon class="text-grey-4" size="70px" name="add"></q-icon>
+              </q-item>
+            </div>
           </q-list>
         </div>
         <div v-if="showDetailsForRecipe" v-model="recipeToShow">
@@ -119,6 +125,7 @@ import { baseUrl } from "../services/apiConfig";
 export default {
   data() {
     return {
+      val: null,
       dish: null,
       color: "",
       usersRating: null,
@@ -127,6 +134,8 @@ export default {
       showRecipeList: true,
       recipeToShow: null,
       userData: {},
+      admin: false,
+      model: [],
     };
   },
   methods: {
@@ -143,7 +152,15 @@ export default {
         .dispatch("apiRequest/getApiRequest", {
           url: `Dish/${this.$route.params.id}`,
         })
-        .then((res) => (this.dish = res)(this.getRating()));
+        .then((res) => {
+          this.model = [];
+          res.recipes.forEach((el) => {
+            if (el.id == res.selectedRecipeId) this.model.push(el.id);
+          });
+          console.log(this.model);
+          this.dish = res;
+          this.getRating();
+        });
     },
     onSubmit() {
       const data = {
@@ -167,12 +184,35 @@ export default {
         .dispatch("apiRequest/getApiRequest", {
           url: `user/getRatingForUser/${this.dish.id}`,
         })
-        .then((res) => (this.usersRatingFromBase = res)(console.log(res)));
+        .then((res) => {
+          this.usersRatingFromBase = res;
+          console.log(res);
+        });
     },
     getUsersData() {
       this.$store.dispatch("apiRequest/getApiRequest", { url: "user/0" }).then((res) => {
         this.userData = res;
-        console.log(res);
+        this.check();
+      });
+    },
+    checkBox(recipeId) {
+      console.log(recipeId);
+      const data = {
+        selectedRecipeId: recipeId,
+        id: this.dish.id,
+      };
+      this.$store
+        .dispatch("apiRequest/postApiRequest", {
+          url: "Dish/changeSelectedRecipe",
+          data: data,
+        })
+        .then((res) => {
+          this.getDish();
+        });
+    },
+    check() {
+      this.userData.roles.forEach((el) => {
+        if (el == "admin") return (this.admin = true);
       });
     },
   },
@@ -217,7 +257,11 @@ export default {
   border-width: 4px;
   border-color: grey;
 }
-
+input[type=checkbox] + label:after
+{
+    border-color: red;
+    background-color:red;
+}
 cards {
   font-family: 'Open Sans';
 }

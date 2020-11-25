@@ -92,6 +92,7 @@ export default {
   created() {
     this.getData();
   },
+
   computed: {
     numOfShowedItems() {
       if (this.$q.screen.gt.sm) return 5;

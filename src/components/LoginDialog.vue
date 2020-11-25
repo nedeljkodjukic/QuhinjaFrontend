@@ -23,7 +23,7 @@
             </template>
           </q-input>
           <a class="text-red-1 text-weight-bold" @click="handleForgotPasswordClick" style="text-decoration: none; cursor: pointer"> Zaboravili ste šifru? </a>
-          <q-btn class="q-py-sm" type="submit" color="red-2" label="Prijavite se" no-caps :loading="loginButtonLoading" />
+          <q-btn class="q-py-sm" type="submit" color="red-5" label="Prijavite se" no-caps :loading="loginButtonLoading" />
         </q-form>
       </q-card-section>
       <q-separator />
@@ -83,9 +83,8 @@ export default {
       this.$store
         .dispatch("auth/login", payload)
         .then((response) => {
-          if (this.$route.query.redirect) {
-            this.$router.push(this.$route.query.redirect);
-          }
+          this.$router.push("/");
+
           this.email = "";
           this.password = "";
         })

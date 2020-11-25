@@ -23,10 +23,10 @@
             <div class="flex column">
               <div class="flex q-mb-md full-width" style="max-width: 350px">
                 <div class="q-pb-md flex row q-mt-xl">
-                  <q-select bg-color="grey-4" class="q-mr-sm" use-input @new-value="createValue" transition-show="flip-up" transition-hide="flip-down" v-model="IngridientForAdding.ingridientName" dense style="width: 130px" outlined color="red-5" label="sastojak" :options="ingridients" />
-                  <q-input bg-color="grey-4" v-model="IngridientForAdding.ingridientAmount" color="brown-9" dense class="q-pr-sm" style="width: 75px" outlined label="kolicina" />
+                  <q-select ref="select" bg-color="grey-4" class="q-mr-sm" use-input @new-value="createValue" transition-show="flip-up" transition-hide="flip-down" v-model="IngridientForAdding.ingridientName" dense style="width: 130px" outlined color="red-5" label="sastojak" :options="ingridients" />
+                  <q-input ref="amount" bg-color="grey-4" mask="####" v-model="IngridientForAdding.ingridientAmount" color="brown-9" dense class="q-pr-sm" style="width: 75px" outlined label="kolicina" />
 
-                  <q-input bg-color="grey-4" v-model="IngridientForAdding.ingridientUnit" color="brown-9" dense style="width: 90px" outlined label="mera" />
+                  <q-input ref="unit" bg-color="grey-4" v-model="IngridientForAdding.ingridientUnit" color="brown-9" dense style="width: 90px" outlined label="mera" />
                   <q-btn style="background-color: #6f6e57" dense class="q-ml-sm text-bold" @click="addToArray" icon="add" text-color="white" />
                 </div>
                 <q-list bordered class="bg-grey-5 rounded-borders" style="max-width: 600px">
@@ -111,7 +111,11 @@ export default {
     },
     createValue(val, done) {
       if (val.length > 0) {
-        if (!this.ingridients.includes(val)) {
+        var b = 0;
+        this.ingridients.forEach((el) => {
+          if (val == el.label) b++;
+        });
+        if (b == 0) {
           var Option = {
             label: val,
             disable: false,
@@ -120,10 +124,6 @@ export default {
           const data = {
             name: val,
           };
-          this.$store.dispatch("apiRequest/postApiRequest", {
-            url: "ingridient",
-            data: data,
-          });
         }
       }
     },
