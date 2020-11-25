@@ -30,7 +30,7 @@
                   {{ this.dish.name }}
                 </div>
                 <div class="text-brown-9 text-h6">
-                  {{ this.dish.averageRating }}
+                  {{ this.dish.averageRating | ParseFloat }}
                 </div>
               </div>
             </q-card-section>
@@ -174,6 +174,12 @@ export default {
         this.userData = res;
         console.log(res);
       });
+    },
+  },
+  filters: {
+    ParseFloat(number) {
+      let newValue = parseFloat(number).toFixed(2);
+      return newValue;
     },
   },
   created() {
