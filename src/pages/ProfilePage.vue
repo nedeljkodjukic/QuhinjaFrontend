@@ -11,8 +11,7 @@
         </div>
         <q-input v-model="userData.name" label="Ime" dense outlined :rules="[requiredField, firstNameMaxLengthValidation]" />
         <q-input v-model="userData.surname" label="Prezime" dense outlined :rules="[requiredField, lastNameMaxLengthValidation]" />
-        <q-select v-model="town" label="Grad" outlined dense :options="townOptions" :rules="[requiredField]" use-input hide-selected fill-input input-debounce="0" @filter="filterTowns" />
-        <q-input v-model="userData.phoneNumber" label="Mobilni telefon" dense outlined :rules="[requiredField, phoneField, mobilePhoneMaxLengthValidation]" />
+
         <q-btn color="red-1" type="submit" label="Ažuriraj" />
       </q-form>
     </div>
@@ -22,6 +21,7 @@
 <script>
 import { formRulesMixin } from "src/helper/formRulesMixin";
 import { baseUrl } from "src/services/apiConfig";
+import { QSpinnerBall } from "quasar";
 
 export default {
   name: "ProfilePage",
@@ -37,15 +37,10 @@ export default {
   methods: {
     getData() {
       this.$store.dispatch("apiRequest/getApiRequest", { url: "user/0" }).then((res) => {
-        (this.userData = res)(console.log(res));
+        this.userData = res;
       });
     },
-    filterTowns(val, update) {
-      update(() => {
-        const needle = val.toLowerCase();
-        this.townOptions = this.towns.filter((town) => town.name.toLowerCase().indexOf(needle) > -1).map((town) => ({ label: town.name, value: town.id }));
-      });
-    },
+
     factoryUpload(file) {
       return new Promise((resolve, reject) => {
         const token = this.$store.state.auth.auth.accessToken;
@@ -62,14 +57,25 @@ export default {
           url: "user/update-user",
           data: {
             ...this.userData,
-            townId: this.town.value,
           },
           successMessage: "Uspesno ste azurirali podatke",
         })
         .then((res) => {
+          this.$q.loading.show({
+            spinner: QSpinnerBall,
+            spinnerColor: "grey",
+            spinnerSize: 140,
+            backgroundColor: "yellow",
+            message: "Molimo Vas pričekajte...",
+            messageColor: "black",
+          });
           this.$refs.uploaderRef.upload();
-        })
-        .finally(() => this.getData());
+          this.timer = setTimeout(() => {
+            this.$q.loading.hide();
+            this.timer = void 0;
+            this.$router.go();
+          }, 3000);
+        });
     },
   },
 };

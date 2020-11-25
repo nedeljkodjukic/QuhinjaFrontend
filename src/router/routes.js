@@ -10,7 +10,7 @@ path: '/',
        { path: '/employees', component: () => import('pages/EmployeesPage.vue')},
        { path: '/menu', component: () => import('pages/MenuPage.vue')},
        { path: '/recipe/:id', component: () => import('pages/RecipePage.vue')},
-       { path: '/profile', component: () => import('pages/ProfilePage.vue'), meta: { requiresAuth: true, roles: ['admin'] } },
+       { path: '/profile', component: () => import('pages/ProfilePage.vue'), meta: { requiresAuth: true, roles: ['user'] } },
        {path: '/addDish', component:()=>import ('pages/AddDishPage.vue'), meta: { requiresAuth: true, roles: ['admin'] } } ,
        {path: '/addRecipe/:id', component: ()=> import('pages/AddRecipePage.vue'), meta: { requiresAuth: true, roles: ['admin'] }}
 

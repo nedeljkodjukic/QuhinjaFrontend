@@ -42,8 +42,7 @@ export default function (/* { store, ssrContext } */) {
             position: 'top',
             message: 'Nemate traženu rolu'
           })
-          next({ path: '/' })
-        }
+                 }
       }
     } else {
       next()
