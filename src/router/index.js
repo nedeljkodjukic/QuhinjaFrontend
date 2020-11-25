@@ -31,8 +31,10 @@ export default function (/* { store, ssrContext } */) {
   Router.beforeEach((to, from, next) => {
     if (to.matched.some(route => route.meta.requiresAuth)) {
       if (!Store.getters['auth/isAuthenticated']) {
-        Store.commit('auth/showLoginDialog')
-        next({ path: from.path, query: { redirect: to.path } })
+        next({ name: 'Login'});
+        
+        // Store.commit('auth/showLoginDialog')
+        // next({ path: from.path, query: { redirect: to.path } })
       } else {
         if (to.matched.some(route => route.meta.roles && Store.getters['auth/isInRoles'](route.meta.roles))) {
           next()

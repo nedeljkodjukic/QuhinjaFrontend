@@ -5,7 +5,7 @@ path: '/',
     component: () => import('layouts/MainLayout.vue'),
      children: [
        
-       { path: '', component: () => import('pages/Index.vue') },
+       { path: '', component: () => import('pages/Index.vue'),meta : { requiresAuth: true, roles: ['user']} },
        { path: '/dishes', component: () => import('pages/DishesPage.vue'),meta: { requiresAuth: true, roles: ['user'] }},
        { path: '/dish/:id', component: () => import('pages/DishPage.vue'),meta: { requiresAuth: true, roles: ['user'] }},
        { path: '/employees', component: () => import('pages/EmployeesPage.vue'),meta: { requiresAuth: true, roles: ['user'] }},
@@ -21,7 +21,7 @@ path: '/',
      path:'/login',
      component: () => import('layouts/LoginLayout.vue'),
      children:[
-        { path : '',component : () => import('pages/Login.vue')}
+        { path : '',name: 'Login',component : () => import('pages/Login.vue')}
      ]
    },
 
