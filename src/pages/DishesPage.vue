@@ -1,9 +1,9 @@
 <template>
   <q-page class="bg-grey-4">
     <div style="justify-content: center; display: flex; flex-direction: column; margin: 30px; margin-top: 0">
-      <div style="margin-left: 30px" class="row q-gutter-x-md">
+      <div style="margin-left: 30px; align-items: center" class="row q-gutter-x-md">
         <q-btn label="Sort" icon-right="sort" class="text-red-5" flat>
-          <q-menu fit auto-close transition-show="jump-down" transition-hide="jump-up">
+          <q-menu transition-show="rotate" transition-hide="rotate" fit auto-close>
             <q-list style="min-width: 150px">
               <q-item v-for="option in sortingOptions" :key="option.value" clickable @click="sortDishes(option)">
                 <q-item-section>{{ option }}</q-item-section>
@@ -11,6 +11,19 @@
             </q-list>
           </q-menu>
         </q-btn>
+        <q-btn
+          v-if="sortBool"
+          style="height: 30px"
+          dense
+          rounded
+          color="red-2"
+          label="Isključi filter"
+          @click="
+            sortBool = false;
+            dishesForView = dishes;
+          "
+        />
+
         <q-input color="red-2" v-model="search" filled type="search" placeholder="Pretraži...">
           <template v-slot:append>
             <q-icon name="search" />
@@ -67,6 +80,7 @@ export default {
       search: "",
       dishesPerPage: 8,
       currentPage: 1,
+      sortBool: false,
     };
   },
   computed: {
@@ -102,6 +116,7 @@ export default {
       this.$router.push("dish/" + id);
     },
     sortDishes(option) {
+      this.sortBool = true;
       this.dishesForView = [];
       this.dishes.forEach((element) => {
         if (element.dishType == option) this.dishesForView.push(element);

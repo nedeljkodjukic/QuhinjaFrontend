@@ -5,7 +5,7 @@
     <q-avatar style="cursor: pointer">
       <img :src="profilePicture !== null ? profilePicture : 'statics/no-image-user.png'" />
 
-      <q-menu self="top right" :offset="[-50, 15]">
+      <q-menu transition-show="rotate" transition-hide="rotate" self="top right" :offset="[-50, 15]">
         <q-list>
           <q-separator />
           <q-item v-for="option in menuOptions" :key="option.name" :to="option.link">

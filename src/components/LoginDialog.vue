@@ -1,9 +1,8 @@
 <template>
-  <q-dialog v-model="visible" persistent @hide="handleHide">
+  <q-dialog transition-show="rotate" transition-hide="rotate" v-model="visible" persistent @hide="handleHide">
     <q-card class="q-py-sm full-width">
       <q-card-section class="row full-width justify-between items-center">
         <div class="text-h4 text-red-1 q-pl-sm text-accent">Prijava</div>
-        <q-btn icon="close" flat round dense @click="handleHide" color="red-1" />
       </q-card-section>
 
       <q-separator />

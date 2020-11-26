@@ -54,11 +54,11 @@
           <q-item-section v-if="admin">
             <div class="q-pa-md">
               <q-btn icon="event" round color="red-1">
-                <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date :events="eventsFn" :event-color="'red'" color="red-2" text-color="red-1" v-model="proxyDate">
+                <q-popup-proxy @before-show="updateProxy" transition-show="rotate" transition-hide="rotate">
+                  <q-date :options="optionsFn" :events="employee.missedDatesFromBase" :event-color="'red'" color="red-2" text-color="red-1" v-model="proxyDate">
                     <div class="row items-center justify-end q-gutter-sm">
                       <q-btn label="Cancel" @click="cancel" class="bg-red-1" color="white" flat v-close-popup />
-                      <q-btn label="OK" class="bg-red-1" color="white" flat @click="save" v-close-popup />
+                      <q-btn label="OK" class="bg-red-1" color="white" flat @click="save(employee)" v-close-popup />
                     </div>
                   </q-date>
                 </q-popup-proxy>
@@ -83,6 +83,8 @@ export default {
       admin: false,
       proxyDate: "",
       events: [],
+      eventsForBase: [],
+      menuItemsFromBase: [],
     };
   },
   filters: {
@@ -91,10 +93,15 @@ export default {
     },
   },
   methods: {
+    optionsFn(date) {
+      if (this.events.includes(date)) return true;
+      else {
+        return false;
+      }
+    },
     eventsFn(date) {
-      if (!this.events.includes(this.proxyDate)) {
-        this.events.push(this.proxyDate);
-        console.log(this.events);
+      if (!this.eventsForBase.includes(this.proxyDate)) {
+        this.eventsForBase.push(this.proxyDate);
       } else {
         // for (var i = 0; i < this.events.length; i++) {
         //   if (this.events[i] === this.proxyDate) {
@@ -109,32 +116,65 @@ export default {
       return false;
     },
     updateProxy() {},
-    save() {},
+    save(employee) {
+      var menuItemId = 0;
+      this.menuItemsFromBase.forEach((el) => {
+        if (el.dateOfDish == this.proxyDate) menuItemId = el.id;
+      });
+      const data = {
+        userId: parseInt(employee.id),
+        menuItemId: menuItemId,
+      };
+      this.$store.dispatch("apiRequest/postApiRequest", { url: "MenuItem/addMissedDate", data: data }).then((res) => {
+        this.getData();
+      });
+    },
     cancel() {
       this.proxyDate = "";
-      this.events = [];
     },
     getUsersData() {
       this.$store.dispatch("apiRequest/getApiRequest", { url: "user/0" }).then((res) => {
         this.userData = res;
+
         this.check();
       });
     },
     getData() {
-      this.$store.dispatch("apiRequest/getApiRequest", { url: "User" }).then((res) => (this.employees = res));
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "User" }).then((res) => {
+        this.employees = res;
+        this.employees.forEach((el) => {
+          el.missedDatesFromBase = [];
+          el.missedDates.forEach((menu) => {
+            let timeStamp = menu.menuItem.dateOfDish;
+            let formattedString = date.formatDate(timeStamp, "YYYY/MM/DD");
+
+            el.missedDatesFromBase.push(formattedString);
+          });
+        });
+      });
     },
     check() {
       this.userData.roles.forEach((el) => {
         if (el == "admin") return (this.admin = true);
       });
     },
+    getMenuItems() {
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "MenuItem" }).then((res) => {
+        this.menuItemsFromBase = res;
+
+        this.menuItemsFromBase.forEach((el) => {
+          let timeStamp = el.dateOfDish;
+          let formattedString = date.formatDate(timeStamp, "YYYY/MM/DD");
+          this.events.push(formattedString);
+          el.dateOfDish = formattedString;
+        });
+      });
+    },
   },
   created() {
     this.getData();
     this.getUsersData();
-    let timeStamp = Date.now();
-    let formattedString = date.formatDate(timeStamp, "YYYY/MM/DD");
-    //this.proxyDate = formattedString;
+    this.getMenuItems();
   },
 };
 </script>
