@@ -7,12 +7,12 @@
           <q-avatar square size="100px"> <q-img :src="userData.profilePictureUrl != null ? userData.profilePictureUrl : noPicture" /> </q-avatar>
           <q-uploader ref="uploaderRef" color="red-1" :multiple="false" flat style="max-width: 230px; max-height: 125px" :factory="factoryUpload" hide-upload-btn no-thumbnails batch />
         </div>
-        <q-input v-model="userData.name" label="Ime" dense outlined :rules="[requiredField, firstNameMaxLengthValidation]" />
-        <q-input v-model="userData.surname" label="Prezime" dense outlined :rules="[requiredField, lastNameMaxLengthValidation]" />
+        <q-input color="red-2" v-model="userData.name" label="Ime" dense outlined :rules="[requiredField, firstNameMaxLengthValidation]" />
+        <q-input color="red-2" v-model="userData.surname" label="Prezime" dense outlined :rules="[requiredField, lastNameMaxLengthValidation]" />
         <q-input v-model="this.EmplDate" label="Datum zaposlenja" readonly dense outlined :rules="[requiredField, firstNameMaxLengthValidation]" />
         <q-input v-model="this.BirthDate" label="Datum rodjenja" readonly dense outlined :rules="[requiredField, lastNameMaxLengthValidation]" />
 
-        <q-select filled v-model="model" use-input hide-selected fill-input input-debounce="0" :options="options" @filter="filterFn" label="Omiljeno jelo">
+        <q-select color="red-2" filled v-model="model" use-input hide-selected fill-input input-debounce="0" :options="options" @filter="filterFn" label="Omiljeno jelo">
           <template v-slot:no-option>
             <q-item>
               <q-item-section>Nema rezultata </q-item-section>
@@ -112,9 +112,9 @@ export default {
         .then((res) => {
           this.$q.loading.show({
             spinner: QSpinnerBall,
-            spinnerColor: "grey",
+            spinnerColor: "pink",
             spinnerSize: 140,
-            backgroundColor: "yellow",
+            backgroundColor: "red-1",
             message: "Molimo Vas pričekajte...",
             messageColor: "black",
           });

@@ -57,7 +57,7 @@
                 <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
                   <q-date :events="eventsFn" :event-color="'red'" color="red-2" text-color="red-1" v-model="proxyDate">
                     <div class="row items-center justify-end q-gutter-sm">
-                      <q-btn label="Cancel" class="bg-red-1" color="white" flat v-close-popup />
+                      <q-btn label="Cancel" @click="cancel" class="bg-red-1" color="white" flat v-close-popup />
                       <q-btn label="OK" class="bg-red-1" color="white" flat @click="save" v-close-popup />
                     </div>
                   </q-date>
@@ -110,6 +110,10 @@ export default {
     },
     updateProxy() {},
     save() {},
+    cancel() {
+      this.proxyDate = "";
+      this.events = [];
+    },
     getUsersData() {
       this.$store.dispatch("apiRequest/getApiRequest", { url: "user/0" }).then((res) => {
         this.userData = res;
