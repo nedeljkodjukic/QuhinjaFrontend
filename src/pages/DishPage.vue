@@ -63,7 +63,7 @@
         <div v-if="showRecipeList" style="display: flex; align-items: center; justify-content: center">
           <q-list>
             <div class="flex row" v-for="recipe in this.dish.recipes" :key="recipe.id">
-              <q-item :style="recipe.id == dish.selectedRecipeId ? ' transform: scale(1.1);' : ''" clickable @click="handleShowRecipe(recipe)" class="q-mb-md itemForRecipe" style="background-color: #965544; width: 300px; height: 100px; border-radius: 15px 15px 15px 15px" tag="label" v-ripple>
+              <q-item :style="recipe.id == dish.selectedRecipeId ? ' transform: scale(1.1);' : ''" clickable @click="handleShowRecipe(recipe)" class="q-mb-md itemForRecipe" style="background-color: #9cb4c4; width: 300px; height: 100px; border-radius: 15px 15px 15px 15px" tag="label" v-ripple>
                 <q-item-section>
                   <q-item-label class="text-grey-4">{{ recipe.name }}</q-item-label>
                 </q-item-section>
@@ -71,7 +71,10 @@
                   <q-img height="100px" :src="recipe.picture"></q-img>
                 </q-item-section>
               </q-item>
-              <div v-if="admin" class="q-ml-md" @click="checkBox(recipe.id)"><input class="box" clickable type="checkbox" color="red-2" @change="checkBox(recipe.id)" :value="recipe.id" v-model="model" /></div>
+              <div v-if="admin" class="q-ml-md" @click="checkBox(recipe.id)">
+                <input id="checkbox1" clickable type="checkbox" @change="checkBox(recipe.id)" :value="recipe.id" v-model="model" />
+                <label for="checkbox1"></label>
+              </div>
             </div>
             <div>
               <q-item clickable @click="handleAddRecipe" class="q-mb-md bg-red-2 itemForRecipe" style="width: 300px; height: 100px; border-radius: 15px 15px 15px 15px; display: flex; flex-direction: column; align-items: center; justify-content: center">
@@ -257,10 +260,38 @@ export default {
   border-width: 4px;
   border-color: grey;
 }
-input[type=checkbox] + label:after
-{
-    border-color: red;
-    background-color:red;
+input[type=checkbox] {
+  transform: scale(1.5);
+}
+
+input[type=checkbox] {
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+  cursor: pointer;
+  font-size:10px;
+  visibility: hidden;
+}
+
+input[type=checkbox]:after {
+  content: " ";
+  background-color:white;
+  display: inline-block;
+  margin-left: 10px;
+  padding-bottom: 5px;
+  color: #baa671;
+  width: 15px;
+  height: 15px;
+  visibility: visible;
+  border: 1px solid #baa671;
+  padding-left: 3px;
+  border-radius: 5px;
+}
+
+input[type=checkbox]:checked:after {
+  content: "\2714";
+  padding: -5px;
+  font-weight: bold;
 }
 cards {
   font-family: 'Open Sans';

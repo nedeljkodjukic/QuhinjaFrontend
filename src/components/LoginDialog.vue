@@ -9,12 +9,12 @@
       <q-separator />
       <q-card-section>
         <q-form class="full-width column q-gutter-y-md q-pa-sm" @submit.prevent="handleLogin">
-          <q-input outlined placeholder="Email" v-model="email" :rules="[requiredField, emailField]">
+          <q-input color="red-2" outlined placeholder="Email" v-model="email" :rules="[requiredField, emailField]">
             <template v-slot:prepend>
               <q-icon name="person" />
             </template>
           </q-input>
-          <q-input bottom-slots outlined placeholder="Šifra" :type="isPasswordVisible ? 'text' : 'password'" v-model="password" :rules="[requiredField]">
+          <q-input color="red-2" bottom-slots outlined placeholder="Šifra" :type="isPasswordVisible ? 'text' : 'password'" v-model="password" :rules="[requiredField]">
             <template v-slot:prepend>
               <q-icon name="lock" />
             </template>

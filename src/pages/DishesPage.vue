@@ -11,7 +11,7 @@
             </q-list>
           </q-menu>
         </q-btn>
-        <q-input v-model="search" filled type="search" placeholder="Pretraži...">
+        <q-input color="red-2" v-model="search" filled type="search" placeholder="Pretraži...">
           <template v-slot:append>
             <q-icon name="search" />
           </template>

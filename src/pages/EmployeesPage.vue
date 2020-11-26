@@ -14,7 +14,7 @@
           </q-item-section>
 
           <q-item-section>
-            <q-item-label class="text-bold"> Datum rodjenja</q-item-label>
+            <q-item-label class="text-bold"> Datum rođenja</q-item-label>
           </q-item-section>
           <q-item-section>
             <q-item-label class="text-bold">Datum zaposlenja</q-item-label>
@@ -22,6 +22,9 @@
 
           <q-item-section>
             <q-item-label class="text-bold"> Omiljeno jelo</q-item-label>
+          </q-item-section>
+          <q-item-section v-if="admin">
+            <q-item-label class="text-bold"> Izostanci</q-item-label>
           </q-item-section>
         </q-item>
         <q-item style="border-radius: 15px 15px 15px 15px" class="bg-red-2 q-mb-md" v-for="employee in employees" :key="employee.id" v-ripple>
@@ -45,9 +48,22 @@
           </q-item-section>
 
           <q-item-section v-if="employee.favouriteDish != null">
-            <
             <q-img style="border-radius: 20px" height="100px" width="100px" :src="employee.favouriteDish.picture"></q-img>
             <q-item-label>{{ employee.favouriteDish.name }}</q-item-label>
+          </q-item-section>
+          <q-item-section v-if="admin">
+            <div class="q-pa-md">
+              <q-btn icon="event" round color="red-1">
+                <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date :events="eventsFn" :event-color="'red'" color="red-2" text-color="red-1" v-model="proxyDate">
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn label="Cancel" class="bg-red-1" color="white" flat v-close-popup />
+                      <q-btn label="OK" class="bg-red-1" color="white" flat @click="save" v-close-popup />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-btn>
+            </div>
           </q-item-section>
         </q-item>
       </q-list>
@@ -57,12 +73,16 @@
 </template>
 <script>
 import moment from "moment";
+import { date } from "quasar";
 
 import { baseUrl } from "../services/apiConfig";
 export default {
   data() {
     return {
       employees: null,
+      admin: false,
+      proxyDate: "",
+      events: [],
     };
   },
   filters: {
@@ -71,12 +91,46 @@ export default {
     },
   },
   methods: {
+    eventsFn(date) {
+      if (!this.events.includes(this.proxyDate)) {
+        this.events.push(this.proxyDate);
+        console.log(this.events);
+      } else {
+        // for (var i = 0; i < this.events.length; i++) {
+        //   if (this.events[i] === this.proxyDate) {
+        //     this.events.splice(i, 1);
+        //     i--;
+        //   }
+        // }
+      }
+      if (this.events.includes(date)) {
+        return true;
+      }
+      return false;
+    },
+    updateProxy() {},
+    save() {},
+    getUsersData() {
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "user/0" }).then((res) => {
+        this.userData = res;
+        this.check();
+      });
+    },
     getData() {
       this.$store.dispatch("apiRequest/getApiRequest", { url: "User" }).then((res) => (this.employees = res));
+    },
+    check() {
+      this.userData.roles.forEach((el) => {
+        if (el == "admin") return (this.admin = true);
+      });
     },
   },
   created() {
     this.getData();
+    this.getUsersData();
+    let timeStamp = Date.now();
+    let formattedString = date.formatDate(timeStamp, "YYYY/MM/DD");
+    //this.proxyDate = formattedString;
   },
 };
 </script>

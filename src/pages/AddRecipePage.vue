@@ -2,7 +2,7 @@
   <q-page class="bg-grey-4">
     <div class="mainDiv">
       <div class="text-brown-9 fixed-top q-mt-sm">
-        <h5 class="text-bold" style="margin-top: 50px; text-align: center">
+        <h5 v-if="this.dish" class="text-bold" style="margin-top: 50px; text-align: center">
           {{ this.dish.name }}
         </h5>
         <q-form class="full-width" ref="formRef" @submit="handleAddRecipe">
@@ -12,7 +12,7 @@
                 <div class="text-brown-9 text-h6 q-pb-md">Osnovni podaci</div>
                 <q-input bg-color="grey-4" v-model="formData.name" color="brown-9" dense outlined label="Ime recepta" />
                 <div class="q-pt-md q-pb-md" style="max-width: 300px">
-                  <q-input class="bg-grey-5" color="red-5" style="width: 400px" placeholder="Nacin pripreme" v-model="formData.wayOfPreparing" filled outlined type="textarea" />
+                  <q-input class="bg-grey-5" color="red-5" style="width: 400px" placeholder="Način pripreme" v-model="formData.wayOfPreparing" filled outlined type="textarea" />
                 </div>
                 <q-input bg-color="grey-4" v-model="formData.preparationTime" color="brown-9" dense outlined class="q-pb-md" label="Vreme pripreme" />
                 <q-input bg-color="grey-4" v-model="formData.preview" color="brown-9" dense outlined label="Link za recept" />
@@ -24,7 +24,7 @@
               <div class="flex q-mb-md full-width" style="max-width: 350px">
                 <div class="q-pb-md flex row q-mt-xl">
                   <q-select ref="select" bg-color="grey-4" class="q-mr-sm" use-input @new-value="createValue" transition-show="flip-up" transition-hide="flip-down" v-model="IngridientForAdding.ingridientName" dense style="width: 130px" outlined color="red-5" label="sastojak" :options="ingridients" />
-                  <q-input ref="amount" bg-color="grey-4" mask="####" v-model="IngridientForAdding.ingridientAmount" color="brown-9" dense class="q-pr-sm" style="width: 75px" outlined label="kolicina" />
+                  <q-input ref="amount" bg-color="grey-4" mask="####" v-model="IngridientForAdding.ingridientAmount" color="brown-9" dense class="q-pr-sm" style="width: 75px" outlined label="količina" />
 
                   <q-input ref="unit" bg-color="grey-4" v-model="IngridientForAdding.ingridientUnit" color="brown-9" dense style="width: 90px" outlined label="mera" />
                   <q-btn style="background-color: #6f6e57" dense class="q-ml-sm text-bold" @click="addToArray" icon="add" text-color="white" />
