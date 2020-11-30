@@ -1,13 +1,32 @@
 <template>
   <q-page class="column items-center q-gutter-y-none bg-grey-4">
+    <div class="menu"></div>
     <div class="text-h5 text-brown-9">
       Najbolje ocenjena jela
       <q-separator color="brown-9" size="4px" />
     </div>
-    <q-carousel v-model="selectedDishIndex" swipeable infinite animated padding arrows class="bg-transparent" control-color="red-1">
-      <q-carousel-slide class="q-pa-sm" v-for="(dish, index) in dishes" :key="index" :name="index">
+    <q-carousel
+      v-model="selectedDishIndex"
+      swipeable
+      infinite
+      animated
+      padding
+      arrows
+      class="bg-transparent"
+      control-color="red-1"
+    >
+      <q-carousel-slide
+        class="q-pa-sm"
+        v-for="(dish, index) in dishes"
+        :key="index"
+        :name="index"
+      >
         <div class="row q-gutter-x-md justify-center items-center">
-          <div class="column items-center" v-for="adjacentIndex in adjacentIndexes(index)" :key="adjacentIndex">
+          <div
+            class="column items-center"
+            v-for="adjacentIndex in adjacentIndexes(index)"
+            :key="adjacentIndex"
+          >
             <q-card style="width: 200px; height: 290px" class="my-card">
               <q-img height="140px" :src="dishes[adjacentIndex].picture" />
 
@@ -17,7 +36,9 @@
                     {{ dishes[adjacentIndex].name }}
                   </div>
 
-                  <div class="text-brown-9 text-h6 text-bold">{{ dishes[adjacentIndex].averageRating | ParseFloat }}</div>
+                  <div class="text-brown-9 text-h6 text-bold">
+                    {{ dishes[adjacentIndex].averageRating | ParseFloat }}
+                  </div>
                 </div>
                 <div style="" class="text-brown-9 text-subtitle1 text-bold">
                   {{ dishes[adjacentIndex].dishType }}
@@ -56,7 +77,7 @@ export default {
     return {
       stars: 3,
       dishes: [],
-      selectedDishIndex: 0,
+      selectedDishIndex: 0
     };
   },
   computed: {},
@@ -64,7 +85,7 @@ export default {
     ParseFloat(number) {
       let newValue = parseFloat(number).toFixed(2);
       return newValue;
-    },
+    }
   },
 
   methods: {
@@ -72,7 +93,9 @@ export default {
       this.$router.push("dish/" + id);
     },
     getData() {
-      this.$store.dispatch("apiRequest/getApiRequest", { url: "/dish/getSortedDishes" }).then((res) => (this.dishes = res));
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: "/dish/getSortedDishes" })
+        .then(res => (this.dishes = res));
     },
     adjacentIndexes(index) {
       const length = this.dishes.length;
@@ -87,7 +110,7 @@ export default {
         array.push((index + 2) % length);
       }
       return array.reverse();
-    },
+    }
   },
   created() {
     this.getData();
@@ -97,8 +120,8 @@ export default {
     numOfShowedItems() {
       if (this.$q.screen.gt.sm) return 5;
       else return 3;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

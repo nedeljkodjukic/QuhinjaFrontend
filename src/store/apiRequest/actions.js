@@ -9,7 +9,7 @@ const apiRequest = ({ commit }, { method, url, successMessage, data = {} }) => {
       .request({ method: method, url: url, baseURL: baseUrl, data: data })
       .then(response => {
         if (response.status === 200 && successMessage !== '') {
-          Notify.create({ type: 'positive', position: 'top', message: successMessage, timeout: 1500, color:"pink"})
+          Notify.create({ type: 'positive', position: 'top', message: successMessage, timeout: 1500, color:"brown"})
         }
         commit('hideRequestLoading')
         resolve(response.data)

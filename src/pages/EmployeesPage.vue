@@ -27,7 +27,13 @@
             <q-item-label class="text-bold"> Izostanci</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item style="border-radius: 15px 15px 15px 15px" class="bg-red-2 q-mb-md" v-for="employee in employees" :key="employee.id" v-ripple>
+        <q-item
+          style="border-radius: 15px 15px 15px 15px"
+          class="bg-red-2 q-mb-md"
+          v-for="employee in employees"
+          :key="employee.id"
+          v-ripple
+        >
           <q-item-section avatar>
             <q-avatar style="height: 100px; width: 100px">
               <img :src="employee.profilePictureUrl" />
@@ -44,21 +50,53 @@
             <q-item-label> {{ employee.dateOfBirth | ParseDate }}</q-item-label>
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ employee.dateOfEmployment | ParseDate }}</q-item-label>
+            <q-item-label>{{
+              employee.dateOfEmployment | ParseDate
+            }}</q-item-label>
           </q-item-section>
 
           <q-item-section v-if="employee.favouriteDish != null">
-            <q-img style="border-radius: 20px" height="100px" width="100px" :src="employee.favouriteDish.picture"></q-img>
+            <q-img
+              style="border-radius: 20px"
+              height="100px"
+              width="100px"
+              :src="employee.favouriteDish.picture"
+            ></q-img>
             <q-item-label>{{ employee.favouriteDish.name }}</q-item-label>
           </q-item-section>
           <q-item-section v-if="admin">
             <div class="q-pa-md">
               <q-btn icon="event" round color="red-1">
-                <q-popup-proxy @before-show="updateProxy" transition-show="rotate" transition-hide="rotate">
-                  <q-date :options="optionsFn" :events="employee.missedDatesFromBase" :event-color="'red'" color="red-2" text-color="red-1" v-model="proxyDate">
+                <q-popup-proxy
+                  @before-show="updateProxy"
+                  transition-show="rotate"
+                  transition-hide="rotate"
+                >
+                  <q-date
+                    :options="optionsFn"
+                    :events="employee.missedDatesFromBase"
+                    :event-color="'red'"
+                    color="red-2"
+                    text-color="red-1"
+                    v-model="proxyDate"
+                  >
                     <div class="row items-center justify-end q-gutter-sm">
-                      <q-btn label="Cancel" @click="cancel" class="bg-red-1" color="white" flat v-close-popup />
-                      <q-btn label="OK" class="bg-red-1" color="white" flat @click="save(employee)" v-close-popup />
+                      <q-btn
+                        label="Cancel"
+                        @click="cancel"
+                        class="bg-red-1"
+                        color="white"
+                        flat
+                        v-close-popup
+                      />
+                      <q-btn
+                        label="OK"
+                        class="bg-red-1"
+                        color="white"
+                        flat
+                        @click="save(employee)"
+                        v-close-popup
+                      />
                     </div>
                   </q-date>
                 </q-popup-proxy>
@@ -84,13 +122,13 @@ export default {
       proxyDate: "",
       events: [],
       eventsForBase: [],
-      menuItemsFromBase: [],
+      menuItemsFromBase: []
     };
   },
   filters: {
     ParseDate(date) {
       return (date = moment(date).format("LL")); // put format as you want
-    },
+    }
   },
   methods: {
     optionsFn(date) {
@@ -118,63 +156,74 @@ export default {
     updateProxy() {},
     save(employee) {
       var menuItemId = 0;
-      this.menuItemsFromBase.forEach((el) => {
+      this.menuItemsFromBase.forEach(el => {
         if (el.dateOfDish == this.proxyDate) menuItemId = el.id;
       });
       const data = {
         userId: parseInt(employee.id),
-        menuItemId: menuItemId,
+        menuItemId: menuItemId
       };
-      this.$store.dispatch("apiRequest/postApiRequest", { url: "MenuItem/addMissedDate", data: data }).then((res) => {
-        this.getData();
-      });
+      this.$store
+        .dispatch("apiRequest/postApiRequest", {
+          url: "MenuItem/addMissedDate",
+          data: data
+        })
+        .then(res => {
+          this.getData();
+        });
     },
     cancel() {
       this.proxyDate = "";
     },
     getUsersData() {
-      this.$store.dispatch("apiRequest/getApiRequest", { url: "user/0" }).then((res) => {
-        this.userData = res;
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: "user/0" })
+        .then(res => {
+          this.userData = res;
 
-        this.check();
-      });
+          this.check();
+        });
     },
     getData() {
-      this.$store.dispatch("apiRequest/getApiRequest", { url: "User" }).then((res) => {
-        this.employees = res;
-        this.employees.forEach((el) => {
-          el.missedDatesFromBase = [];
-          el.missedDates.forEach((menu) => {
-            let timeStamp = menu.menuItem.dateOfDish;
-            let formattedString = date.formatDate(timeStamp, "YYYY/MM/DD");
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: "User" })
+        .then(res => {
+          this.employees = res;
+          this.employees.forEach(el => {
+            el.missedDatesFromBase = [];
+            el.missedDates.forEach(menu => {
+              let timeStamp = menu.menuItem.dateOfDish;
+              let formattedString = date.formatDate(timeStamp, "YYYY/MM/DD");
 
-            el.missedDatesFromBase.push(formattedString);
+              el.missedDatesFromBase.push(formattedString);
+            });
           });
         });
-      });
     },
     check() {
-      this.userData.roles.forEach((el) => {
+      this.userData.roles.forEach(el => {
         if (el == "admin") return (this.admin = true);
       });
     },
     getMenuItems() {
-      this.$store.dispatch("apiRequest/getApiRequest", { url: "MenuItem" }).then((res) => {
-        this.menuItemsFromBase = res;
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: "MenuItem" })
+        .then(res => {
+          this.menuItemsFromBase = res;
 
-        this.menuItemsFromBase.forEach((el) => {
-          let timeStamp = el.dateOfDish;
-          let formattedString = date.formatDate(timeStamp, "YYYY/MM/DD");
-          this.events.push(formattedString);
-          el.dateOfDish = formattedString;
+          this.menuItemsFromBase.forEach(el => {
+            let timeStamp = el.dateOfDish;
+            let formattedString = date.formatDate(timeStamp, "YYYY/MM/DD");
+            this.events.push(formattedString);
+            el.dateOfDish = formattedString;
+          });
         });
-      });
-    },
+    }
   },
   created() {
     this.getData();
     this.getUsersData();
     this.getMenuItems();
-  },
+  }
 };
 </script>

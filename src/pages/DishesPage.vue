@@ -1,11 +1,26 @@
 <template>
   <q-page class="bg-grey-4">
-    <div style="justify-content: center; display: flex; flex-direction: column; margin: 30px; margin-top: 0">
-      <div style="margin-left: 30px; align-items: center" class="row q-gutter-x-md">
+    <div
+      style="justify-content: center; display: flex; flex-direction: column; margin: 30px; margin-top: 0"
+    >
+      <div
+        style="margin-left: 30px; align-items: center"
+        class="row q-gutter-x-md"
+      >
         <q-btn label="Sort" icon-right="sort" class="text-red-5" flat>
-          <q-menu transition-show="rotate" transition-hide="rotate" fit auto-close>
+          <q-menu
+            transition-show="rotate"
+            transition-hide="rotate"
+            fit
+            auto-close
+          >
             <q-list style="min-width: 150px">
-              <q-item v-for="option in sortingOptions" :key="option.value" clickable @click="sortDishes(option)">
+              <q-item
+                v-for="option in sortingOptions"
+                :key="option.value"
+                clickable
+                @click="sortDishes(option)"
+              >
                 <q-item-section>{{ option }}</q-item-section>
               </q-item>
             </q-list>
@@ -24,16 +39,36 @@
           "
         />
 
-        <q-input color="red-2" v-model="search" filled type="search" placeholder="Pretraži...">
+        <q-input
+          color="red-2"
+          v-model="search"
+          filled
+          type="search"
+          placeholder="Pretraži..."
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
         </q-input>
-        <q-btn color="red-5" to="/addDish" label=" + Dodaj novo jelo" class="buttonForDish" />
+        <q-btn
+          color="red-5"
+          to="/addDish"
+          label=" + Dodaj novo jelo"
+          class="buttonForDish"
+        />
       </div>
 
       <div class="cards">
-        <q-card :ratio="16 / 9" style="border-radius: 15px 15px 15px 15px; width: 275px" v-for="(dish, index) in dishesForView.slice((currentPage - 1) * dishesPerPage, currentPage * dishesPerPage)" :key="index" class="my-card">
+        <q-card
+          :ratio="16 / 9"
+          style="border-radius: 15px 15px 15px 15px; width: 275px"
+          v-for="(dish, index) in dishesForView.slice(
+            (currentPage - 1) * dishesPerPage,
+            currentPage * dishesPerPage
+          )"
+          :key="index"
+          class="my-card"
+        >
           <q-img height="200px" :src="dish.picture" />
 
           <q-card-section style="" class="bg-red-2">
@@ -51,11 +86,22 @@
             </div>
           </q-card-section>
 
-          <q-card-section style="border-radius: 0px 0px 15px 15px" class="bg-red-2 q-pt-none">
+          <q-card-section
+            style="border-radius: 0px 0px 15px 15px"
+            class="bg-red-2 q-pt-none"
+          >
             <div class="text-caption text-brown-8">
               {{ dish.description }}
             </div>
-            <div class="text-white buttonDetails" style="position: absolute; right: 10px; bottom: 1px" @click="handleClick(dish.id)" flat color="white">Detalji >></div>
+            <div
+              class="text-white buttonDetails"
+              style="position: absolute; right: 10px; bottom: 1px"
+              @click="handleClick(dish.id)"
+              flat
+              color="white"
+            >
+              Detalji >>
+            </div>
           </q-card-section>
         </q-card>
       </div>
@@ -63,7 +109,14 @@
 
     <div class="divForPaging q-pa-lg flex flex-center">
       <div class="q-pa-lg flex flex-center">
-        <q-pagination color="red-5" v-model="currentPage" :max="numOfPages" :max-pages="6" :boundary-numbers="true"> </q-pagination>
+        <q-pagination
+          color="red-5"
+          v-model="currentPage"
+          :max="numOfPages"
+          :max-pages="6"
+          :boundary-numbers="true"
+        >
+        </q-pagination>
       </div>
     </div>
   </q-page>
@@ -80,7 +133,7 @@ export default {
       search: "",
       dishesPerPage: 8,
       currentPage: 1,
-      sortBool: false,
+      sortBool: false
     };
   },
   computed: {
@@ -88,28 +141,29 @@ export default {
       return this.dishesForView.length;
     },
     numOfPages() {
-      if (this.numOfDishes % this.dishesPerPage == 0) return this.numOfDishes / this.dishesPerPage;
+      if (this.numOfDishes % this.dishesPerPage == 0)
+        return this.numOfDishes / this.dishesPerPage;
       else {
         return this.numOfDishes / this.dishesPerPage + 1;
       }
-    },
+    }
   },
   watch: {
-    search: function () {
+    search: function() {
       if (this.search == "") {
         this.dishesForView = this.dishes;
       } else {
-        this.dishesForView = this.dishesForView.filter((dish) => {
+        this.dishesForView = this.dishesForView.filter(dish => {
           return dish.name.toLowerCase().startsWith(this.search.toLowerCase());
         });
       }
-    },
+    }
   },
   filters: {
     ParseFloat(number) {
       let newValue = parseFloat(number).toFixed(2);
       return newValue;
-    },
+    }
   },
   methods: {
     handleClick(id) {
@@ -118,23 +172,27 @@ export default {
     sortDishes(option) {
       this.sortBool = true;
       this.dishesForView = [];
-      this.dishes.forEach((element) => {
+      this.dishes.forEach(element => {
         if (element.dishType == option) this.dishesForView.push(element);
       });
     },
     getData() {
-      this.$store.dispatch("apiRequest/getApiRequest", { url: "Dish" }).then((res) => ((this.dishes = res), (this.dishesForView = res)));
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: "Dish" })
+        .then(res => ((this.dishes = res), (this.dishesForView = res)));
     },
     getDishTypes() {
-      this.$store.dispatch("apiRequest/getApiRequest", { url: `/dish/dishTypes` }).then((res) => {
-        this.sortingOptions = res;
-      });
-    },
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: `/dish/dishTypes` })
+        .then(res => {
+          this.sortingOptions = res;
+        });
+    }
   },
   created() {
     this.getData();
     this.getDishTypes();
-  },
+  }
 };
 </script>
 <style scoped>

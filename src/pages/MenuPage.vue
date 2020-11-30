@@ -2,26 +2,55 @@
   <q-page>
     <main class="flexbox">
       <div class="flex column">
-        <div v-for="(index, day) in days" :key="day">
+        <h5 class="text-brown">Dani u nedelji</h5>
+        <div class="row" v-for="(index, day) in days" :key="day">
           <div
             class="day q-mr-xl"
             :id="`board-${index}`"
             @dragover.prevent
             @drop.prevent="drop"
+            bg-color="brown"
           ></div>
-          <button @click="deleteChild(`${index}`)">Delete</button>
+          <button@click="deleteChild(`${index}`)">
+            Ukloni jelo
+          </button@click=>
         </div>
       </div>
+      <q-separator vertical />
       <div id="board-10" class="board" @dragover.prevent @drop.prevent="drop">
+        <div textcolor="black" class="text-bold">
+          <h5>Lista jela</h5>
+        </div>
+
+       <div class="q-ma-md">
+       <q-scroll-area style="height: 250px; max-width: 500px;">
+
         <Card
           v-for="(dish, index) in dishes"
           :key="dish.id"
           :id="`card-${index}`"
           draggable="true"
+          style="border-radius: 5px 5px 5px 5px"
         >
+          <div>
+            <q-img
+              width="50px"
+              style="border-radius: 5px 5px 5px 5px"
+              height="50px"
+              :src="dish.picture"
+            ></q-img>
+          </div>
           <p>{{ dish.name }}</p>
-          <q-img width="50px" height="50px" :src="dish.picture"></q-img>
         </Card>
+       </q-scroll-area>
+      </div>
+      <div class="notice">
+        <h5>Podsetnik</h5>
+        <div>
+          Rodjendani:
+          Datum zaposlenja:
+        </div>
+      </div>
       </div>
     </main>
   </q-page>
@@ -30,15 +59,15 @@
 import Card from "./../components/Card.vue";
 export default {
   components: {
-    Card,
+    Card
   },
   data() {
     return {
-      days: ["Pon", "Ut", "Sre", "Cet", "Pet"],
+      days: ["Pon", "Uto", "Sre", "Cet", "Pet"],
       dishes: [],
       dishesForView: [],
       status1: [],
-      status2: [],
+      status2: []
     };
   },
   created() {
@@ -55,7 +84,7 @@ export default {
       b.appendChild(c);
     },
 
-    drop: (e) => {
+    drop: e => {
       const card_id = e.dataTransfer.getData("card_id");
       const card = document.getElementById(card_id);
       e.target.appendChild(card);
@@ -64,17 +93,17 @@ export default {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "Dish" })
         .then(
-          (res) => (
+          res => (
             (this.dishes = res),
             console.log(this.dishes),
             (this.dishesForView = res)
           )
         );
-    },
-  },
+    }
+  }
 };
 </script>
-  <style>
+<style>
 * {
   margin: 0;
   padding: 0;
@@ -85,7 +114,7 @@ export default {
   flex-direction: column;
   margin: 10px;
   width: 100px;
-  background-color: blue;
+  background-color: grey;
   padding: 15px;
 }
 .flexbox {
@@ -106,9 +135,10 @@ export default {
   padding: 15px;
 }
 .flexbox .board .card {
-  background-color: aliceblue;
+  background-color: #baa671;
   cursor: pointer;
   margin-bottom: 15px;
   height: 50px;
+  width: 250px;
 }
 </style>
