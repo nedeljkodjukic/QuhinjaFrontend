@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Store } from 'src/store'
 
 Vue.prototype.$axios = axios
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 const initialStore = localStorage.getItem('quhinjaStore')
 

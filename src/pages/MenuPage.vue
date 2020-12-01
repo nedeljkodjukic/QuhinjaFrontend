@@ -3,19 +3,35 @@
     <main v-if="admin" class="flexbox">
       <div class="flex column">
         <h5 class="text-red-1">Dani u nedelji</h5>
-        <div class="row" v-for="(index, day) in days" :key="day">
-          <div 
+        <div class="row"  v-for="(day, index) in days.slice((currentPage - 1) * daysPerPage, currentPage * daysPerPage)" :key="index">
+       <div class="text-red-1">
+        {{day.day | ParseDate}}
+</div>          <div 
             class="day q-mr-xl"
-            :id="`board-${index}`"
+            :id="`${day.day}`"
             @dragover.prevent
             @drop.prevent="drop"
             bg-color="brown"
             
-          ></div>
-          <button@click="deleteChild(`${index}`)">
+          >
+          <div v-if="day.menuItem !=null">
+          {{day.menuItem.recipe.dish.name}} 
+            <q-img
+              width="50px"
+              style="border-radius: 5px 5px 5px 5px"
+              height="50px"
+              :src="day.menuItem.recipe.picture"
+            ></q-img>
+          </div>
+          
+          </div>
+          <button v-if="day.menuItem" @click="deleteChild(`${day.day}`)">
             Ukloni jelo
           </button@click=>
         </div>
+         <div class="q-pa-lg flex flex-center">
+        <q-pagination color="red-5" v-model="currentPage" :max="2" :max-pages="2" :boundary-numbers="true"> </q-pagination>
+      </div>
       </div>
       <q-separator vertical />
       <div id="board-10" class="board" @dragover.prevent @drop.prevent="drop">
@@ -29,7 +45,7 @@
         <Card
           v-for="(dish, index) in dishes"
           :key="dish.id"
-          :id="`card-${index}`"
+          :id="`${dish.selectedRecipeId}`"
           draggable="true"
           style="border-radius: 5px 5px 5px 5px;
             display: flex;
@@ -64,6 +80,8 @@
   </q-page>
 </template>
 <script>
+import moment from "moment";
+import { date } from "quasar";
 import Card from "./../components/Card.vue";
 export default {
   components: {
@@ -71,35 +89,90 @@ export default {
   },
   data() {
     return {
-      days: ["Pon", "Uto", "Sre", "Cet", "Pet"],
+days: [],
       dishes: [],
       dishesForView: [],
       status1: [],
       status2: [],
        admin: false,
+        daysPerPage: 5,
+      currentPage: 1,
 
     };
   },
   created() {
     this.getDishes();
         this.getUsersData();
+        this.getDays();
 
   },
-  methods: {
-    deleteChild(id) {
-      var div = document.getElementById("board-" + id);
-      const child = div.children;
-      const c = child[0];
-      div.removeChild(child[0]);
+   computed: {
+   
+   
+    },
+     filters: {
+    ParseDate(date) {
+      return (date = moment(date).format("LL")); // put format as you want
+    },},
+ 
+  methods:{
+     getDays(){
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: "MenuItem/twoWeeks" })
+        .then(res => {
+        this.days=res;
+
+        });
+    },
+    
+    deleteChild(date) {
+
+      const data ={
+        dateOfDish: date
+      }
+   this.$store
+        .dispatch("apiRequest/postApiRequest", {
+          url: "MenuItem/deleteByDate",
+          data:data,
+
+          
+        })
+        .then((res) => {
+          this.getDays();
+        });
+     
+
     
     },
 
-    drop: e => {
+    drop(e) {
       const card_id = e.dataTransfer.getData("card_id");
+      console.log(e.target.id);
+      
       const card = document.getElementById(card_id);
       const newCard = card.cloneNode(true);
-      e.target.appendChild(newCard);
+      
+      
+      var recipeId=card_id;
+      var date=e.target.id;
+      const data={
+        recipeId : parseInt(recipeId),
+        dateOfDish : date
+      };
+       this.$store
+        .dispatch("apiRequest/postApiRequest", {
+          url: "MenuItem/addMenuItem",
+          data:data,
+
+          
+        })
+        .then((res) => {
+          this.getDays();
+        });
+
+
     },
+  
        getUsersData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "user/0" })
