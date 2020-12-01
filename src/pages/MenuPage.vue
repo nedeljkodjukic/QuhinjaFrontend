@@ -1,15 +1,16 @@
 <template>
   <q-page>
-    <main class="flexbox">
+    <main v-if="admin" class="flexbox">
       <div class="flex column">
-        <h5 class="text-brown">Dani u nedelji</h5>
+        <h5 class="text-red-1">Dani u nedelji</h5>
         <div class="row" v-for="(index, day) in days" :key="day">
-          <div
+          <div 
             class="day q-mr-xl"
             :id="`board-${index}`"
             @dragover.prevent
             @drop.prevent="drop"
             bg-color="brown"
+            
           ></div>
           <button@click="deleteChild(`${index}`)">
             Ukloni jelo
@@ -18,7 +19,7 @@
       </div>
       <q-separator vertical />
       <div id="board-10" class="board" @dragover.prevent @drop.prevent="drop">
-        <div textcolor="black" class="text-bold">
+        <div class="text-red-1">
           <h5>Lista jela</h5>
         </div>
 
@@ -30,21 +31,25 @@
           :key="dish.id"
           :id="`card-${index}`"
           draggable="true"
-          style="border-radius: 5px 5px 5px 5px"
+          style="border-radius: 5px 5px 5px 5px;
+            display: flex;
+  
+  align-content: center;
+  flex-direction: row;"
         >
-          <div>
+        
             <q-img
               width="50px"
               style="border-radius: 5px 5px 5px 5px"
               height="50px"
               :src="dish.picture"
             ></q-img>
-          </div>
+          
           <p>{{ dish.name }}</p>
         </Card>
        </q-scroll-area>
       </div>
-      <div class="notice">
+      <div  class="notice text-red-1">
         <h5>Podsetnik</h5>
         <div>
           Rodjendani:
@@ -52,6 +57,9 @@
         </div>
       </div>
       </div>
+    </main>
+    <main v-else>
+    Korisnik
     </main>
   </q-page>
 </template>
@@ -67,11 +75,15 @@ export default {
       dishes: [],
       dishesForView: [],
       status1: [],
-      status2: []
+      status2: [],
+       admin: false,
+
     };
   },
   created() {
     this.getDishes();
+        this.getUsersData();
+
   },
   methods: {
     deleteChild(id) {
@@ -79,22 +91,35 @@ export default {
       const child = div.children;
       const c = child[0];
       div.removeChild(child[0]);
-      c.classList.add("card");
-      var b = document.getElementById("board-10");
-      b.appendChild(c);
+    
     },
 
     drop: e => {
       const card_id = e.dataTransfer.getData("card_id");
       const card = document.getElementById(card_id);
-      e.target.appendChild(card);
+      const newCard = card.cloneNode(true);
+      e.target.appendChild(newCard);
+    },
+       getUsersData() {
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: "user/0" })
+        .then(res => {
+          this.userData = res;
+
+          this.check();
+        });
+    },   check() {
+      this.userData.roles.forEach(el => {
+        if (el == "admin") return (this.admin = true);
+      });
     },
     getDishes() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "Dish" })
         .then(
           res => (
-            (this.dishes = res),
+            (this.dishes = res.filter(dish=>dish.selectedRecipe!=null )),
+            
             console.log(this.dishes),
             (this.dishesForView = res)
           )
@@ -111,9 +136,11 @@ export default {
 }
 .day {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin: 10px;
-  width: 100px;
+  width:260px;
+  max-width:500px;
+  height:50px;
   background-color: grey;
   padding: 15px;
 }
