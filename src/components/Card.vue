@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" class="bg-red-2 card flex row" :draggable="draggable" @dragstart="dragStart" @dragover.stop>
+  <div :id="id" class="card flex row" :draggable="draggable" @dragstart="dragStart" @dragover.stop>
     <slot />
   </div>
 </template>

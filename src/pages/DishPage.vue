@@ -1,10 +1,7 @@
 <template>
   <q-page v-if="this.dish" class="bg-grey-4">
     <div class="mainDiv">
-      <div
-        class="q-mt-xl leftDiv"
-        style="border-style: none; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 50%"
-      >
+      <div class="q-mt-xl leftDiv" style="border-style: none; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 50%">
         <div style="border-style: none; border-radius: 15px 15px 15px 15px">
           <q-card
             :ratio="16 / 9"
@@ -27,9 +24,7 @@
               :src="this.dish.picture"
             />
 
-            <q-card-section
-              style="border-style: none; background-color: #baa671"
-            >
+            <q-card-section style="border-style: none; background-color: #baa671">
               <div class="row no-wrap items-center">
                 <div class="col text-bold text-h6 ellipsis">
                   {{ this.dish.name }}
@@ -40,14 +35,8 @@
               </div>
             </q-card-section>
 
-            <q-card-section
-              style="background-color: #baa671; border-style: none; border-radius: 0px 0px 15px 15px"
-              class="q-pt-none"
-            >
-              <div
-                style="border-style: none"
-                class="text-bold text-subtitle1 text-brown-9"
-              >
+            <q-card-section style="background-color: #baa671; border-style: none; border-radius: 0px 0px 15px 15px" class="q-pt-none">
+              <div style="border-style: none" class="text-bold text-subtitle1 text-brown-9">
                 {{ this.dish.dishType }}
               </div>
               <div style="border-style: none" class="text-caption text-brown-9">
@@ -60,17 +49,7 @@
           <div class="q-mt-xl"></div>
           <q-form @submit="onSubmit" class="q-gutter-md">
             <div class="text-red-1 flex column q-mt-md">
-              <q-rating
-                class="q-mb-md"
-                v-model="usersRatingFromBase"
-                max="5"
-                size="4em"
-                color="brown"
-                icon="star_border"
-                icon-selected="star"
-                icon-half="star_half"
-                no-dimming
-              />
+              <q-rating class="q-mb-md" v-model="usersRatingFromBase" max="5" size="4em" color="brown" icon="star_border" icon-selected="star" icon-half="star_half" no-dimming />
               <q-btn label="Oceni" type="submit" color="red-1" />
               <div v-if="usersRatingFromBase != 0"></div>
               <div v-else>Niste ocenili ovo jelo</div>
@@ -81,57 +60,24 @@
       <q-separator cl v-if="$q.screen.gt.sm" vertical />
 
       <div class="q-mt-xl rightDiv" style="width: 50%">
-        <div
-          v-if="showRecipeList"
-          style="display: flex; align-items: center; justify-content: center"
-        >
+        <div v-if="showRecipeList" style="display: flex; align-items: center; justify-content: center">
           <q-list>
-            <div
-              class="flex row"
-              v-for="recipe in this.dish.recipes"
-              :key="recipe.id"
-            >
-              <q-item
-                :style="
-                  recipe.id == dish.selectedRecipeId
-                    ? ' transform: scale(1.1);'
-                    : ''
-                "
-                clickable
-                @click="handleShowRecipe(recipe)"
-                class="q-mb-md itemForRecipe"
-                style="background-color: #7d7962; width: 300px; height: 100px; border-radius: 15px 15px 15px 15px"
-                tag="label"
-                v-ripple
-              >
+            <div class="flex row" v-for="recipe in this.dish.recipes" :key="recipe.id">
+              <q-item :style="recipe.id == dish.selectedRecipeId ? ' transform: scale(1.1);' : ''" clickable @click="handleShowRecipe(recipe)" class="q-mb-md itemForRecipe" style="background-color: #7d7962; width: 300px; height: 100px; border-radius: 15px 15px 15px 15px" tag="label" v-ripple>
                 <q-item-section>
-                  <q-item-label class="text-grey-4">{{
-                    recipe.name
-                  }}</q-item-label>
+                  <q-img height="100px" style="border-radius: 15px 15px 15px 15px" :src="recipe.picture"></q-img>
                 </q-item-section>
                 <q-item-section>
-                  <q-img height="100px" :src="recipe.picture"></q-img>
+                  <q-item-label class="text-grey-4">{{ recipe.name }}</q-item-label>
                 </q-item-section>
               </q-item>
               <div v-if="admin" class="q-ml-md" @click="checkBox(recipe.id)">
-                <input
-                  id="checkbox1"
-                  clickable
-                  type="checkbox"
-                  @change="checkBox(recipe.id)"
-                  :value="recipe.id"
-                  v-model="model"
-                />
+                <input id="checkbox1" clickable type="checkbox" @change="checkBox(recipe.id)" :value="recipe.id" v-model="model" />
                 <label for="checkbox1"></label>
               </div>
             </div>
             <div>
-              <q-item
-                clickable
-                @click="handleAddRecipe"
-                class="q-mb-md bg-red-2 itemForRecipe"
-                style="width: 300px; height: 100px; border-radius: 15px 15px 15px 15px; display: flex; flex-direction: column; align-items: center; justify-content: center"
-              >
+              <q-item clickable @click="handleAddRecipe" class="q-mb-md bg-red-2 itemForRecipe" style="width: 300px; height: 100px; border-radius: 15px 15px 15px 15px; display: flex; flex-direction: column; align-items: center; justify-content: center">
                 <q-icon class="text-grey-4" size="70px" name="add"></q-icon>
               </q-item>
             </div>
@@ -143,31 +89,13 @@
               <p class="text-brown-9">{{ recipeToShow.name }}</p>
             </div>
             <div class="topDiv">
-              <q-img
-                class="q-mr-md"
-                style="max-width: 250px; border-radius: 0px 15px 15px 0px"
-                :src="recipeToShow.picture"
-              >
-              </q-img>
-              <q-list
-                bordered
-                class="q-mr-sm bg-grey-5 rounded-borders"
-                style="max-width: 600px; color: #6f6e57; border-radius: 15px 15px 15px 15px"
-              >
-                <q-item-label style="width: 345px; color: black" header
-                  >Sastojci:</q-item-label
-                >
+              <q-img class="q-mr-md" style="max-width: 250px; border-radius: 0px 15px 15px 0px" :src="recipeToShow.picture"> </q-img>
+              <q-list bordered class="q-mr-sm bg-grey-5 rounded-borders" style="max-width: 600px; color: #6f6e57; border-radius: 15px 15px 15px 15px">
+                <q-item-label style="width: 345px; color: black" header>Sastojci:</q-item-label>
 
-                <q-item
-                  style="width: 345px"
-                  v-for="ing in recipeToShow.ingridients"
-                  :key="ing.ingridient.name"
-                >
+                <q-item style="width: 345px" v-for="ing in recipeToShow.ingridients" :key="ing.ingridient.name">
                   <q-item-section top class="gt-sm">
-                    <q-item-label class="q-mt-sm"
-                      >{{ ing.ingridient.name }} : {{ ing.quantity }} :
-                      {{ ing.unit }}</q-item-label
-                    >
+                    <q-item-label class="q-mt-sm">{{ ing.ingridient.name }} : {{ ing.quantity }} : {{ ing.unit }}</q-item-label>
                   </q-item-section>
                 </q-item>
               </q-list>
@@ -177,12 +105,7 @@
               <p>Link:{{ recipeToShow.preview }}</p>
             </div>
             <div class="q-mt-sm">
-              <q-input
-                readonly
-                v-model="recipeToShow.wayOfPreparing"
-                filled
-                type="textarea"
-              />
+              <q-input readonly v-model="recipeToShow.wayOfPreparing" filled type="textarea" />
             </div>
           </div>
           <q-btn
@@ -215,7 +138,7 @@ export default {
       recipeToShow: null,
       userData: {},
       admin: false,
-      model: []
+      model: [],
     };
   },
   methods: {
@@ -230,11 +153,11 @@ export default {
     getDish() {
       this.$store
         .dispatch("apiRequest/getApiRequest", {
-          url: `Dish/${this.$route.params.id}`
+          url: `Dish/${this.$route.params.id}`,
         })
-        .then(res => {
+        .then((res) => {
           this.model = [];
-          res.recipes.forEach(el => {
+          res.recipes.forEach((el) => {
             if (el.id == res.selectedRecipeId) this.model.push(el.id);
           });
           console.log(this.model);
@@ -246,15 +169,15 @@ export default {
       const data = {
         dishId: this.dish.id,
         rating: this.usersRatingFromBase,
-        userId: parseInt(this.userData.id)
+        userId: parseInt(this.userData.id),
       };
       this.$store
         .dispatch("apiRequest/postApiRequest", {
           url: "Dish/rateDish",
           data: data,
-          successMessage: "Uspešno ste ocenili jelo"
+          successMessage: "Uspešno ste ocenili jelo",
         })
-        .then(res => {
+        .then((res) => {
           this.getDish();
         });
     },
@@ -262,52 +185,50 @@ export default {
     getRating() {
       this.$store
         .dispatch("apiRequest/getApiRequest", {
-          url: `user/getRatingForUser/${this.dish.id}`
+          url: `user/getRatingForUser/${this.dish.id}`,
         })
-        .then(res => {
+        .then((res) => {
           this.usersRatingFromBase = res;
           console.log(res);
         });
     },
     getUsersData() {
-      this.$store
-        .dispatch("apiRequest/getApiRequest", { url: "user/0" })
-        .then(res => {
-          this.userData = res;
-          this.check();
-        });
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "user/0" }).then((res) => {
+        this.userData = res;
+        this.check();
+      });
     },
     checkBox(recipeId) {
       console.log(recipeId);
       const data = {
         selectedRecipeId: recipeId,
-        id: this.dish.id
+        id: this.dish.id,
       };
       this.$store
         .dispatch("apiRequest/postApiRequest", {
           url: "Dish/changeSelectedRecipe",
-          data: data
+          data: data,
         })
-        .then(res => {
+        .then((res) => {
           this.getDish();
         });
     },
     check() {
-      this.userData.roles.forEach(el => {
+      this.userData.roles.forEach((el) => {
         if (el == "admin") return (this.admin = true);
       });
-    }
+    },
   },
   filters: {
     ParseFloat(number) {
       let newValue = parseFloat(number).toFixed(2);
       return newValue;
-    }
+    },
   },
   created() {
     this.getDish();
     this.getUsersData();
-  }
+  },
 };
 </script>
 <style lang="stylus" scoped>
