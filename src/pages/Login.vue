@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page class="bg-grey-4">
     <login-dialog :visible="showLoginDialog" />
 
     <q-img src="../../public/employees.jpg"></q-img>
@@ -10,7 +10,7 @@ import LoginDialog from "../components/LoginDialog";
 
 export default {
   components: {
-    LoginDialog,
+    LoginDialog
   },
   data() {
     return {};
@@ -22,10 +22,10 @@ export default {
     showLoginDialog() {
       return this.$store.getters["auth/toShowLogin"];
       // return this.$store.state.auth.showLoginDialog
-    },
+    }
   },
   created() {
     this.$store.commit("auth/showLoginDialog");
-  },
+  }
 };
 </script>

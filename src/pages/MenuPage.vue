@@ -2,9 +2,9 @@
   <q-page>
     <main v-if="admin" class="flexbox">
       <div class="flex column">
-        <h5 class="text-red-1">Dani u nedelji</h5>
-        <div class="row"  v-for="(day, index) in days.slice((currentPage - 1) * daysPerPage, currentPage * daysPerPage)" :key="index">
-       <div class="text-red-1">
+        <h5 class="text-red-1  q-ma-md">Dani u nedelji</h5>
+        <div class="row  q-ma-md "  v-for="(day, index) in days.slice((currentPage - 1) * daysPerPage, currentPage * daysPerPage)" :key="index">
+       <div class="text-red-1" >
         {{day.day | ParseDate}}
 </div>          <div 
             class="day q-mr-xl"
@@ -35,7 +35,7 @@
       </div>
       <q-separator vertical />
       <div id="board-10" class="board" @dragover.prevent @drop.prevent="drop">
-        <div class="text-red-1">
+        <div class="text-red-1" >
           <h5>Lista jela</h5>
         </div>
 
@@ -67,10 +67,50 @@
       </div>
       <div  class="notice text-red-1">
         <h5>Podsetnik</h5>
-        <div>
-          Rodjendani:
-          Datum zaposlenja:
-        </div>
+        
+        <div class="q-pa-md" style="max-width: 350px">
+    <q-list bordered>
+      <q-item clickable v-ripple>
+        <q-item-section avatar>
+          <q-icon color="primary" name="cake" class="text-brown" />
+        </q-item-section>
+
+        <q-item-section>Rodjendani</q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple>
+        <q-item-section avatar>
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          </q-avatar>
+        </q-item-section>
+        <q-item-section>Bogdan Djukic 01.04.1963.</q-item-section>
+      </q-item>
+      
+
+      <q-separator />
+
+      <q-item clickable v-ripple>
+        <q-item-section avatar>
+          <q-icon color="primary" name="today" class="text-brown" />
+        </q-item-section>
+
+        <q-item-section class="bold">Godisnjica zaposlenja</q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple>
+        <q-item-section avatar>
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          </q-avatar>
+        </q-item-section>
+        <q-item-section>Petar Djordjevic 15.11.2020.</q-item-section>
+      </q-item>
+
+      
+    </q-list>
+  </div>
+        
       </div>
       </div>
     </main>

@@ -100,7 +100,7 @@
                 clickable
                 @click="handleShowRecipe(recipe)"
                 class="q-mb-md itemForRecipe"
-                style="background-color: #9E7700; width: 300px; height: 100px; border-radius: 15px 15px 15px 15px"
+                style="background-color: #7d7962; width: 300px; height: 100px; border-radius: 15px 15px 15px 15px"
                 tag="label"
                 v-ripple
               >

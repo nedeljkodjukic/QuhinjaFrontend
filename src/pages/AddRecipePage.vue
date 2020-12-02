@@ -282,9 +282,9 @@ export default {
           console.log(res);
           this.$q.loading.show({
             spinner: QSpinnerBall,
-            spinnerColor: "grey",
+            spinnerColor: "brown",
             spinnerSize: 140,
-            backgroundColor: "yellow",
+            backgroundColor: "grey",
             message: "Molimo Vas pričekajte...",
             messageColor: "black"
           });
