@@ -1,8 +1,8 @@
 <template>
-  <q-page>
+  <q-page class="bg-grey-4">
     <main v-if="admin" class="flexbox">
       <div class="flex column" style="width: 100%; max-width: 1000px">
-        <h5 class="text-brown q-mb-sm"><u>Menu</u></h5>
+        <h5 class="text-brown q-mb-sm"><u>Menu za dve nedelje</u></h5>
 
         <div class="flex column daysBox bg-red-2">
           <div
@@ -140,7 +140,7 @@
             <q-list bordered>
               <q-item clickable v-ripple>
                 <q-item-section avatar>
-                  <q-icon color="primary" name="cake" class="text-brown" />
+                  <q-icon color="primary" name="today" class="text-brown" />
                 </q-item-section>
 
                 <q-item-section>Godišnjica u firmi</q-item-section>
@@ -169,6 +169,7 @@
     </main>
     <main v-else class="flexbox">
       <div class="flex column" style="width: 100%; max-width: 1000px">
+        <h5 class="text-brown q-mb-sm"><u>Menu za prvu nedelju</u></h5>
         <div class="flex column daysBox bg-red-2">
           <div
             class="flex row"
@@ -227,6 +228,7 @@
 
       <q-separator vertical class="q-ml-xl q-mr-xl" />
       <div class="flex column" style="width: 100%; max-width: 1000px">
+        <h5 class="text-brown q-mb-sm"><u>Menu za drugu nedelju</u></h5>
         <div class="flex column daysBox bg-red-2">
           <div
             class="flex row"
@@ -291,7 +293,7 @@ import { date } from "quasar";
 import Card from "./../components/Card.vue";
 export default {
   components: {
-    Card,
+    Card
   },
   data() {
     return {
@@ -304,7 +306,7 @@ export default {
       daysPerPage: 5,
       currentPage: 1,
       todayBirthUsers: [],
-      todayEmployeeDateUsers: [],
+      todayEmployeeDateUsers: []
     };
   },
   created() {
@@ -326,14 +328,14 @@ export default {
     },
     ParseDate2(date) {
       return (date = moment(date).format("LL"));
-    },
+    }
   },
 
   methods: {
     getDays() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "MenuItem/twoWeeks" })
-        .then((res) => {
+        .then(res => {
           this.days = res;
           var x = new Date();
 
@@ -341,7 +343,7 @@ export default {
           today = parseInt(today);
           var TodayM = String(x.getMonth() + 1).padStart(2, "0");
           TodayM = parseInt(TodayM);
-          this.days.forEach((el) => {
+          this.days.forEach(el => {
             var date = moment(el.day).format("D");
             var month = moment(el.day).format("M");
 
@@ -367,14 +369,14 @@ export default {
 
     deleteChild(date) {
       const data = {
-        dateOfDish: date,
+        dateOfDish: date
       };
       this.$store
         .dispatch("apiRequest/postApiRequest", {
           url: "MenuItem/deleteByDate",
-          data: data,
+          data: data
         })
-        .then((res) => {
+        .then(res => {
           this.getDays();
         });
     },
@@ -390,14 +392,14 @@ export default {
       var date = e.target.id;
       const data = {
         recipeId: parseInt(recipeId),
-        dateOfDish: date,
+        dateOfDish: date
       };
       this.$store
         .dispatch("apiRequest/postApiRequest", {
           url: "MenuItem/addMenuItem",
-          data: data,
+          data: data
         })
-        .then((res) => {
+        .then(res => {
           this.getDays();
         });
     },
@@ -405,7 +407,7 @@ export default {
     getUsersData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "user/0" })
-        .then((res) => {
+        .then(res => {
           this.userData = res;
 
           this.check();
@@ -415,19 +417,19 @@ export default {
     getTodayUsersData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "User/todayBirthUsers" })
-        .then((res) => {
+        .then(res => {
           this.todayBirthUsers = res;
         });
     },
     getTodayEmplUsersData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "User/todayEmplUsers" })
-        .then((res) => {
+        .then(res => {
           this.todayEmployeeDateUsers = res;
         });
     },
     check() {
-      this.userData.roles.forEach((el) => {
+      this.userData.roles.forEach(el => {
         if (el == "admin") return (this.admin = true);
       });
     },
@@ -435,14 +437,14 @@ export default {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "Dish" })
         .then(
-          (res) => (
-            (this.dishes = res.filter((dish) => dish.selectedRecipe != null)),
+          res => (
+            (this.dishes = res.filter(dish => dish.selectedRecipe != null)),
             console.log(this.dishes),
             (this.dishesForView = res)
           )
         );
-    },
-  },
+    }
+  }
 };
 </script>
 <style>
