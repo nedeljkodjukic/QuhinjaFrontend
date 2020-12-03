@@ -1,13 +1,23 @@
 <template>
   <q-page class="column items-center q-gutter-y-none bg-grey-4">
-    <div class="q-mb-md text-h5 text-brown-9 q-mt-sm items-center column firstDiv"><u>Danas na meniju</u></div>
+    <div
+      class="q-mb-md text-h5 text-brown-9 q-mt-sm items-center column firstDiv"
+    >
+      <u>Danas na meniju</u>
+    </div>
 
     <div v-if="this.todaysMenu" class="bg-red-2 menu">
       <div class="q-mt-md q-mr-md leftDiv">
         <div v-if="this.todaysMenu.recipe" class="q-ml-md pictureDiv">
-          <q-img style="border-radius: 15px 15px 15px 15px; height: 300px" :src="this.todaysMenu.recipe.picture"></q-img>
+          <q-img
+            style="border-radius: 15px 15px 15px 15px; height: 300px"
+            :src="this.todaysMenu.recipe.picture"
+          ></q-img>
 
-          <div style="font-size: 24px" class="q-mt-md text-bold text-brown-9 middleDiv q-m-sm q-ml-md">
+          <div
+            style="font-size: 24px"
+            class="q-mt-md text-bold text-brown-9 middleDiv q-m-sm q-ml-md"
+          >
             <p>{{ this.todaysMenu.recipe.dish.name }}</p>
           </div>
         </div>
@@ -15,13 +25,29 @@
       <q-separator vertical class="q-ml-md q-mr-md bg-red-2" />
 
       <div class="rightDiv q-mt-md">
-        <q-list v-if="this.todaysMenu.recipe" bordered class="q-mr-sm itemForIng bg-red-1 rounded-borders" style="color: #6f6e57; border-radius: 15px 15px 15px 15px">
-          <q-item-label class="itemForIng text-bold" header>Sastojci:</q-item-label>
+        <q-list
+          v-if="this.todaysMenu.recipe"
+          bordered
+          class="q-mr-sm itemForIng bg-red-1 rounded-borders"
+          style="color: #6f6e57; border-radius: 15px 15px 15px 15px"
+        >
+          <q-item-label class="itemForIng text-bold" header
+            >Sastojci:</q-item-label
+          >
           <q-scroll-area style="height: 100px">
             <div class="flex column itemDiv">
-              <q-item class="item" v-for="ing in this.todaysMenu.recipe.ingridients" :key="ing.ingridient.name">
+              <q-item
+                class="item"
+                v-for="ing in this.todaysMenu.recipe.ingridients"
+                :key="ing.ingridient.name"
+              >
                 <q-item-section top>
-                  <q-item-label class="text-red-2 text-bold q-mt-sm">{{ ing.ingridient.name }} : {{ ing.quantity }} {{ ing.unit }}</q-item-label>
+                  <q-item-label
+                    style="white-space: nowrap"
+                    class="text-red-2 text-bold q-mt-sm"
+                    >{{ ing.ingridient.name }} : {{ ing.quantity }}
+                    {{ ing.unit }}</q-item-label
+                  >
                 </q-item-section>
               </q-item>
             </div>
@@ -29,7 +55,12 @@
         </q-list>
         <div v-if="this.todaysMenu.recipe" class="q-mt-sm">
           <q-scroll-area style="height: 500px">
-            <q-input readonly class="way" v-model="this.todaysMenu.recipe.wayOfPreparing" autogrow />
+            <q-input
+              readonly
+              class="way"
+              v-model="this.todaysMenu.recipe.wayOfPreparing"
+              autogrow
+            />
           </q-scroll-area>
         </div>
       </div>
@@ -38,10 +69,29 @@
     <div class="q-mb-sm q-mt-md text-h5 text-brown-9">
       <u> Najbolje ocenjena jela</u>
     </div>
-    <q-carousel v-if="this.dishes" v-model="selectedDishIndex" swipeable infinite animated padding arrows class="bg-transparent" control-color="red-1">
-      <q-carousel-slide class="q-pa-sm" v-for="(dish, index) in dishes" :key="index" :name="index">
+    <q-carousel
+      v-if="this.dishes"
+      v-model="selectedDishIndex"
+      swipeable
+      infinite
+      animated
+      padding
+      arrows
+      class="bg-transparent"
+      control-color="red-1"
+    >
+      <q-carousel-slide
+        class="q-pa-sm"
+        v-for="(dish, index) in dishes"
+        :key="index"
+        :name="index"
+      >
         <div class="row q-gutter-x-md justify-center items-center">
-          <div class="column items-center" v-for="adjacentIndex in adjacentIndexes(index)" :key="adjacentIndex">
+          <div
+            class="column items-center"
+            v-for="adjacentIndex in adjacentIndexes(index)"
+            :key="adjacentIndex"
+          >
             <q-card style="width: 200px; height: 290px" class="my-card">
               <q-img height="140px" :src="dishes[adjacentIndex].picture" />
 
@@ -61,7 +111,15 @@
               </q-card-section>
 
               <q-card-section class="q-pt-none">
-                <div class="text-caption text-brown-8">
+                <div
+                  style="
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    width: 100px;
+                  "
+                  class="text-caption text-brown-8"
+                >
                   {{ dishes[adjacentIndex].description }}
                 </div>
               </q-card-section>
@@ -109,10 +167,14 @@ export default {
       this.$router.push("dish/" + id);
     },
     getData() {
-      this.$store.dispatch("apiRequest/getApiRequest", { url: "/dish/getSortedDishes" }).then((res) => (this.dishes = res));
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: "/dish/getSortedDishes" })
+        .then((res) => (this.dishes = res));
     },
     getTodayItem() {
-      this.$store.dispatch("apiRequest/getApiRequest", { url: "/MenuItem/todaysRecipe" }).then((res) => (this.todaysMenu = res));
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: "/MenuItem/todaysRecipe" })
+        .then((res) => (this.todaysMenu = res));
     },
     adjacentIndexes(index) {
       const length = this.dishes.length;
