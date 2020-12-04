@@ -8,7 +8,7 @@
       <q-separator />
       <q-card-section>
         <q-form class="full-width column q-gutter-y-md q-pa-sm" @submit.prevent="handleLogin">
-          <q-input color="red-2" outlined placeholder="Email" v-model="email" :rules="[requiredField, emailField]">
+          <q-input color="red-2" outlined placeholder="Email" v-model="email">
             <template v-slot:prepend>
               <q-icon name="person" />
             </template>
@@ -21,17 +21,11 @@
               <q-icon :name="isPasswordVisible ? 'visibility' : 'visibility_off'" class="cursor-pointer" @click="isPasswordVisible = !isPasswordVisible" />
             </template>
           </q-input>
-          <a class="text-red-1 text-weight-bold" @click="handleForgotPasswordClick" style="text-decoration: none; cursor: pointer"> Zaboravili ste šifru? </a>
           <q-btn class="q-py-sm" type="submit" color="red-5" label="Prijavite se" no-caps :loading="loginButtonLoading" />
         </q-form>
       </q-card-section>
       <q-separator />
-      <q-card-section>
-        <div class="row q-gutter-x-sm justify-center">
-          <div class="text-red-1">Nemate nalog?</div>
-          <a class="text-red-1 text-weight-bold" @click="handleRegisterClick" style="text-decoration: none; cursor: pointer"> Registrujte se </a>
-        </div>
-      </q-card-section>
+      <q-card-section> </q-card-section>
     </q-card>
   </q-dialog>
 </template>
