@@ -5,75 +5,29 @@
         <h5 class="text-brown q-mb-sm"><u>Menu za dve nedelje</u></h5>
 
         <div class="flex column daysBox bg-red-2">
-          <div
-            class="flex row"
-            style="justify-content: center; align-items: center; height: 85px"
-            v-for="(day, index) in days.slice(
-              (currentPage - 1) * daysPerPage,
-              currentPage * daysPerPage
-            )"
-            :key="index"
-          >
-            <div
-              :style="
-                day.flag == false
-                  ? 'background-color:white; color:#6f6e57;'
-                  : ''
-              "
-              class="divForDate"
-            >
+          <div class="flex row" style="justify-content: center; align-items: center; height: 85px" v-for="(day, index) in days.slice((currentPage - 1) * daysPerPage, currentPage * daysPerPage)" :key="index">
+            <div :style="day.flag == false ? 'background-color:white; color:#6f6e57;' : ''" class="divForDate">
               <p>
                 {{ day.day | ParseDate }}
               </p>
               <p style="font-size: 10px">{{ day.day | ParseDate1 }}</p>
             </div>
 
-            <div
-              class="day"
-              v-if="day.menuItem == null"
-              :id="`${day.day}`"
-              @dragover.prevent
-              @drop.prevent="drop"
-              bg-color="brown"
-            ></div>
+            <div class="day" v-if="day.menuItem == null" :id="`${day.day}`" @dragover.prevent @drop.prevent="drop" bg-color="brown"></div>
             <div class="boardMenu" v-if="day.menuItem != null">
-              <Card
-                class="q-mb-sm"
-                :style="
-                  day.flag2 == false
-                    ? 'background-color:grey'
-                    : 'background-color:white;'
-                "
-              >
-                <q-img
-                  width="65px"
-                  :style="day.flag2 == false ? 'filter:grayscale(80%);' : ''"
-                  style="border-radius: 10px 10px 10px 10px; height: 100%"
-                  :src="day.menuItem.recipe.picture"
-                ></q-img>
+              <Card class="q-mb-sm" :style="day.flag2 == false ? 'background-color:grey' : 'background-color:white;'">
+                <q-img width="65px" :style="day.flag2 == false ? 'filter:grayscale(80%);' : ''" style="border-radius: 10px 10px 10px 10px; height: 100%" :src="day.menuItem.recipe.picture"></q-img>
                 <p class="text-red-1 q-ml-md" style="margin-auto">
                   {{ day.menuItem.recipe.dish.name }}
                 </p>
               </Card>
-              <div>
-                <q-icon
-                  name="delete"
-                  class="deleteIcon text-red-1"
-                  v-if="day.menuItem && day.flag2"
-                  @click="deleteChild(`${day.day}`)"
-                ></q-icon>
+              <div v-if="day.flag">
+                <q-icon name="delete" class="deleteIcon text-red-1" v-if="day.menuItem && day.flag2" @click="deleteChild(`${day.day}`)"></q-icon>
               </div>
             </div>
           </div>
           <div class="q-pa-lg flex flex-center">
-            <q-pagination
-              color="red-5"
-              v-model="currentPage"
-              :max="2"
-              :max-pages="2"
-              :boundary-numbers="true"
-            >
-            </q-pagination>
+            <q-pagination color="red-5" v-model="currentPage" :max="2" :max-pages="2" :boundary-numbers="true"> </q-pagination>
           </div>
         </div>
       </div>
@@ -84,22 +38,10 @@
           <h5><u>Lista jela</u></h5>
         </div>
 
-        <div
-          class="bg-red-2 q-ma-md q-ml-sm"
-          style="border-radius: 15px 15px 15px 15px; width: 300px"
-        >
+        <div class="bg-red-2 q-ma-md q-ml-sm" style="border-radius: 15px 15px 15px 15px; width: 300px">
           <q-scroll-area style="height: 250px; max-width: 600px">
-            <Card
-              v-for="(dish, index) in dishes"
-              :key="dish.id"
-              :id="`${dish.selectedRecipeId}`"
-              draggable="true"
-            >
-              <q-img
-                width="65px"
-                style="border-radius: 10px 10px 10px 10px; height: 100%"
-                :src="dish.picture"
-              ></q-img>
+            <Card v-for="(dish, index) in dishes" :key="dish.id" :id="`${dish.selectedRecipeId}`" draggable="true">
+              <q-img width="65px" style="border-radius: 10px 10px 10px 10px; height: 100%" :src="dish.picture"></q-img>
 
               <p class="text-red-1 q-ml-md">{{ dish.name }}</p>
             </Card>
@@ -118,21 +60,13 @@
                 <q-item-section>Rođendani</q-item-section>
               </q-item>
 
-              <q-item
-                v-for="user in todayBirthUsers"
-                :key="user.id"
-                clickable
-                v-ripple
-              >
+              <q-item v-for="user in todayBirthUsers" :key="user.id" clickable v-ripple>
                 <q-item-section avatar>
                   <q-avatar>
                     <img :src="user.profilePictureUrl" />
                   </q-avatar>
                 </q-item-section>
-                <q-item-section
-                  >{{ user.name }} :
-                  {{ user.dateOfBirth | ParseDate2 }}</q-item-section
-                >
+                <q-item-section>{{ user.name }} : {{ user.dateOfBirth | ParseDate2 }}</q-item-section>
               </q-item>
             </q-list>
           </div>
@@ -146,21 +80,13 @@
                 <q-item-section>Godišnjica u firmi</q-item-section>
               </q-item>
 
-              <q-item
-                v-for="user in todayEmployeeDateUsers"
-                :key="user.id"
-                clickable
-                v-ripple
-              >
+              <q-item v-for="user in todayEmployeeDateUsers" :key="user.id" clickable v-ripple>
                 <q-item-section avatar>
                   <q-avatar>
                     <img :src="user.profilePictureUrl" />
                   </q-avatar>
                 </q-item-section>
-                <q-item-section
-                  >{{ user.name }} :
-                  {{ user.dateOfEmployment | ParseDate2 }}</q-item-section
-                >
+                <q-item-section>{{ user.name }} : {{ user.dateOfEmployment | ParseDate2 }}</q-item-section>
               </q-item>
             </q-list>
           </div>
@@ -170,56 +96,19 @@
     <main v-else class="flexbox">
       <div class="flex column" style="width: 100%; max-width: 1000px">
         <h5 class="text-brown q-mb-sm"><u>Trenutna nedelju</u></h5>
-        <div
-          style="height: 75%; width: 110%"
-          class="flex column daysBox bg-red-2"
-        >
-          <div
-            class="flex row"
-            style="justify-content: center; align-items: center; height: 85px"
-            v-for="(day, index) in days.slice(
-              (1 - 1) * daysPerPage,
-              1 * daysPerPage
-            )"
-            :key="index"
-          >
-            <div
-              :style="
-                day.flag == false
-                  ? 'background-color:white; color:#6f6e57;'
-                  : ''
-              "
-              class="divForDate"
-            >
+        <div style="height: 75%; width: 110%" class="flex column daysBox bg-red-2">
+          <div class="flex row" style="justify-content: center; align-items: center; height: 85px" v-for="(day, index) in days.slice((1 - 1) * daysPerPage, 1 * daysPerPage)" :key="index">
+            <div :style="day.flag == false ? 'background-color:white; color:#6f6e57;' : ''" class="divForDate">
               <p>
                 {{ day.day | ParseDate }}
               </p>
               <p style="font-size: 10px">{{ day.day | ParseDate1 }}</p>
             </div>
 
-            <div
-              class="day"
-              v-if="day.menuItem == null"
-              :id="`${day.day}`"
-              @dragover.prevent
-              @drop.prevent="drop"
-              bg-color="brown"
-            ></div>
+            <div class="day" v-if="day.menuItem == null" :id="`${day.day}`" @dragover.prevent @drop.prevent="drop" bg-color="brown"></div>
             <div class="boardMenu" v-if="day.menuItem != null">
-              <Card
-                class="q-mb-sm"
-                :style="
-                  day.flag2 == false
-                    ? 'background-color:grey'
-                    : 'background-color:white;'
-                "
-              >
-                <q-img
-                  width="65px"
-                  :style="day.flag2 == false ? 'filter:grayscale(80%);' : ''"
-                  style="border-radius: 10px 10px 10px 10px; height: 100%"
-                  :src="day.menuItem.recipe.picture"
-                ></q-img>
+              <Card class="q-mb-sm" :style="day.flag2 == false ? 'background-color:grey' : 'background-color:white;'">
+                <q-img width="65px" :style="day.flag2 == false ? 'filter:grayscale(80%);' : ''" style="border-radius: 10px 10px 10px 10px; height: 100%" :src="day.menuItem.recipe.picture"></q-img>
                 <p class="text-red-1 q-ml-md" style="margin-auto">
                   {{ day.menuItem.recipe.dish.name }}
                 </p>
@@ -232,56 +121,19 @@
       <q-separator vertical class="q-ml-xl q-mr-xl" />
       <div class="flex column" style="width: 100%; max-width: 1000px">
         <h5 class="text-brown q-mb-sm"><u>Naredna nedelja</u></h5>
-        <div
-          style="height: 75%; width: 110%"
-          class="flex column daysBox bg-red-2"
-        >
-          <div
-            class="flex row"
-            style="justify-content: center; align-items: center; height: 85px"
-            v-for="(day, index) in days.slice(
-              (2 - 1) * daysPerPage,
-              2 * daysPerPage
-            )"
-            :key="index"
-          >
-            <div
-              :style="
-                day.flag == false
-                  ? 'background-color:white; color:#6f6e57;'
-                  : ''
-              "
-              class="divForDate"
-            >
+        <div style="height: 75%; width: 110%" class="flex column daysBox bg-red-2">
+          <div class="flex row" style="justify-content: center; align-items: center; height: 85px" v-for="(day, index) in days.slice((2 - 1) * daysPerPage, 2 * daysPerPage)" :key="index">
+            <div :style="day.flag == false ? 'background-color:white; color:#6f6e57;' : ''" class="divForDate">
               <p>
                 {{ day.day | ParseDate }}
               </p>
               <p style="font-size: 10px">{{ day.day | ParseDate1 }}</p>
             </div>
 
-            <div
-              class="day"
-              v-if="day.menuItem == null"
-              :id="`${day.day}`"
-              @dragover.prevent
-              @drop.prevent="drop"
-              bg-color="brown"
-            ></div>
+            <div class="day" v-if="day.menuItem == null" :id="`${day.day}`" @dragover.prevent @drop.prevent="drop" bg-color="brown"></div>
             <div class="boardMenu" v-if="day.menuItem != null">
-              <Card
-                class="q-mb-sm"
-                :style="
-                  day.flag2 == false
-                    ? 'background-color:grey'
-                    : 'background-color:white;'
-                "
-              >
-                <q-img
-                  width="65px"
-                  :style="day.flag2 == false ? 'filter:grayscale(80%);' : ''"
-                  style="border-radius: 10px 10px 10px 10px; height: 100%"
-                  :src="day.menuItem.recipe.picture"
-                ></q-img>
+              <Card class="q-mb-sm" :style="day.flag2 == false ? 'background-color:grey' : 'background-color:white;'">
+                <q-img width="65px" :style="day.flag2 == false ? 'filter:grayscale(80%);' : ''" style="border-radius: 10px 10px 10px 10px; height: 100%" :src="day.menuItem.recipe.picture"></q-img>
                 <p class="text-red-1 q-ml-md" style="margin-auto">
                   {{ day.menuItem.recipe.dish.name }}
                 </p>
@@ -339,38 +191,35 @@ export default {
 
   methods: {
     getDays() {
-      this.$store
-        .dispatch("apiRequest/getApiRequest", { url: "MenuItem/twoWeeks" })
-        .then((res) => {
-          this.days = res;
-          var x = new Date();
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "MenuItem/twoWeeks" }).then((res) => {
+        this.days = res;
+        var x = new Date();
 
-          var today = String(x.getDate()).padStart(2, "0");
-          today = parseInt(today);
-          var TodayM = String(x.getMonth() + 1).padStart(2, "0");
-          TodayM = parseInt(TodayM);
-          this.days.forEach((el) => {
-            var date = moment(el.day).format("D");
-            var month = moment(el.day).format("M");
+        var today = String(x.getDate()).padStart(2, "0");
+        today = parseInt(today);
+        var TodayM = String(x.getMonth() + 1).padStart(2, "0");
+        TodayM = parseInt(TodayM);
+        this.days.forEach((el) => {
+          var date = moment(el.day).format("D");
+          var month = moment(el.day).format("M");
 
-            // date = parseInt(date);
-            if (today == date) el.flag = false;
-            else el.flag = true;
+          // date = parseInt(date);
+          if (today == date) el.flag = false;
+          else el.flag = true;
 
-            if (month < TodayM) {
-              el.flag2 = false;
-            } else if (month == TodayM) {
-              if (today > date) el.flag2 = false;
-              else el.flag2 = true;
-            } else el.flag2 = true;
-          });
-          console.log(this.days);
-          // var i = 0;
-          // while (i < h.length) {
-          //   if (h[i] != ",") h += h[i];
-          //   i++;
-          // }
+          if (month < TodayM) {
+            el.flag2 = false;
+          } else if (month == TodayM) {
+            if (today > date) el.flag2 = false;
+            else el.flag2 = true;
+          } else el.flag2 = true;
         });
+        // var i = 0;
+        // while (i < h.length) {
+        //   if (h[i] != ",") h += h[i];
+        //   i++;
+        // }
+      });
     },
 
     deleteChild(date) {
@@ -411,28 +260,22 @@ export default {
     },
 
     getUsersData() {
-      this.$store
-        .dispatch("apiRequest/getApiRequest", { url: "user/0" })
-        .then((res) => {
-          this.userData = res;
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "user/0" }).then((res) => {
+        this.userData = res;
 
-          this.check();
-        });
+        this.check();
+      });
     },
 
     getTodayUsersData() {
-      this.$store
-        .dispatch("apiRequest/getApiRequest", { url: "User/todayBirthUsers" })
-        .then((res) => {
-          this.todayBirthUsers = res;
-        });
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "User/todayBirthUsers" }).then((res) => {
+        this.todayBirthUsers = res;
+      });
     },
     getTodayEmplUsersData() {
-      this.$store
-        .dispatch("apiRequest/getApiRequest", { url: "User/todayEmplUsers" })
-        .then((res) => {
-          this.todayEmployeeDateUsers = res;
-        });
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "User/todayEmplUsers" }).then((res) => {
+        this.todayEmployeeDateUsers = res;
+      });
     },
     check() {
       this.userData.roles.forEach((el) => {
@@ -440,15 +283,7 @@ export default {
       });
     },
     getDishes() {
-      this.$store
-        .dispatch("apiRequest/getApiRequest", { url: "Dish" })
-        .then(
-          (res) => (
-            (this.dishes = res.filter((dish) => dish.selectedRecipe != null)),
-            console.log(this.dishes),
-            (this.dishesForView = res)
-          )
-        );
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "Dish" }).then((res) => ((this.dishes = res.filter((dish) => dish.selectedRecipe != null)), console.log(this.dishes), (this.dishesForView = res)));
     },
   },
 };

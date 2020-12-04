@@ -1,4 +1,4 @@
-const emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
+const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$/
 const phoneNumberPattern = /^[0-9 ]+$/
 
