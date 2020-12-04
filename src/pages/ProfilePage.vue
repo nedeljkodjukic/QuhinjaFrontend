@@ -110,7 +110,7 @@ export default {
       options: this.stringOptions,
       stringOptions: [],
       dishes: [],
-      favoritedishId: 0
+      favoritedishId: 0,
     };
   },
   created() {
@@ -122,9 +122,10 @@ export default {
     getAllDishes() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "Dish" })
-        .then(res => {
-          res.forEach(el => {
-            this.dishes = res;
+        .then((res) => {
+          this.dishes = res.filter((dish) => dish.selectedRecipe != null);
+
+          this.dishes.forEach((el) => {
             this.stringOptions.push(el.name);
           });
         });
@@ -133,7 +134,7 @@ export default {
       update(() => {
         const needle = val.toLowerCase();
         this.options = this.stringOptions.filter(
-          v => v.toLowerCase().indexOf(needle) > -1
+          (v) => v.toLowerCase().indexOf(needle) > -1
         );
       });
     },
@@ -143,7 +144,7 @@ export default {
     getData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "user/0" })
-        .then(res => {
+        .then((res) => {
           this.userData = res;
           this.BirthDate = this.ParseDate(this.userData.dateOfBirth);
           this.EmplDate = this.ParseDate(this.userData.dateOfEmployment);
@@ -157,12 +158,12 @@ export default {
         resolve({
           url: `${baseUrl}user/uploadPicture`,
           method: "POST",
-          headers: [{ name: "Authorization", value: `Bearer ${token}` }]
+          headers: [{ name: "Authorization", value: `Bearer ${token}` }],
         });
       });
     },
     findDishId(name) {
-      this.dishes.forEach(el => {
+      this.dishes.forEach((el) => {
         if (el.name == name) this.favoritedishId = el.id;
       });
       return this.favoritedishId;
@@ -174,19 +175,19 @@ export default {
         .dispatch("apiRequest/putApiRequest", {
           url: "user/update-user",
           data: {
-            ...this.userData
+            ...this.userData,
           },
           successMessage: "Uspesno ste azurirali podatke",
-          color: "brown"
+          color: "brown",
         })
-        .then(res => {
+        .then((res) => {
           this.$q.loading.show({
             spinner: QSpinnerBall,
             spinnerColor: "brown",
             spinnerSize: 140,
             backgroundColor: "grey",
             message: "Molimo Vas pričekajte...",
-            messageColor: "black"
+            messageColor: "black",
           });
           this.$refs.uploaderRef.upload();
           this.timer = setTimeout(() => {
@@ -195,8 +196,8 @@ export default {
             this.$router.go();
           }, 3000);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
