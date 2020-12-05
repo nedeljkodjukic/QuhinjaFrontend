@@ -102,7 +102,9 @@
             </div>
             <div style="color: #6f6e57" class="middleDiv q-mt-sm">
               <p>Vreme pripreme: {{ recipeToShow.preparationTime }}</p>
-              <p>Link:{{ recipeToShow.preview }}</p>
+              <p>
+                Link: <a :href="recipeToShow.preview">{{ recipeToShow.preview }}</a>
+              </p>
             </div>
             <div class="q-mt-sm">
               <q-input readonly v-model="recipeToShow.wayOfPreparing" filled type="textarea" />
