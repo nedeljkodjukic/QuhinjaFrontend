@@ -23,8 +23,23 @@
         </q-select>
 
         <q-btn color="red-1" type="submit" label="Ažuriraj" />
+        <q-btn @click="handleNewPasswordClick" color="red-5" label="Promeni lozinku" class="buttonForEmployee" />
       </q-form>
     </div>
+    <q-dialog v-model="visiblePasswordForm" persistent @hide="handleHidePasswordDialog">
+      <q-card class="q-py-sm full-width text-accent">
+        <q-card-section class="q-ml-sm row full-width justify-between items-center">
+          <div class="text-h4 q-pl-sm text-brown-5">Promena lozinke</div>
+          <q-btn icon="close" class="text-brown-5" flat round dense @click="handleHidePasswordDialog" />
+        </q-card-section>
+        <q-form ref="form" class="full-width column q-gutter-y-sm" @submit="handleSubmitPasswordForm">
+          <q-input color="red-2" type="password" v-model="cPass" label="Trenutna lozinka" dense outlined :rules="[requiredField, passwordPattern]" />
+          <q-input color="red-2" type="password" v-model="nPass" label="Nova lozinka" dense outlined :rules="[requiredField, passwordPattern]" />
+
+          <q-btn class="q-py-sm" type="submit" color="red-5" label="Promeni lozinku" no-caps :loading="registerButtonLoading" />
+        </q-form>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -45,7 +60,13 @@ export default {
       BirthDate: "",
       EmplDate: "",
       noPicture: noUser,
+      visiblePasswordForm: false,
+      email: "",
+      cPass: "",
+      nPass: "",
       model: "",
+      registerButtonLoading: false,
+
       options: this.stringOptions,
       stringOptions: [],
       dishes: [],
@@ -58,6 +79,39 @@ export default {
   },
 
   methods: {
+    handleNewPasswordClick() {
+      this.visiblePasswordForm = true;
+    },
+    handleHidePasswordDialog() {
+      this.visiblePasswordForm = false;
+    },
+    handleSubmitPasswordForm() {
+      this.$store;
+      this.$store
+        .dispatch("apiRequest/postApiRequest", {
+          url: "Identity/changePassword",
+          data: {
+            email: this.email,
+            cPass: this.cPass,
+            password: this.nPass,
+          },
+          successMessage: "Uspesno ste promenili lozinku",
+          color: "brown",
+        })
+        .then((response) => {
+          this.visiblePasswordForm = false;
+          this.cPass = "";
+          this.nPass = "";
+          this.getData();
+        })
+        .catch((response) =>
+          this.$q.notify({
+            position: "top",
+            message: response.data,
+            type: "negative",
+          })
+        );
+    },
     getAllDishes() {
       this.$store.dispatch("apiRequest/getApiRequest", { url: "Dish" }).then((res) => {
         this.dishes = res.filter((dish) => dish.selectedRecipe != null);
@@ -79,6 +133,7 @@ export default {
     getData() {
       this.$store.dispatch("apiRequest/getApiRequest", { url: "user/0" }).then((res) => {
         this.userData = res;
+        this.email = this.userData.email;
         this.BirthDate = this.ParseDate(this.userData.dateOfBirth);
         this.EmplDate = this.ParseDate(this.userData.dateOfEmployment);
         this.model = this.userData.favouriteDish.name;
