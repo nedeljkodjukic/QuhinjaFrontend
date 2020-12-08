@@ -2,7 +2,7 @@
   "name": "quhinjaclient",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "productName":" Quhinja",
   "author": "Nedeljko DJukic <nedeljkodjukic@elfak.rs>",
   "private": true,
   "scripts": {
