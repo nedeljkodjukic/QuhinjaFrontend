@@ -1,8 +1,6 @@
 <template>
   <q-page class="column items-center q-gutter-y-none bg-grey-4">
-    <div
-      class="q-mb-md text-h5 text-brown-9 q-mt-sm items-center column firstDiv"
-    >
+    <div class="q-mb-md text-h5 text-brown-9 q-mt-sm items-center column firstDiv">
       <u>Danas na meniju</u>
     </div>
 
@@ -22,18 +20,16 @@
           </div>
         </div>
       </div>
-      <q-separator vertical class="q-ml-md q-mr-md bg-red-2" />
+      <q-separator vertical class="q-ml-md bg-red-2" />
 
-      <div class="rightDiv q-mt-md">
+      <div class="rightDiv q-mt-md q-mr-md">
         <q-list
           v-if="this.todaysMenu.recipe"
           bordered
           class="q-mr-sm itemForIng bg-red-1 rounded-borders"
           style="color: #6f6e57; border-radius: 15px 15px 15px 15px"
         >
-          <q-item-label class="itemForIng text-bold" header
-            >Sastojci:</q-item-label
-          >
+          <q-item-label class="itemForIng text-bold" header>Sastojci:</q-item-label>
           <q-scroll-area style="height: 100px">
             <div class="flex column itemDiv">
               <q-item
