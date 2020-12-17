@@ -9,17 +9,9 @@
         margin-top: 0;
       "
     >
-      <div
-        style="margin-left: 30px; align-items: center"
-        class="row q-gutter-x-md"
-      >
+      <div style="margin-left: 30px; align-items: center" class="row q-gutter-x-md">
         <q-btn label="Filter" icon-right="sort" class="text-red-5" flat>
-          <q-menu
-            transition-show="rotate"
-            transition-hide="rotate"
-            fit
-            auto-close
-          >
+          <q-menu transition-show="rotate" transition-hide="rotate" fit auto-close>
             <q-list style="min-width: 150px">
               <q-item
                 v-for="option in sortingOptions"
@@ -75,7 +67,7 @@
           :key="index"
           class="my-card"
         >
-          <q-img height="200px" :src="dish.picture" />
+          <q-img height="200px" :src="dish.image" />
 
           <q-card-section style="" class="bg-red-2">
             <div class="row no-wrap items-center">
@@ -191,9 +183,14 @@ export default {
       });
     },
     getData() {
-      this.$store
-        .dispatch("apiRequest/getApiRequest", { url: "Dish" })
-        .then((res) => ((this.dishes = res), (this.dishesForView = res)));
+      this.$store.dispatch("apiRequest/getApiRequest", { url: "Dish" }).then((res) => {
+        this.dishes = res;
+
+        this.dishes.forEach((element) => {
+          element.image = "data:image/png;base64," + element.image;
+        });
+        this.dishesForView = this.dishes;
+      });
     },
     getDishTypes() {
       this.$store

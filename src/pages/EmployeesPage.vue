@@ -26,12 +26,24 @@
           <q-item-section v-if="admin">
             <q-item-label class="text-bold"> Izostanci</q-item-label>
           </q-item-section>
-          <q-btn v-if="admin" @click="handleNewUserClick" color="red-5" label=" + Dodaj novog radnika" class="buttonForEmployee" />
+          <q-btn
+            v-if="admin"
+            @click="handleNewUserClick"
+            color="red-5"
+            label=" + Dodaj novog radnika"
+            class="buttonForEmployee"
+          />
         </q-item>
-        <q-item style="border-radius: 15px 15px 15px 15px" class="bg-red-2 q-mb-md" v-for="employee in employees" :key="employee.id" v-ripple>
+        <q-item
+          style="border-radius: 15px 15px 15px 15px"
+          class="bg-red-2 q-mb-md"
+          v-for="employee in employees"
+          :key="employee.id"
+          v-ripple
+        >
           <q-item-section avatar>
             <q-avatar style="height: 100px; width: 100px">
-              <img :src="employee.profilePictureUrl" />
+              <img :src="employee.image" />
             </q-avatar>
           </q-item-section>
 
@@ -49,17 +61,47 @@
           </q-item-section>
 
           <q-item-section v-if="employee.favouriteDish != null">
-            <q-img style="border-radius: 20px" height="100px" width="100px" :src="employee.favouriteDish.picture"></q-img>
+            <q-img
+              style="border-radius: 20px"
+              height="100px"
+              width="100px"
+              :src="employee.favouriteDish.image"
+            ></q-img>
             <q-item-label>{{ employee.favouriteDish.name }}</q-item-label>
           </q-item-section>
           <q-item-section v-if="admin">
             <div class="q-pa-md">
               <q-btn icon="event" round color="red-1">
-                <q-popup-proxy @before-show="updateProxy" transition-show="rotate" transition-hide="rotate">
-                  <q-date :options="optionsFn" :events="employee.missedDatesFromBase" :event-color="'red'" color="red-2" text-color="red-1" v-model="proxyDate">
+                <q-popup-proxy
+                  @before-show="updateProxy"
+                  transition-show="rotate"
+                  transition-hide="rotate"
+                >
+                  <q-date
+                    :options="optionsFn"
+                    :events="employee.missedDatesFromBase"
+                    :event-color="'red'"
+                    color="red-2"
+                    text-color="red-1"
+                    v-model="proxyDate"
+                  >
                     <div class="row items-center justify-end q-gutter-sm">
-                      <q-btn label="Cancel" @click="cancel" class="bg-red-1" color="white" flat v-close-popup />
-                      <q-btn label="OK" class="bg-red-1" color="white" flat @click="save(employee)" v-close-popup />
+                      <q-btn
+                        label="Cancel"
+                        @click="cancel"
+                        class="bg-red-1"
+                        color="white"
+                        flat
+                        v-close-popup
+                      />
+                      <q-btn
+                        label="OK"
+                        class="bg-red-1"
+                        color="white"
+                        flat
+                        @click="save(employee)"
+                        v-close-popup
+                      />
                     </div>
                   </q-date>
                 </q-popup-proxy>
@@ -74,18 +116,64 @@
       <q-card class="q-py-sm full-width text-accent">
         <q-card-section class="q-ml-sm row full-width justify-between items-center">
           <div class="text-h4 q-pl-sm text-brown-5">Registracija</div>
-          <q-btn icon="close" class="text-brown-5" flat round dense @click="handleHideRegisterDialog" />
+          <q-btn
+            icon="close"
+            class="text-brown-5"
+            flat
+            round
+            dense
+            @click="handleHideRegisterDialog"
+          />
         </q-card-section>
-        <q-form ref="form" class="full-width column q-gutter-y-sm" @submit="handleSubmitRegisterForm">
-          <q-input color="red-2" dense outlined v-model="formData.email" label="Email" :rules="[requiredField, emailField]">
+        <q-form
+          ref="form"
+          class="full-width column q-gutter-y-sm"
+          @submit="handleSubmitRegisterForm"
+        >
+          <q-input
+            color="red-2"
+            dense
+            outlined
+            v-model="formData.email"
+            label="Email"
+            :rules="[requiredField, emailField]"
+          >
             <template v-slot:prepend>
               <q-icon name="email" />
             </template>
           </q-input>
-          <q-input color="red-2" v-model="formData.username" label="Korisnicko ime" dense outlined :rules="[requiredField, userNameMaxLengthValidation]" />
-          <q-input color="red-2" v-model="formData.name" label="Ime" dense outlined :rules="[requiredField, firstNameMaxLengthValidation]" />
-          <q-input color="red-2" v-model="formData.surname" label="Prezime" dense outlined :rules="[requiredField, lastNameMaxLengthValidation]" />
-          <q-input color="red-2" v-model="formData.position" label="Pozicija" dense outlined :rules="[requiredField, lastNameMaxLengthValidation]" />
+          <q-input
+            color="red-2"
+            v-model="formData.username"
+            label="Korisnicko ime"
+            dense
+            outlined
+            :rules="[requiredField, userNameMaxLengthValidation]"
+          />
+          <q-input
+            color="red-2"
+            v-model="formData.name"
+            label="Ime"
+            dense
+            outlined
+            :rules="[requiredField, firstNameMaxLengthValidation]"
+          />
+          <q-input
+            color="red-2"
+            v-model="formData.surname"
+            label="Prezime"
+            dense
+            outlined
+            :rules="[requiredField, lastNameMaxLengthValidation]"
+          />
+          <q-input
+            color="red-2"
+            v-model="formData.position"
+            label="Pozicija"
+            dense
+            outlined
+            :rules="[requiredField, lastNameMaxLengthValidation]"
+          />
           <q-select
             color="red-2"
             v-model="formData.gender"
@@ -98,26 +186,68 @@
             ]"
             :rules="[requiredField]"
           />
-          <q-checkbox color="brown" v-model="formData.admin" class="text-brown-5" label="Admin" />
-          <q-input color="red-2" v-model="formData.birthDate" label="Datum rodjenja" outlined dense>
+          <q-checkbox
+            color="brown"
+            v-model="formData.admin"
+            class="text-brown-5"
+            label="Admin"
+          />
+          <q-input
+            color="red-2"
+            v-model="formData.birthDate"
+            label="Datum rodjenja"
+            outlined
+            dense
+          >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="fade">
-                  <q-date v-model="formData.birthDate" minimal :mask="dateFormatString" @input="() => $refs.qDateProxy.hide()" />
+                <q-popup-proxy
+                  ref="qDateProxy"
+                  transition-show="scale"
+                  transition-hide="fade"
+                >
+                  <q-date
+                    v-model="formData.birthDate"
+                    minimal
+                    :mask="dateFormatString"
+                    @input="() => $refs.qDateProxy.hide()"
+                  />
                 </q-popup-proxy>
               </q-icon>
             </template>
           </q-input>
-          <q-input color="red-2" v-model="formData.firstDayAtWork" label="Datum zaposlenja" outlined dense>
+          <q-input
+            color="red-2"
+            v-model="formData.firstDayAtWork"
+            label="Datum zaposlenja"
+            outlined
+            dense
+          >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="fade">
-                  <q-date v-model="formData.firstDayAtWork" minimal :mask="dateFormatString" @input="() => $refs.qDateProxy.hide()" />
+                <q-popup-proxy
+                  ref="qDateProxy"
+                  transition-show="scale"
+                  transition-hide="fade"
+                >
+                  <q-date
+                    v-model="formData.firstDayAtWork"
+                    minimal
+                    :mask="dateFormatString"
+                    @input="() => $refs.qDateProxy.hide()"
+                  />
                 </q-popup-proxy>
               </q-icon>
             </template>
           </q-input>
-          <q-btn class="q-py-sm" type="submit" color="red-5" label="Dodaj novog zaposlenog" no-caps :loading="registerButtonLoading" />
+          <q-btn
+            class="q-py-sm"
+            type="submit"
+            color="red-5"
+            label="Dodaj novog zaposlenog"
+            no-caps
+            :loading="registerButtonLoading"
+          />
         </q-form>
       </q-card>
     </q-dialog>
@@ -173,7 +303,10 @@ export default {
         .dispatch("auth/register", {
           ...this.formData,
           dateOfBirth: moment(this.formData.birthDate, this.dateFormatString).format(),
-          dateOfEmployment: moment(this.formData.firstDayAtWork, this.dateFormatString).format(),
+          dateOfEmployment: moment(
+            this.formData.firstDayAtWork,
+            this.dateFormatString
+          ).format(),
         })
         .then((response) => {
           this.$q.notify({
@@ -258,6 +391,8 @@ export default {
       this.$store.dispatch("apiRequest/getApiRequest", { url: "User" }).then((res) => {
         this.employees = res;
         this.employees.forEach((el) => {
+          el.image = "data:image/png;base64," + el.image;
+          el.favouriteDish.image = "data:image/png;base64," + el.favouriteDish.image;
           el.missedDatesFromBase = [];
           el.missedDates.forEach((menu) => {
             let timeStamp = menu.menuItem.dateOfDish;
@@ -274,16 +409,18 @@ export default {
       });
     },
     getMenuItems() {
-      this.$store.dispatch("apiRequest/getApiRequest", { url: "MenuItem" }).then((res) => {
-        this.menuItemsFromBase = res;
+      this.$store
+        .dispatch("apiRequest/getApiRequest", { url: "MenuItem" })
+        .then((res) => {
+          this.menuItemsFromBase = res;
 
-        this.menuItemsFromBase.forEach((el) => {
-          let timeStamp = el.dateOfDish;
-          let formattedString = date.formatDate(timeStamp, "YYYY/MM/DD");
-          this.events.push(formattedString);
-          el.dateOfDish = formattedString;
+          this.menuItemsFromBase.forEach((el) => {
+            let timeStamp = el.dateOfDish;
+            let formattedString = date.formatDate(timeStamp, "YYYY/MM/DD");
+            this.events.push(formattedString);
+            el.dateOfDish = formattedString;
+          });
         });
-      });
     },
   },
   created() {

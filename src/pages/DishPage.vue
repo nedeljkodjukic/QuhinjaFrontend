@@ -1,7 +1,17 @@
 <template>
   <q-page v-if="this.dish" class="bg-grey-4">
     <div class="mainDiv">
-      <div class="q-mt-xl leftDiv" style="border-style: none; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 50%">
+      <div
+        class="q-mt-xl leftDiv"
+        style="
+          border-style: none;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 50%;
+        "
+      >
         <div style="border-style: none; border-radius: 15px 15px 15px 15px">
           <q-card
             :ratio="16 / 9"
@@ -21,7 +31,7 @@
                 border-radius: 15px 15px 0px 0px;
               "
               height="200px"
-              :src="this.dish.picture"
+              :src="this.dish.image"
             />
 
             <q-card-section style="border-style: none; background-color: #baa671">
@@ -35,8 +45,18 @@
               </div>
             </q-card-section>
 
-            <q-card-section style="background-color: #baa671; border-style: none; border-radius: 0px 0px 15px 15px" class="q-pt-none">
-              <div style="border-style: none" class="text-bold text-subtitle1 text-brown-9">
+            <q-card-section
+              style="
+                background-color: #baa671;
+                border-style: none;
+                border-radius: 0px 0px 15px 15px;
+              "
+              class="q-pt-none"
+            >
+              <div
+                style="border-style: none"
+                class="text-bold text-subtitle1 text-brown-9"
+              >
                 {{ this.dish.dishType }}
               </div>
               <div style="border-style: none" class="text-caption text-brown-9">
@@ -49,7 +69,17 @@
           <div class="q-mt-xl"></div>
           <q-form @submit="onSubmit" class="q-gutter-md">
             <div class="text-red-1 flex column q-mt-md">
-              <q-rating class="q-mb-md" v-model="usersRatingFromBase" max="5" size="4em" color="brown" icon="star_border" icon-selected="star" icon-half="star_half" no-dimming />
+              <q-rating
+                class="q-mb-md"
+                v-model="usersRatingFromBase"
+                max="5"
+                size="4em"
+                color="brown"
+                icon="star_border"
+                icon-selected="star"
+                icon-half="star_half"
+                no-dimming
+              />
               <q-btn label="Oceni" type="submit" color="red-1" />
               <div v-if="usersRatingFromBase != 0"></div>
               <div v-else>Niste ocenili ovo jelo</div>
@@ -60,24 +90,66 @@
       <q-separator cl v-if="$q.screen.gt.sm" vertical />
 
       <div class="q-mt-xl rightDiv" style="width: 50%">
-        <div v-if="showRecipeList" style="display: flex; align-items: center; justify-content: center">
+        <div
+          v-if="showRecipeList"
+          style="display: flex; align-items: center; justify-content: center"
+        >
           <q-list>
             <div class="flex row" v-for="recipe in this.dish.recipes" :key="recipe.id">
-              <q-item :style="recipe.id == dish.selectedRecipeId ? ' transform: scale(1.1);' : ''" clickable @click="handleShowRecipe(recipe)" class="q-mb-md itemForRecipe" style="background-color: #7d7962; width: 300px; height: 100px; border-radius: 15px 15px 15px 15px" tag="label" v-ripple>
+              <q-item
+                :style="
+                  recipe.id == dish.selectedRecipeId ? ' transform: scale(1.1);' : ''
+                "
+                clickable
+                @click="handleShowRecipe(recipe)"
+                class="q-mb-md itemForRecipe"
+                style="
+                  background-color: #7d7962;
+                  width: 300px;
+                  height: 100px;
+                  border-radius: 15px 15px 15px 15px;
+                "
+                tag="label"
+                v-ripple
+              >
                 <q-item-section>
-                  <q-img height="100px" style="border-radius: 15px 15px 15px 15px" :src="recipe.picture"></q-img>
+                  <q-img
+                    height="100px"
+                    style="border-radius: 15px 15px 15px 15px"
+                    :src="recipe.image"
+                  ></q-img>
                 </q-item-section>
                 <q-item-section>
                   <q-item-label class="text-grey-4">{{ recipe.name }}</q-item-label>
                 </q-item-section>
               </q-item>
               <div v-if="admin" class="q-ml-md" @click="checkBox(recipe.id)">
-                <input id="checkbox1" clickable type="checkbox" @change="checkBox(recipe.id)" :value="recipe.id" v-model="model" />
+                <input
+                  id="checkbox1"
+                  clickable
+                  type="checkbox"
+                  @change="checkBox(recipe.id)"
+                  :value="recipe.id"
+                  v-model="model"
+                />
                 <label for="checkbox1"></label>
               </div>
             </div>
             <div>
-              <q-item clickable @click="handleAddRecipe" class="q-mb-md bg-red-2 itemForRecipe" style="width: 300px; height: 100px; border-radius: 15px 15px 15px 15px; display: flex; flex-direction: column; align-items: center; justify-content: center">
+              <q-item
+                clickable
+                @click="handleAddRecipe"
+                class="q-mb-md bg-red-2 itemForRecipe"
+                style="
+                  width: 300px;
+                  height: 100px;
+                  border-radius: 15px 15px 15px 15px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
                 <q-icon class="text-grey-4" size="70px" name="add"></q-icon>
               </q-item>
             </div>
@@ -89,13 +161,35 @@
               <p class="text-brown-9">{{ recipeToShow.name }}</p>
             </div>
             <div class="topDiv">
-              <q-img class="q-mr-md" style="max-width: 250px; border-radius: 0px 15px 15px 0px" :src="recipeToShow.picture"> </q-img>
-              <q-list bordered class="q-mr-sm bg-grey-5 rounded-borders" style="max-width: 600px; color: #6f6e57; border-radius: 15px 15px 15px 15px">
-                <q-item-label style="width: 345px; color: black" header>Sastojci:</q-item-label>
+              <q-img
+                class="q-mr-md"
+                style="max-width: 250px; border-radius: 0px 15px 15px 0px"
+                :src="recipeToShow.image"
+              >
+              </q-img>
+              <q-list
+                bordered
+                class="q-mr-sm bg-grey-5 rounded-borders"
+                style="
+                  max-width: 600px;
+                  color: #6f6e57;
+                  border-radius: 15px 15px 15px 15px;
+                "
+              >
+                <q-item-label style="width: 345px; color: black" header
+                  >Sastojci:</q-item-label
+                >
 
-                <q-item style="width: 345px" v-for="ing in recipeToShow.ingridients" :key="ing.ingridient.name">
+                <q-item
+                  style="width: 345px"
+                  v-for="ing in recipeToShow.ingridients"
+                  :key="ing.ingridient.name"
+                >
                   <q-item-section top class="gt-sm">
-                    <q-item-label class="q-mt-sm">{{ ing.ingridient.name }} : {{ ing.quantity }} : {{ ing.unit }}</q-item-label>
+                    <q-item-label class="q-mt-sm"
+                      >{{ ing.ingridient.name }} : {{ ing.quantity }} :
+                      {{ ing.unit }}</q-item-label
+                    >
                   </q-item-section>
                 </q-item>
               </q-list>
@@ -107,7 +201,12 @@
               </p>
             </div>
             <div class="q-mt-sm">
-              <q-input readonly v-model="recipeToShow.wayOfPreparing" filled type="textarea" />
+              <q-input
+                readonly
+                v-model="recipeToShow.wayOfPreparing"
+                filled
+                type="textarea"
+              />
             </div>
           </div>
           <q-btn
@@ -160,10 +259,13 @@ export default {
         .then((res) => {
           this.model = [];
           res.recipes.forEach((el) => {
+            el.image = "data:image/png;base64," + el.image;
             if (el.id == res.selectedRecipeId) this.model.push(el.id);
           });
           console.log(this.model);
           this.dish = res;
+          this.dish.image = "data:image/png;base64," + this.dish.image;
+
           this.getRating();
         });
     },

@@ -1,20 +1,75 @@
 <template>
-  <q-page class="q-px-md column col-xs-12 col-sm-10 col-md-10 col-lg-8 offset-sm-1 offset-md-1 offset-lg-2">
+  <q-page
+    class="q-px-md column col-xs-12 col-sm-10 col-md-10 col-lg-8 offset-sm-1 offset-md-1 offset-lg-2"
+  >
     <div class="column items-center full-width q-mt-lg">
-      <q-form class="full-width text-center column q-gutter-y-sm" style="max-width: 350px" @submit="handleSubmit">
+      <q-form
+        class="full-width text-center column q-gutter-y-sm"
+        style="max-width: 350px"
+        @submit="handleSubmit"
+      >
         <div class="text-h5 text-red-2 q-mt-md q-mb-sm">Profil</div>
         <div class="full-width row justify-between">
           <q-avatar square size="100px">
-            <q-img :src="userData.profilePictureUrl != null ? userData.profilePictureUrl : noPicture" />
+            <q-img :src="userData.image" />
           </q-avatar>
-          <q-uploader ref="uploaderRef" color="red-1" :multiple="false" flat style="max-width: 230px; max-height: 125px" :factory="factoryUpload" hide-upload-btn no-thumbnails batch />
+          <q-uploader
+            ref="uploaderRef"
+            color="red-1"
+            :multiple="false"
+            flat
+            style="max-width: 230px; max-height: 125px"
+            :factory="factoryUpload"
+            hide-upload-btn
+            no-thumbnails
+            batch
+          />
         </div>
-        <q-input color="red-2" v-model="userData.name" label="Ime" dense outlined :rules="[requiredField, firstNameMaxLengthValidation]" />
-        <q-input color="red-2" v-model="userData.surname" label="Prezime" dense outlined :rules="[requiredField, lastNameMaxLengthValidation]" />
-        <q-input v-model="this.EmplDate" label="Datum zaposlenja" readonly dense outlined :rules="[requiredField, firstNameMaxLengthValidation]" />
-        <q-input v-model="this.BirthDate" label="Datum rodjenja" readonly dense outlined :rules="[requiredField, lastNameMaxLengthValidation]" />
+        <q-input
+          color="red-2"
+          v-model="userData.name"
+          label="Ime"
+          dense
+          outlined
+          :rules="[requiredField, firstNameMaxLengthValidation]"
+        />
+        <q-input
+          color="red-2"
+          v-model="userData.surname"
+          label="Prezime"
+          dense
+          outlined
+          :rules="[requiredField, lastNameMaxLengthValidation]"
+        />
+        <q-input
+          v-model="this.EmplDate"
+          label="Datum zaposlenja"
+          readonly
+          dense
+          outlined
+          :rules="[requiredField, firstNameMaxLengthValidation]"
+        />
+        <q-input
+          v-model="this.BirthDate"
+          label="Datum rodjenja"
+          readonly
+          dense
+          outlined
+          :rules="[requiredField, lastNameMaxLengthValidation]"
+        />
 
-        <q-select color="red-2" filled v-model="model" use-input hide-selected fill-input input-debounce="0" :options="options" @filter="filterFn" label="Omiljeno jelo">
+        <q-select
+          color="red-2"
+          filled
+          v-model="model"
+          use-input
+          hide-selected
+          fill-input
+          input-debounce="0"
+          :options="options"
+          @filter="filterFn"
+          label="Omiljeno jelo"
+        >
           <template v-slot:no-option>
             <q-item>
               <q-item-section>Nema rezultata </q-item-section>
@@ -23,20 +78,59 @@
         </q-select>
 
         <q-btn color="red-1" type="submit" label="Ažuriraj" />
-        <q-btn @click="handleNewPasswordClick" color="red-5" label="Promeni lozinku" class="buttonForEmployee" />
+        <q-btn
+          @click="handleNewPasswordClick"
+          color="red-5"
+          label="Promeni lozinku"
+          class="buttonForEmployee"
+        />
       </q-form>
     </div>
     <q-dialog v-model="visiblePasswordForm" persistent @hide="handleHidePasswordDialog">
       <q-card class="q-py-sm full-width text-accent">
         <q-card-section class="q-ml-sm row full-width justify-between items-center">
           <div class="text-h4 q-pl-sm text-brown-5">Promena lozinke</div>
-          <q-btn icon="close" class="text-brown-5" flat round dense @click="handleHidePasswordDialog" />
+          <q-btn
+            icon="close"
+            class="text-brown-5"
+            flat
+            round
+            dense
+            @click="handleHidePasswordDialog"
+          />
         </q-card-section>
-        <q-form ref="form" class="full-width column q-gutter-y-sm" @submit="handleSubmitPasswordForm">
-          <q-input color="red-2" type="password" v-model="cPass" label="Trenutna lozinka" dense outlined :rules="[requiredField, passwordPattern]" />
-          <q-input color="red-2" type="password" v-model="nPass" label="Nova lozinka" dense outlined :rules="[requiredField, passwordPattern]" />
+        <q-form
+          ref="form"
+          class="full-width column q-gutter-y-sm"
+          @submit="handleSubmitPasswordForm"
+        >
+          <q-input
+            color="red-2"
+            type="password"
+            v-model="cPass"
+            label="Trenutna lozinka"
+            dense
+            outlined
+            :rules="[requiredField, passwordPattern]"
+          />
+          <q-input
+            color="red-2"
+            type="password"
+            v-model="nPass"
+            label="Nova lozinka"
+            dense
+            outlined
+            :rules="[requiredField, passwordPattern]"
+          />
 
-          <q-btn class="q-py-sm" type="submit" color="red-5" label="Promeni lozinku" no-caps :loading="registerButtonLoading" />
+          <q-btn
+            class="q-py-sm"
+            type="submit"
+            color="red-5"
+            label="Promeni lozinku"
+            no-caps
+            :loading="registerButtonLoading"
+          />
         </q-form>
       </q-card>
     </q-dialog>
@@ -72,6 +166,17 @@ export default {
       dishes: [],
       favoritedishId: 0,
     };
+  },
+  filters: {
+    hexToBase64(hexStr) {
+      let base64 = "";
+      for (let i = 0; i < hexStr.length; i++) {
+        base64 += !((i - 1) & 1)
+          ? String.fromCharCode(parseInt(hexStr.substring(i - 1, i + 1), 16))
+          : "";
+      }
+      return btoa(base64);
+    },
   },
   created() {
     this.getData();
@@ -124,7 +229,9 @@ export default {
     filterFn(val, update, abort) {
       update(() => {
         const needle = val.toLowerCase();
-        this.options = this.stringOptions.filter((v) => v.toLowerCase().indexOf(needle) > -1);
+        this.options = this.stringOptions.filter(
+          (v) => v.toLowerCase().indexOf(needle) > -1
+        );
       });
     },
     ParseDate(date) {
@@ -133,6 +240,8 @@ export default {
     getData() {
       this.$store.dispatch("apiRequest/getApiRequest", { url: "user/0" }).then((res) => {
         this.userData = res;
+        this.userData.image = "data:image/png;base64," + this.userData.image;
+        console.log(this.userData);
         this.email = this.userData.email;
         this.BirthDate = this.ParseDate(this.userData.dateOfBirth);
         this.EmplDate = this.ParseDate(this.userData.dateOfEmployment);
@@ -158,7 +267,6 @@ export default {
     },
     handleSubmit() {
       this.userData.favouriteDishId = this.findDishId(this.model);
-      console.log(this.userData);
       this.$store
         .dispatch("apiRequest/putApiRequest", {
           url: "user/update-user",

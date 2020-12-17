@@ -29,3 +29,8 @@ export const userName = state => {
 export const profilePictureUrl = state => {
   return state.auth.profilePictureUrl
 }
+
+export const image = state => {
+  return          "data:image/png;base64," + state.auth.image;
+
+}

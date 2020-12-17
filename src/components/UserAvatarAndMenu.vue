@@ -3,9 +3,16 @@
     <div class="text-subtitle2 text-center q-mr-md text-white"></div>
     {{ userName }}
     <q-avatar style="cursor: pointer">
-      <img :src="profilePicture !== null ? profilePicture : 'statics/no-image-user.png'" />
+      <img
+        :src="profilePicture !== null ? profilePicture : 'statics/no-image-user.png'"
+      />
 
-      <q-menu transition-show="rotate" transition-hide="rotate" self="top right" :offset="[-50, 15]">
+      <q-menu
+        transition-show="rotate"
+        transition-hide="rotate"
+        self="top right"
+        :offset="[-50, 15]"
+      >
         <q-list>
           <q-separator />
           <q-item v-for="option in menuOptions" :key="option.name" :to="option.link">
@@ -55,7 +62,7 @@ export default {
       return this.$store.getters["auth/fullName"];
     },
     profilePicture() {
-      return this.$store.getters["auth/profilePictureUrl"];
+      return this.$store.getters["auth/image"];
     },
     userName() {
       return this.$store.getters["auth/userName"];

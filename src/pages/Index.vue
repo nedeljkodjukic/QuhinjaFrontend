@@ -9,7 +9,7 @@
         <div v-if="this.todaysMenu.recipe" class="q-ml-md pictureDiv">
           <q-img
             style="border-radius: 15px 15px 15px 15px; height: 300px"
-            :src="this.todaysMenu.recipe.picture"
+            :src="todaysMenu.recipe.image"
           ></q-img>
 
           <div
@@ -89,7 +89,7 @@
             :key="adjacentIndex"
           >
             <q-card style="width: 200px; height: 290px" class="my-card">
-              <q-img height="140px" :src="dishes[adjacentIndex].picture" />
+              <q-img height="140px" :src="dishes[adjacentIndex].image" />
 
               <q-card-section>
                 <div class="row no-wrap items-center">
@@ -165,12 +165,22 @@ export default {
     getData() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "/dish/getSortedDishes" })
-        .then((res) => (this.dishes = res));
+        .then((res) => {
+          this.dishes = res;
+
+          this.dishes.forEach((element) => {
+            element.image = "data:image/png;base64," + element.image;
+          });
+        });
     },
     getTodayItem() {
       this.$store
         .dispatch("apiRequest/getApiRequest", { url: "/MenuItem/todaysRecipe" })
-        .then((res) => (this.todaysMenu = res));
+        .then((res) => {
+          this.todaysMenu = res;
+          this.todaysMenu.recipe.image =
+            "data:image/png;base64," + this.todaysMenu.recipe.image;
+        });
     },
     adjacentIndexes(index) {
       const length = this.dishes.length;
