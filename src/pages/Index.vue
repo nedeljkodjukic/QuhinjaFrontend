@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <div v-else>Danas nema nicega na meniju</div>
+    <div class="text-black" v-else>Danas nema nicega na meniju</div>
     <div class="q-mb-sm q-mt-md text-h5 text-brown-9">
       <u> Najbolje ocenjena jela</u>
     </div>
